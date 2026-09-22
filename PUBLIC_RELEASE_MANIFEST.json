@@ -1,0 +1,70 @@
+{
+  "release": "PHANTOM-SEEKER-GITHUB-PUBLIC-v0.3.2",
+  "files": [
+    {
+      "path": ".nojekyll",
+      "bytes": 0
+    },
+    {
+      "path": "README.md",
+      "bytes": 823
+    },
+    {
+      "path": "assets/phantom-seeker-logo-web.png",
+      "bytes": 346077
+    },
+    {
+      "path": "assets/phantom-seeker-logo.png",
+      "bytes": 1597712
+    },
+    {
+      "path": "css/home.css",
+      "bytes": 15109
+    },
+    {
+      "path": "css/style.css",
+      "bytes": 15264
+    },
+    {
+      "path": "data/brain_trees.json",
+      "bytes": 1362
+    },
+    {
+      "path": "data/guardian_sites.json",
+      "bytes": 9519
+    },
+    {
+      "path": "data/sync_report.json",
+      "bytes": 142
+    },
+    {
+      "path": "data/systems.json",
+      "bytes": 10375
+    },
+    {
+      "path": "grid.html",
+      "bytes": 7049
+    },
+    {
+      "path": "index.html",
+      "bytes": 23477
+    },
+    {
+      "path": "js/app.js",
+      "bytes": 25398
+    },
+    {
+      "path": "js/home.js",
+      "bytes": 514
+    }
+  ],
+  "totalBytes": 2052821,
+  "excludedLargeFiles": [
+    "graea-hypue.zip / extracted EDAstro deep data",
+    "guardian_candidate_bodies.json",
+    "edastro_codex_extract.json",
+    "Canonn raw caches",
+    "Python processing tools",
+    "backups and screenshots"
+  ]
+}

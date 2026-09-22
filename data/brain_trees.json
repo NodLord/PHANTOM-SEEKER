@@ -1,0 +1,52 @@
+[
+  {
+    "system": "Graea Hypue EW-U d3-276",
+    "poiName": "Rings of Lyra",
+    "bodies": [
+      "1 a",
+      "1 b",
+      "1 c"
+    ],
+    "variant": "unspecified",
+    "distanceFromHen": 156.234,
+    "notes": "GEC states Brain Trees occur on moons 1 a, 1 b and 1 c.",
+    "source": "https://edastro.com/gec/view/472",
+    "confidence": "GEC-confirmed POI"
+  },
+  {
+    "system": "Graea Hypue BX-U b6-0",
+    "poiName": "Spring Dawn",
+    "bodies": [
+      "A 2"
+    ],
+    "variant": "unspecified",
+    "distanceFromHen": 202.11,
+    "notes": "GEC POI includes a Brain Trees observation on body A 2.",
+    "source": "https://edastro.com/gec/view/335",
+    "confidence": "GEC-confirmed POI"
+  },
+  {
+    "system": "Graea Hypue SE-X d2-666",
+    "poiName": "Brain Flow",
+    "bodies": [
+      "A 4"
+    ],
+    "variant": "Roseum",
+    "distanceFromHen": 367.313,
+    "notes": "HMC world, thin argon atmosphere, rings, minor silicate vapour geysers.",
+    "source": "https://edastro.com/gec/view/462",
+    "confidence": "GEC-confirmed POI"
+  },
+  {
+    "system": "Graea Hypue MC-C d65",
+    "poiName": "Brain Ocean",
+    "bodies": [
+      "4 d"
+    ],
+    "variant": "Roseum",
+    "distanceFromHen": 392.574,
+    "notes": "Ringed moon, thin water-rich atmosphere.",
+    "source": "https://edastro.com/gec/view/463",
+    "confidence": "GEC-confirmed POI"
+  }
+]

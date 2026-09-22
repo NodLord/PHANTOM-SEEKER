@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#080b10">
+  <title>PHANTOM GRID // HEN 2-333</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-lockup">
+      <img class="expedition-logo" src="assets/phantom-seeker-logo-web.png" alt="Phantom Seeker expedition emblem">
+      <div class="brand-copy">
+        <div class="mission-line">
+          <div class="mission-title">EXPEDITION PHANTOM SEEKER <span>// VVV SQUAD</span></div>
+          <div class="carrier-caption">Main Fleet Carrier : <strong>USS FRANK'S PHARMACY</strong></div>
+        </div>
+        <div class="grid-line">
+          <h1 class="grid-title glitch-title" data-text="PHANTOM GRID">PHANTOM GRID</h1>
+          <div class="survey-title">// SURVEY REGION : <strong>HEN 2-333</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a href="index.html">HOME</a>
+      <a class="active" href="grid.html">PHANTOM GRID</a>
+      <span class="disabled" title="Coming soon">PHANTOM LINK // COMING SOON</span>
+    </nav>
+
+    <div class="status-pill"><span class="status-dot"></span> PUBLIC GRID V0.3.2</div>
+  </header>
+
+  <main class="layout">
+    <aside class="panel controls">
+      <section>
+        <h2>LAYERS</h2>
+        <label><input id="layerPermit" type="checkbox" checked> Permit zone ~100 ly</label>
+        <label><input id="layer150" type="checkbox" checked> 150 ly shell</label>
+        <label><input id="layer300" type="checkbox" checked> 300 ly shell</label>
+        <label><input id="layer400" type="checkbox"> 400 ly shell</label>
+        <label><input id="layerGuardian" type="checkbox" checked> Guardian sites</label>
+        <label><input id="layerBrain" type="checkbox" checked> Brain Trees</label>
+      </section>
+
+
+      <section>
+        <h2>BRAIN TREE VARIANTS</h2>
+        <label><input type="checkbox" data-brain-variant="Roseum Brain Tree" checked> Roseum</label>
+        <label><input type="checkbox" data-brain-variant="Gypseeum Brain Tree" checked> Gypseeum</label>
+        <label><input type="checkbox" data-brain-variant="Ostrinum Brain Tree" checked> Ostrinum</label>
+        <label><input type="checkbox" data-brain-variant="Viride Brain Tree" checked> Viride</label>
+        <label><input type="checkbox" data-brain-variant="Lividum Brain Tree" checked> Lividum</label>
+        <label><input type="checkbox" data-brain-variant="Aureum Brain Tree" checked> Aureum</label>
+        <label><input type="checkbox" data-brain-variant="Puniceum Brain Tree" checked> Puniceum</label>
+        <label><input type="checkbox" data-brain-variant="Lindigoticum Brain Tree" checked> Lindigoticum</label>
+        <div class="range-readout"><span>Marker size</span><strong id="brainSizeValue">1.00x</strong></div>
+        <input id="brainSize" type="range" min="0.40" max="2.00" step="0.05" value="1.00">
+      </section>
+
+      <section>
+        <h2>RANGE FILTER</h2>
+        <div class="range-readout"><span>0 ly</span><strong id="rangeValue">400 ly</strong></div>
+        <input id="rangeMax" type="range" min="100" max="450" step="10" value="400">
+      </section>
+
+      <section>
+        <h2>CAMERA</h2>
+        <div class="button-grid">
+          <button data-view="3d">3D</button>
+          <button data-view="top">TOP X/Z</button>
+          <button data-view="side">SIDE Z/Y</button>
+          <button data-view="front">FRONT X/Y</button>
+        </div>
+      </section>
+
+      <section>
+        <h2>FIND SYSTEM</h2>
+        <div class="search-row">
+          <input id="searchInput" type="search" placeholder="Graea Hypue…" autocomplete="off">
+          <button id="searchBtn">FIND</button>
+        </div>
+        <div id="searchStatus" class="microcopy"></div>
+      </section>
+
+      <section>
+        <h2>MEASURE</h2>
+        <button id="measureBtn" class="wide">START MEASURE</button>
+        <button id="clearMeasureBtn" class="wide subtle">CLEAR</button>
+        <div id="measureStatus" class="microcopy">Select two markers to measure their true 3D separation.</div>
+      </section>
+
+      <section class="legend">
+        <h2>LEGEND</h2>
+        <div><span class="legend-mark hen"></span> HEN 2-333</div>
+        <div><span class="legend-mark guardian"></span> Guardian system</div>
+        <div><span class="legend-mark brain"></span> Brain Tree system</div>
+        <p>Axes use HEN-local galactic coordinates. Decorative stars are deliberately absent.</p>
+      </section>
+    </aside>
+
+    <section class="viewport-wrap">
+      <div id="viewport"></div>
+      <div class="viewport-hud">
+        <span id="datasetStats">Loading data…</span>
+        <span>ORIGIN: HEN 2-333 = 0 / 0 / 0</span>
+      </div>
+      <div id="loadError" class="load-error" hidden>
+        <strong>DATA LINK FAILURE</strong>
+        <span>Run this project through a local web server (serve.bat) or GitHub Pages. Browsers block JSON fetches from file://.</span>
+      </div>
+    </section>
+
+    <aside class="panel details">
+      <div class="details-head">
+        <div class="eyebrow">TACTICAL OBJECT DATA</div>
+        <h2 id="detailName">HEN 2-333</h2>
+      </div>
+      <dl id="detailList">
+        <div><dt>TYPE</dt><dd>Survey origin</dd></div>
+        <div><dt>DISTANCE HEN</dt><dd>0.00 ly</dd></div>
+        <div><dt>LOCAL XYZ</dt><dd>0 / 0 / 0</dd></div>
+      </dl>
+      <div id="detailNotes" class="detail-notes">
+        IC 4673 / HEN 2-333. Center of the survey volume and approximate permit-locked sphere.
+      </div>
+      <div class="warning">
+        <strong>SCIENTIFIC STATUS</strong>
+        Guardian and Brain Tree layers are loaded from Canonn public data exports when available. A small bundled bootstrap is retained only as an emergency fallback.
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    PHANTOM GRID // Guardian Archaeological Survey // Expedition Phantom Seeker
+  </footer>
+
+  <script>
+    window.__PHANTOM_GRID_MODULE_STARTED__ = false;
+    setTimeout(() => {
+      if (!window.__PHANTOM_GRID_MODULE_STARTED__) {
+        const box = document.getElementById("loadError");
+        if (box) {
+          box.hidden = false;
+          box.querySelector("strong").textContent = "3D MODULE LOAD FAILURE";
+          box.querySelector("span").textContent = "Three.js did not start. Check Internet access, Opera/VPN/ad-blocker settings, then hard-refresh with Ctrl+F5.";
+        }
+        const stats = document.getElementById("datasetStats");
+        if (stats) stats.textContent = "3D MODULE FAILED TO START";
+      }
+    }, 5000);
+  </script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
