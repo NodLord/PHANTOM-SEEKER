@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { TrackballControls } from "three/addons/controls/TrackballControls.js";
 
 const MAP_SCALE = 1 / 1000; // 1 world unit = 1000 ly
 const SAG_A = { x: 25.21875, y: -20.90625, z: 25899.96875 };
@@ -51,10 +51,18 @@ scene.fog = new THREE.FogExp2(0x05080c, 0.018);
 const camera = new THREE.PerspectiveCamera(50, 1, 0.01, 300);
 camera.up.set(0, 1, 0);
 
-const controls = new OrbitControls(camera, canvas);
-controls.enableDamping = true;
-controls.dampingFactor = 0.055;
-controls.enablePan = true;
+const controls = new TrackballControls(camera, canvas);
+
+// Full-sphere navigation: unlike OrbitControls, TrackballControls does not
+// stop at the poles, so commanders can roll/rotate completely around the map.
+controls.rotateSpeed = 3.2;
+controls.zoomSpeed = 1.15;
+controls.panSpeed = 0.7;
+controls.dynamicDampingFactor = 0.11;
+controls.noRotate = false;
+controls.noZoom = false;
+controls.noPan = false;
+controls.staticMoving = false;
 controls.minDistance = 2;
 controls.maxDistance = 130;
 
@@ -416,7 +424,12 @@ function selectWaypoint(mesh) {
 
 function fitRoute(mode = "free") {
   const distance = routeMaxDim * 1.06 + 8;
-  controls.target.copy(routeCenter);
+
+  // Fixed views always center the whole route. FREE 3D applies its own
+  // prologue-biased target below.
+  if (mode !== "free") {
+    controls.target.copy(routeCenter);
+  }
 
   if (mode === "top") {
     // Elite-style "top of galaxy" view:
@@ -431,15 +444,36 @@ function fitRoute(mode = "free") {
     camera.up.set(0,1,0);
     camera.position.set(routeCenter.x, routeCenter.y, routeCenter.z + distance);
   } else {
+    // FREE 3D starts from the PROLOGUE side of the expedition instead of
+    // presenting the Epilogue first. The camera sits outside the route,
+    // behind Teorge, and looks inward along the expedition.
     camera.up.set(0,1,0);
-    camera.position.set(
-      routeCenter.x + distance * .67,
-      routeCenter.y - distance * .42,
-      routeCenter.z + distance * .72
+
+    const prologue = routePoints[0] || routeCenter;
+    const towardPrologue = new THREE.Vector3(
+      prologue.x - routeCenter.x,
+      0,
+      prologue.z - routeCenter.z
     );
+
+    if (towardPrologue.lengthSq() < 1e-6) {
+      towardPrologue.set(1,0,1);
+    }
+    towardPrologue.normalize();
+
+    camera.position.set(
+      routeCenter.x + towardPrologue.x * distance * .98,
+      routeCenter.y - distance * .36,
+      routeCenter.z + towardPrologue.z * distance * .98
+    );
+
+    // Bias the initial target slightly toward the first third of the route so
+    // the opening composition reads "from Prologue toward the expedition".
+    const firstThird = routePoints[Math.min(4, routePoints.length - 1)] || routeCenter;
+    controls.target.copy(routeCenter).lerp(firstThird, .16);
   }
 
-  camera.lookAt(routeCenter);
+  camera.lookAt(controls.target);
   controls.update();
 }
 
@@ -535,6 +569,7 @@ function resize() {
   renderer.setSize(width, height, false);
   camera.aspect = width / height;
   camera.updateProjectionMatrix();
+  controls.handleResize();
   leaderSvg.setAttribute("viewBox", `0 0 ${width} ${height}`);
 }
 
@@ -620,5 +655,6 @@ init();
 window.addEventListener("pagehide", () => {
   if (raf) cancelAnimationFrame(raf);
   resizeObserver.disconnect();
+  controls.dispose();
   renderer.dispose();
 }, { once:true });
