@@ -1,0 +1,39 @@
+# PHANTOM SEEKER HOME v0.3.5 // 3D GALACTIC ROUTE MAP
+
+Adds an interactive Three.js route map to the public homepage.
+
+## New features
+- True Elite Dangerous X/Y/Z waypoint geometry.
+- Free 3D rotation, wheel zoom and pan.
+- TOP X/Z, SIDE Z/Y, FRONT X/Y and FIT ROUTE camera controls.
+- All route nicknames displayed beside their markers.
+- Click a waypoint to see:
+  - exact system name
+  - galactic XYZ
+  - distance from previous waypoint
+  - coordinate source
+  - OPEN WAYPOINT BRIEFING link
+- Animated route pulse.
+- Stylised galactic star field and galactic plane.
+- Sol and Galactic Center context markers.
+- Responsive desktop/mobile layout.
+
+## Coordinates
+The route file contains static EDSM coordinates for all already verified anchors.
+WP10, WP11 and WP12 are resolved live from the public Spansh system-name endpoint.
+If Spansh cannot be reached, the map attempts the public EDSM system endpoint.
+Successful lookups are cached in the browser.
+
+The background Milky Way star field is deliberately stylised.
+Waypoint positions and route geometry are based on the actual system coordinates.
+
+## GitHub installation
+Upload/replace these files at the SAME paths:
+- `/index.html`
+- `/css/home.css`
+- `/js/route-map.js`  (new)
+- `/data/expedition_route.json`  (new)
+
+Do NOT change `grid.html` or `css/style.css`.
+
+Commit the four files, wait for Pages deployment to turn green, then Ctrl+F5 the homepage.

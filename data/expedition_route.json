@@ -1,0 +1,212 @@
+[
+  {
+    "id": "PROLOGUE",
+    "nickname": "THE RAGAZZA TRANSMISSIONS",
+    "system": "Teorge",
+    "chapter": "chapter1",
+    "anchor": "prologue",
+    "x": 79.4375,
+    "y": 60.65625,
+    "z": 74.3125,
+    "labelOffset": [
+      18,
+      -18
+    ],
+    "coordinateSource": "EDSM"
+  },
+  {
+    "id": "WP1",
+    "nickname": "THE GOOD BOY",
+    "system": "Heart Sector IR-V b2-0",
+    "chapter": "chapter1",
+    "anchor": "wp1",
+    "x": -5303.78125,
+    "y": 130.34375,
+    "z": -5305.40625,
+    "labelOffset": [
+      -145,
+      -54
+    ],
+    "coordinateSource": "EDSM"
+  },
+  {
+    "id": "WP2",
+    "nickname": "SALOMÉ'S QUESTION",
+    "system": "Eafots RX-T d3-3",
+    "chapter": "chapter1",
+    "anchor": "wp2",
+    "x": -5579.25,
+    "y": 450.09375,
+    "z": -5795.0625,
+    "labelOffset": [
+      -160,
+      18
+    ],
+    "coordinateSource": "EDSM"
+  },
+  {
+    "id": "WP3",
+    "nickname": "ALPHA",
+    "system": "Eafots EU-R c4-1",
+    "chapter": "chapter1",
+    "anchor": "wp3",
+    "x": -5805.78125,
+    "y": 129.875,
+    "z": -5969.875,
+    "labelOffset": [
+      -130,
+      -68
+    ],
+    "coordinateSource": "EDSM"
+  },
+  {
+    "id": "WP4",
+    "nickname": "BETA",
+    "system": "Eafots LZ-H b10-0",
+    "chapter": "chapter1",
+    "anchor": "wp4",
+    "x": -5800.84375,
+    "y": 115.59375,
+    "z": -5961.1875,
+    "labelOffset": [
+      -72,
+      -22
+    ],
+    "coordinateSource": "EDSM"
+  },
+  {
+    "id": "WP5",
+    "nickname": "GAMMA",
+    "system": "Eafots RA-G b11-0",
+    "chapter": "chapter1",
+    "anchor": "wp5",
+    "x": -5801.21875,
+    "y": 99.53125,
+    "z": -5943.71875,
+    "labelOffset": [
+      10,
+      22
+    ],
+    "coordinateSource": "EDSM"
+  },
+  {
+    "id": "WP6",
+    "nickname": "DELTA",
+    "system": "Eafots GL-Y e2",
+    "chapter": "chapter1",
+    "anchor": "wp6",
+    "x": -5805.5625,
+    "y": 151.8125,
+    "z": -6002.09375,
+    "labelOffset": [
+      82,
+      -54
+    ],
+    "coordinateSource": "EDSM"
+  },
+  {
+    "id": "WP7",
+    "nickname": "THE TOMB",
+    "system": "Syreadiae JX-F c0",
+    "chapter": "chapter1",
+    "anchor": "wp7",
+    "x": -9529.4375,
+    "y": -64.5,
+    "z": -7428.4375,
+    "labelOffset": [
+      18,
+      -18
+    ],
+    "coordinateSource": "EDSM"
+  },
+  {
+    "id": "WP8",
+    "nickname": "THE CROSSING",
+    "system": "Bubble Sector PD-S b4-4",
+    "chapter": "crossing",
+    "anchor": "wp8",
+    "x": -6570.5,
+    "y": 29.84375,
+    "z": -2680.28125,
+    "labelOffset": [
+      18,
+      -18
+    ],
+    "coordinateSource": "EDSM"
+  },
+  {
+    "id": "WP9",
+    "nickname": "THE CLOSED DOOR",
+    "system": "Graea Hypue QL-V b19-15",
+    "chapter": "chapter2",
+    "anchor": "wp9",
+    "x": -819.125,
+    "y": -623.34375,
+    "z": 13440.4375,
+    "labelOffset": [
+      18,
+      -18
+    ],
+    "coordinateSource": "EDSM"
+  },
+  {
+    "id": "WP10",
+    "nickname": "THE FIRST BLIND TEST",
+    "system": "Froarks NN-R d5-520",
+    "chapter": "chapter2",
+    "anchor": "wp10",
+    "x": null,
+    "y": null,
+    "z": null,
+    "labelOffset": [
+      18,
+      -18
+    ],
+    "coordinateSource": "Spansh live"
+  },
+  {
+    "id": "WP11",
+    "nickname": "THE DEEP DARK",
+    "system": "Iowhail TI-K d8-1514",
+    "chapter": "chapter2",
+    "anchor": "wp11",
+    "x": null,
+    "y": null,
+    "z": null,
+    "labelOffset": [
+      18,
+      -18
+    ],
+    "coordinateSource": "Spansh live"
+  },
+  {
+    "id": "WP12",
+    "nickname": "THE LAST SEARCH",
+    "system": "Byua Aim LX-K d8-2459",
+    "chapter": "chapter2",
+    "anchor": "wp12",
+    "x": null,
+    "y": null,
+    "z": null,
+    "labelOffset": [
+      18,
+      -18
+    ],
+    "coordinateSource": "Spansh live"
+  },
+  {
+    "id": "EPILOGUE",
+    "nickname": "HOME AMONG THE LIVING",
+    "system": "Deriso",
+    "chapter": "epilogue",
+    "anchor": "epilogue",
+    "x": -9520.3125,
+    "y": -909.5,
+    "z": 19808.75,
+    "labelOffset": [
+      18,
+      -18
+    ],
+    "coordinateSource": "EDSM"
+  }
+]

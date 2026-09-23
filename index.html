@@ -7,6 +7,14 @@
   <meta name="description" content="Expedition Phantom Seeker — VVV Squad. Deep-space archaeological and scientific expedition.">
   <title>EXPEDITION PHANTOM SEEKER // VVV SQUAD</title>
   <link rel="stylesheet" href="css/home.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+    }
+  }
+  </script>
 </head>
 <body>
   <div class="scanlines" aria-hidden="true"></div>
@@ -62,8 +70,74 @@
       </div>
     </section>
 
+
+    <section class="galactic-route-section section-shell" id="galactic-route">
+      <div class="section-index">01 // 3D GALACTIC ROUTE</div>
+
+      <div class="route-map-heading">
+        <div>
+          <h2>EXPEDITION ROUTE // TRUE XYZ</h2>
+          <p>
+            Every expedition waypoint is positioned from its Elite Dangerous galactic X/Y/Z coordinates.
+            Rotate the map to inspect the route in three dimensions, or select a waypoint to open its briefing.
+          </p>
+        </div>
+        <div class="route-map-status" id="route-map-status">
+          <span class="route-status-dot"></span>
+          INITIALIZING NAVIGATION DATA
+        </div>
+      </div>
+
+      <div class="route-map-shell" id="route-map-shell">
+        <div class="route-map-toolbar" aria-label="Route map camera controls">
+          <button type="button" data-route-view="free">FREE 3D</button>
+          <button type="button" data-route-view="top">TOP X/Z</button>
+          <button type="button" data-route-view="side">SIDE Z/Y</button>
+          <button type="button" data-route-view="front">FRONT X/Y</button>
+          <button type="button" data-route-view="fit">FIT ROUTE</button>
+        </div>
+
+        <div class="route-map-canvas-wrap" id="route-map-canvas-wrap">
+          <canvas id="expedition-route-map" aria-label="Interactive 3D galactic route map"></canvas>
+          <svg class="route-label-lines" id="route-label-lines" aria-hidden="true"></svg>
+          <div class="route-label-layer" id="route-label-layer" aria-hidden="false"></div>
+
+          <div class="route-map-compass" aria-hidden="true">
+            <span class="axis-x">X</span>
+            <span class="axis-y">Y</span>
+            <span class="axis-z">Z</span>
+          </div>
+
+          <div class="route-map-hud">
+            <span id="route-map-count">WAYPOINTS --/14</span>
+            <span id="route-map-distance">ROUTE -- LY</span>
+            <span>1 WORLD UNIT = 1,000 LY</span>
+          </div>
+
+          <aside class="route-map-detail" id="route-map-detail" aria-live="polite">
+            <div class="detail-kicker">TACTICAL ROUTE DATA</div>
+            <h3>SELECT A WAYPOINT</h3>
+            <p>Click a route marker or label to inspect its system coordinates and jump to the corresponding expedition briefing.</p>
+          </aside>
+
+          <div class="route-map-loading" id="route-map-loading">
+            <strong>RESOLVING GALACTIC COORDINATES</strong>
+            <span>Cross-checking route anchors against public navigation databases…</span>
+          </div>
+        </div>
+
+        <div class="route-map-legend">
+          <span><i class="legend-line chapter-one"></i> PROLOGUE / CHAPTER I</span>
+          <span><i class="legend-line crossing"></i> THE CROSSING</span>
+          <span><i class="legend-line chapter-two"></i> CHAPTER II</span>
+          <span><i class="legend-line epilogue"></i> EPILOGUE</span>
+          <span class="route-map-note">BACKGROUND STAR FIELD IS STYLISED // WAYPOINT POSITIONS AND ROUTE GEOMETRY USE TRUE GALACTIC XYZ</span>
+        </div>
+      </div>
+    </section>
+
     <section class="route-overview section-shell" id="route">
-      <div class="section-index">01 // ROUTE OVERVIEW</div>
+      <div class="section-index">02 // ROUTE INDEX</div>
       <h2>EXPEDITION ROUTE</h2>
       <div class="route-strip">
         <a href="#prologue"><b>PROLOGUE</b><span>TEORGE</span></a>
@@ -274,5 +348,6 @@
   </footer>
 
   <script src="js/home.js"></script>
+  <script type="module" src="js/route-map.js"></script>
 </body>
 </html>
