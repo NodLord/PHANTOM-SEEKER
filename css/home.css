@@ -763,11 +763,7 @@ a{color:inherit}.site-header{position:sticky;top:0;z-index:20;min-height:58px;di
   color:#ff7580;
 }
 
-.compass-dir.up,
-.compass-dir.down {
-  color:#88e7a2;
-  font-size:7px;
-}
+
 
 .compass-core {
   position:absolute;
@@ -801,3 +797,22 @@ a{color:inherit}.site-header{position:sticky;top:0;z-index:20;min-height:58px;di
     height:54px;
   }
 }
+
+
+/* =========================================================
+   PHANTOM SEEKER HOME V0.3.9 // TOP MAP ONLY
+   ========================================================= */
+
+#expedition-route-map {
+  cursor: grab;
+}
+
+#expedition-route-map:active {
+  cursor: grabbing;
+}
+
+.route-map-nav-hint::before {
+  content: "LMB PAN // WHEEL ZOOM // ";
+  color: #8193a1;
+}
+

@@ -55,25 +55,24 @@ camera.up.set(0, 1, 0);
 
 const controls = new OrbitControls(camera, canvas);
 
-// Upright galactic navigation:
-// - full 360° azimuth around the route
-// - almost the full sphere above/below the galactic plane
-// - no camera roll, so the galactic disk never ends up diagonally "on edge"
+// Top-map navigation only:
+// - LEFT MOUSE = pan
+// - MOUSE WHEEL = zoom
+// - rotation completely disabled
+// The galactic disk therefore always remains in the canonical TOP X/Z view.
 controls.enableDamping = true;
 controls.dampingFactor = 0.065;
 controls.enablePan = true;
-controls.enableRotate = true;
+controls.enableRotate = false;
 controls.enableZoom = true;
-controls.rotateSpeed = 0.72;
 controls.zoomSpeed = 0.95;
-controls.panSpeed = 0.78;
+controls.panSpeed = 0.85;
 controls.minDistance = 2;
 controls.maxDistance = 130;
-controls.minAzimuthAngle = -Infinity;
-controls.maxAzimuthAngle = Infinity;
-controls.minPolarAngle = 0.006;
-controls.maxPolarAngle = Math.PI - 0.006;
 controls.screenSpacePanning = true;
+controls.mouseButtons.LEFT = THREE.MOUSE.PAN;
+controls.mouseButtons.MIDDLE = THREE.MOUSE.DOLLY;
+controls.mouseButtons.RIGHT = THREE.MOUSE.PAN;
 
 const routeGroup = new THREE.Group();
 const galaxyGroup = new THREE.Group();
@@ -342,7 +341,7 @@ function buildRoute(rows) {
   pulse = new THREE.Mesh(pulseGeom, pulseMat);
   routeGroup.add(pulse);
 
-  fitRoute("top");
+  fitRoute();
 }
 
 function addWaypoint(row, index) {
@@ -431,23 +430,14 @@ function selectWaypoint(mesh) {
   controls.update();
 }
 
-function fitRoute(mode = "top") {
+function fitRoute() {
   const distance = routeMaxDim * 1.06 + 8;
   controls.target.copy(routeCenter);
 
-  if (mode === "side") {
-    camera.up.set(0,1,0);
-    camera.position.set(routeCenter.x + distance, routeCenter.y, routeCenter.z);
-  } else if (mode === "front") {
-    camera.up.set(0,1,0);
-    camera.position.set(routeCenter.x, routeCenter.y, routeCenter.z + distance);
-  } else {
-    // Default and FIT ROUTE: canonical top X/Z projection.
-    // +Z points toward the top of the screen.
-    camera.up.set(0,0,1);
-    camera.position.set(routeCenter.x, routeCenter.y - distance, routeCenter.z);
-  }
-
+  // Canonical top X/Z projection only.
+  // +Z points toward the top of the screen.
+  camera.up.set(0,0,1);
+  camera.position.set(routeCenter.x, routeCenter.y - distance, routeCenter.z);
   camera.lookAt(controls.target);
   controls.update();
 }
@@ -514,8 +504,6 @@ function updateCompass() {
     s: new THREE.Vector3(0,0,-1),
     e: new THREE.Vector3(1,0,0),
     w: new THREE.Vector3(-1,0,0),
-    u: new THREE.Vector3(0,1,0),
-    d: new THREE.Vector3(0,-1,0),
   };
 
   for (const [key, dir] of Object.entries(dirs)) {
@@ -532,11 +520,7 @@ function updateCompass() {
     node.style.opacity = String(0.38 + 0.62 * ((depth + 1) * 0.5));
     node.style.zIndex = depth > 0 ? "3" : "1";
   }
-
-  // The inner horizon ring tilts slightly with the camera's pitch while
-  // remaining readable and upright in screen space.
-  const pitch = Math.asin(THREE.MathUtils.clamp(forward.y, -1, 1));
-  compassRoseEl.style.transform = `rotateX(${(-pitch * 35).toFixed(2)}deg)`;
+  compassRoseEl.style.transform = "none";
 }
 
 // ------------------------------------------------------------
@@ -574,9 +558,7 @@ document.querySelectorAll("[data-route-view]").forEach(button => {
   button.addEventListener("click", () => {
     document.querySelectorAll("[data-route-view]").forEach(b => b.classList.remove("active"));
     button.classList.add("active");
-    const view = button.dataset.routeView;
-    if (view === "fit" || view === "top") fitRoute("top");
-    else fitRoute(view);
+    fitRoute();
   });
 });
 
