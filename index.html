@@ -90,7 +90,7 @@
 
       <div class="route-map-shell" id="route-map-shell">
         <div class="route-map-toolbar" aria-label="Route map camera controls">
-          <button type="button" data-route-view="free">FREE 3D</button>
+          <span class="route-map-nav-hint">NAVIGATE THE MAP IN 3D WITH MOUSE</span>
           <button type="button" data-route-view="top">TOP X/Z</button>
           <button type="button" data-route-view="side">SIDE Z/Y</button>
           <button type="button" data-route-view="front">FRONT X/Y</button>
@@ -102,10 +102,15 @@
           <svg class="route-label-lines" id="route-label-lines" aria-hidden="true"></svg>
           <div class="route-label-layer" id="route-label-layer" aria-hidden="false"></div>
 
-          <div class="route-map-compass" aria-hidden="true">
-            <span class="axis-x">X</span>
-            <span class="axis-y">Y</span>
-            <span class="axis-z">Z</span>
+          <div class="route-3d-compass" id="route-3d-compass" aria-label="3D orientation compass">
+            <div class="route-3d-compass-rose" id="route-3d-compass-rose"></div>
+            <span class="compass-dir north" data-compass-dir="n">N</span>
+            <span class="compass-dir south" data-compass-dir="s">S</span>
+            <span class="compass-dir east" data-compass-dir="e">E</span>
+            <span class="compass-dir west" data-compass-dir="w">W</span>
+            <span class="compass-dir up" data-compass-dir="u">UP</span>
+            <span class="compass-dir down" data-compass-dir="d">DN</span>
+            <span class="compass-core"></span>
           </div>
 
           <div class="route-map-hud">

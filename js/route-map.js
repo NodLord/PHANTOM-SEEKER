@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { TrackballControls } from "three/addons/controls/TrackballControls.js";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 const MAP_SCALE = 1 / 1000; // 1 world unit = 1000 ly
 const SAG_A = { x: 25.21875, y: -20.90625, z: 25899.96875 };
@@ -15,6 +15,8 @@ const statusEl = document.getElementById("route-map-status");
 const countEl = document.getElementById("route-map-count");
 const distanceEl = document.getElementById("route-map-distance");
 const detailEl = document.getElementById("route-map-detail");
+const compassEl = document.getElementById("route-3d-compass");
+const compassRoseEl = document.getElementById("route-3d-compass-rose");
 
 if (!shell || !wrap || !canvas) {
   throw new Error("Route map DOM is incomplete.");
@@ -51,20 +53,27 @@ scene.fog = new THREE.FogExp2(0x05080c, 0.018);
 const camera = new THREE.PerspectiveCamera(50, 1, 0.01, 300);
 camera.up.set(0, 1, 0);
 
-const controls = new TrackballControls(camera, canvas);
+const controls = new OrbitControls(camera, canvas);
 
-// Full-sphere navigation: unlike OrbitControls, TrackballControls does not
-// stop at the poles, so commanders can roll/rotate completely around the map.
-controls.rotateSpeed = 3.2;
-controls.zoomSpeed = 1.15;
-controls.panSpeed = 0.7;
-controls.dynamicDampingFactor = 0.11;
-controls.noRotate = false;
-controls.noZoom = false;
-controls.noPan = false;
-controls.staticMoving = false;
+// Upright galactic navigation:
+// - full 360° azimuth around the route
+// - almost the full sphere above/below the galactic plane
+// - no camera roll, so the galactic disk never ends up diagonally "on edge"
+controls.enableDamping = true;
+controls.dampingFactor = 0.065;
+controls.enablePan = true;
+controls.enableRotate = true;
+controls.enableZoom = true;
+controls.rotateSpeed = 0.72;
+controls.zoomSpeed = 0.95;
+controls.panSpeed = 0.78;
 controls.minDistance = 2;
 controls.maxDistance = 130;
+controls.minAzimuthAngle = -Infinity;
+controls.maxAzimuthAngle = Infinity;
+controls.minPolarAngle = 0.006;
+controls.maxPolarAngle = Math.PI - 0.006;
+controls.screenSpacePanning = true;
 
 const routeGroup = new THREE.Group();
 const galaxyGroup = new THREE.Group();
@@ -333,7 +342,7 @@ function buildRoute(rows) {
   pulse = new THREE.Mesh(pulseGeom, pulseMat);
   routeGroup.add(pulse);
 
-  fitRoute("free");
+  fitRoute("top");
 }
 
 function addWaypoint(row, index) {
@@ -422,55 +431,21 @@ function selectWaypoint(mesh) {
   controls.update();
 }
 
-function fitRoute(mode = "free") {
+function fitRoute(mode = "top") {
   const distance = routeMaxDim * 1.06 + 8;
+  controls.target.copy(routeCenter);
 
-  // Fixed views always center the whole route. FREE 3D applies its own
-  // prologue-biased target below.
-  if (mode !== "free") {
-    controls.target.copy(routeCenter);
-  }
-
-  if (mode === "top") {
-    // Elite-style "top of galaxy" view:
-    // camera sits below the mathematical Y plane and looks upward,
-    // with +Z toward the top of the screen.
-    camera.up.set(0,0,1);
-    camera.position.set(routeCenter.x, routeCenter.y - distance, routeCenter.z);
-  } else if (mode === "side") {
+  if (mode === "side") {
     camera.up.set(0,1,0);
     camera.position.set(routeCenter.x + distance, routeCenter.y, routeCenter.z);
   } else if (mode === "front") {
     camera.up.set(0,1,0);
     camera.position.set(routeCenter.x, routeCenter.y, routeCenter.z + distance);
   } else {
-    // FREE 3D starts from the PROLOGUE side of the expedition instead of
-    // presenting the Epilogue first. The camera sits outside the route,
-    // behind Teorge, and looks inward along the expedition.
-    camera.up.set(0,1,0);
-
-    const prologue = routePoints[0] || routeCenter;
-    const towardPrologue = new THREE.Vector3(
-      prologue.x - routeCenter.x,
-      0,
-      prologue.z - routeCenter.z
-    );
-
-    if (towardPrologue.lengthSq() < 1e-6) {
-      towardPrologue.set(1,0,1);
-    }
-    towardPrologue.normalize();
-
-    camera.position.set(
-      routeCenter.x + towardPrologue.x * distance * .98,
-      routeCenter.y - distance * .36,
-      routeCenter.z + towardPrologue.z * distance * .98
-    );
-
-    // Bias the initial target slightly toward the first third of the route so
-    // the opening composition reads "from Prologue toward the expedition".
-    const firstThird = routePoints[Math.min(4, routePoints.length - 1)] || routeCenter;
-    controls.target.copy(routeCenter).lerp(firstThird, .16);
+    // Default and FIT ROUTE: canonical top X/Z projection.
+    // +Z points toward the top of the screen.
+    camera.up.set(0,0,1);
+    camera.position.set(routeCenter.x, routeCenter.y - distance, routeCenter.z);
   }
 
   camera.lookAt(controls.target);
@@ -518,6 +493,52 @@ function updateLabels() {
   }
 }
 
+
+// ------------------------------------------------------------
+// Dynamic 3D orientation compass
+// ------------------------------------------------------------
+function updateCompass() {
+  if (!compassEl || !compassRoseEl) return;
+
+  // Camera basis in world space.
+  const forward = new THREE.Vector3();
+  camera.getWorldDirection(forward).normalize();
+
+  const right = new THREE.Vector3(1,0,0).applyQuaternion(camera.quaternion).normalize();
+  const up = new THREE.Vector3(0,1,0).applyQuaternion(camera.quaternion).normalize();
+
+  // World directions used by Elite's galactic map convention:
+  // N/S = +Z/-Z, E/W = +X/-X, UP/DOWN = +Y/-Y.
+  const dirs = {
+    n: new THREE.Vector3(0,0,1),
+    s: new THREE.Vector3(0,0,-1),
+    e: new THREE.Vector3(1,0,0),
+    w: new THREE.Vector3(-1,0,0),
+    u: new THREE.Vector3(0,1,0),
+    d: new THREE.Vector3(0,-1,0),
+  };
+
+  for (const [key, dir] of Object.entries(dirs)) {
+    const node = compassEl.querySelector(`[data-compass-dir="${key}"]`);
+    if (!node) continue;
+
+    // Project world direction into camera screen-space.
+    const sx = dir.dot(right);
+    const sy = dir.dot(up);
+    const depth = dir.dot(forward);
+
+    const radius = 30;
+    node.style.transform = `translate(${sx * radius}px, ${-sy * radius}px) translate(-50%, -50%)`;
+    node.style.opacity = String(0.38 + 0.62 * ((depth + 1) * 0.5));
+    node.style.zIndex = depth > 0 ? "3" : "1";
+  }
+
+  // The inner horizon ring tilts slightly with the camera's pitch while
+  // remaining readable and upright in screen space.
+  const pitch = Math.asin(THREE.MathUtils.clamp(forward.y, -1, 1));
+  compassRoseEl.style.transform = `rotateX(${(-pitch * 35).toFixed(2)}deg)`;
+}
+
 // ------------------------------------------------------------
 // Pointer picking
 // ------------------------------------------------------------
@@ -554,7 +575,7 @@ document.querySelectorAll("[data-route-view]").forEach(button => {
     document.querySelectorAll("[data-route-view]").forEach(b => b.classList.remove("active"));
     button.classList.add("active");
     const view = button.dataset.routeView;
-    if (view === "fit" || view === "free") fitRoute("free");
+    if (view === "fit" || view === "top") fitRoute("top");
     else fitRoute(view);
   });
 });
@@ -569,7 +590,6 @@ function resize() {
   renderer.setSize(width, height, false);
   camera.aspect = width / height;
   camera.updateProjectionMatrix();
-  controls.handleResize();
   leaderSvg.setAttribute("viewBox", `0 0 ${width} ${height}`);
 }
 
@@ -604,6 +624,7 @@ function render(time = 0) {
   controls.update();
   updatePulse(time);
   updateLabels();
+  updateCompass();
   renderer.render(scene, camera);
 }
 
@@ -640,6 +661,8 @@ async function init() {
     render();
 
     // Give the first waypoint a useful default selection.
+    document.querySelector('[data-route-view="top"]')?.classList.add("active");
+
     if (markers.length) selectWaypoint(markers[0]);
 
   } catch (error) {
