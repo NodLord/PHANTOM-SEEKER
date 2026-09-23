@@ -419,8 +419,11 @@ function fitRoute(mode = "free") {
   controls.target.copy(routeCenter);
 
   if (mode === "top") {
-    camera.up.set(0,0,-1);
-    camera.position.set(routeCenter.x, routeCenter.y + distance, routeCenter.z);
+    // Elite-style "top of galaxy" view:
+    // camera sits below the mathematical Y plane and looks upward,
+    // with +Z toward the top of the screen.
+    camera.up.set(0,0,1);
+    camera.position.set(routeCenter.x, routeCenter.y - distance, routeCenter.z);
   } else if (mode === "side") {
     camera.up.set(0,1,0);
     camera.position.set(routeCenter.x + distance, routeCenter.y, routeCenter.z);
@@ -431,7 +434,7 @@ function fitRoute(mode = "free") {
     camera.up.set(0,1,0);
     camera.position.set(
       routeCenter.x + distance * .67,
-      routeCenter.y + distance * .42,
+      routeCenter.y - distance * .42,
       routeCenter.z + distance * .72
     );
   }
