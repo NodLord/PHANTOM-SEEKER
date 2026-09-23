@@ -426,7 +426,21 @@ function selectWaypoint(mesh) {
     <a class="route-map-briefing" href="#${escapeHtml(row.anchor)}">OPEN WAYPOINT BRIEFING</a>
   `;
 
-  controls.target.copy(mesh.position);
+  // Keep the map STRICTLY in TOP X/Z orientation when selecting a waypoint.
+  // Move camera and target by the same delta instead of only moving the target.
+  // This behaves like a 2D pan and cannot tilt the galactic disk.
+  const previousTarget = controls.target.clone();
+  const nextTarget = mesh.position.clone();
+  const delta = nextTarget.clone().sub(previousTarget);
+
+  camera.position.add(delta);
+  controls.target.copy(nextTarget);
+
+  // Re-lock canonical top orientation.
+  camera.position.x = controls.target.x;
+  camera.position.z = controls.target.z;
+  camera.up.set(0,0,1);
+  camera.lookAt(controls.target);
   controls.update();
 }
 
@@ -563,6 +577,24 @@ document.querySelectorAll("[data-route-view]").forEach(button => {
 });
 
 // ------------------------------------------------------------
+// Permanent TOP X/Z orientation lock
+// ------------------------------------------------------------
+function enforceTopView() {
+  // Preserve current zoom distance along the Y axis.
+  const dy = camera.position.y - controls.target.y;
+  const sign = dy === 0 ? -1 : Math.sign(dy);
+  const distance = Math.max(Math.abs(dy), controls.minDistance || 2);
+
+  // Camera and target must share X/Z in a true top-down projection.
+  camera.position.x = controls.target.x;
+  camera.position.z = controls.target.z;
+  camera.position.y = controls.target.y + sign * distance;
+
+  camera.up.set(0,0,1);
+  camera.lookAt(controls.target);
+}
+
+// ------------------------------------------------------------
 // Resize + render
 // ------------------------------------------------------------
 function resize() {
@@ -604,6 +636,7 @@ function updatePulse(time) {
 function render(time = 0) {
   raf = requestAnimationFrame(render);
   controls.update();
+  enforceTopView();
   updatePulse(time);
   updateLabels();
   updateCompass();
