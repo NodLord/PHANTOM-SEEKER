@@ -1,0 +1,48 @@
+PHANTOM SEEKER V0.4.6 // AXIS LABEL HOOK FIX
+
+WHY V0.4.5 SHOWED NOTHING
+=========================
+The V0.4.5 script attempted to intercept:
+`THREE.WebGLRenderer.prototype.render`
+
+In current Three.js, WebGLRenderer installs its `render` function on each renderer instance.
+The prototype hook therefore never saw Phantom Grid's render loop.
+
+That is why the Grid itself worked perfectly while none of the six labels appeared.
+
+V0.4.6 FIX
+==========
+The patch now hooks `THREE.Object3D.prototype.add`, which app.js definitely uses when it executes:
+`scene.add(root)`
+
+That gives the patch the actual live Three.js Scene before the first frame.
+The hook immediately installs six real Three.js Sprite objects and then restores the original
+Object3D.add method.
+
+Labels:
+- NORTH +Z
+- SOUTH -Z
+- EAST +X
+- WEST -X
+- UP +Y
+- DOWN -Y
+
+They are positioned directly at the real ±450 endpoints used by the X/Y/Z axes in app.js.
+
+Because they are real scene objects:
+- they remain attached to the axis endpoints
+- they rotate with the map
+- they move with pan/zoom
+- they always face the camera
+- depth testing and fog are disabled so the text remains readable
+
+INSTALLATION
+============
+Replace ONLY:
+`/js/grid-v045-axis-labels.js`
+
+Yes, keep the same filename. Your V0.4.5 grid.html already loads it.
+
+Commit, wait for GitHub Pages deployment to turn green, then Ctrl+F5 Phantom Grid.
+
+No HTML, CSS, app.js, HOME, or data files need to change.

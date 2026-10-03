@@ -1,52 +1,52 @@
 import * as THREE from "three";
 
-if (!window.__PHANTOM_GRID_AXIS_SPRITES_V045__) {
-  window.__PHANTOM_GRID_AXIS_SPRITES_V045__ = true;
+if (!window.__PHANTOM_GRID_AXIS_LABELS_V046__) {
+  window.__PHANTOM_GRID_AXIS_LABELS_V046__ = true;
 
-  const originalRender = THREE.WebGLRenderer.prototype.render;
+  const originalAdd = THREE.Object3D.prototype.add;
 
   function roundedRect(ctx, x, y, w, h, r) {
-    const radius = Math.min(r, w / 2, h / 2);
+    const rr = Math.min(r, w / 2, h / 2);
     ctx.beginPath();
-    ctx.moveTo(x + radius, y);
-    ctx.arcTo(x + w, y, x + w, y + h, radius);
-    ctx.arcTo(x + w, y + h, x, y + h, radius);
-    ctx.arcTo(x, y + h, x, y, radius);
-    ctx.arcTo(x, y, x + w, y, radius);
+    ctx.moveTo(x + rr, y);
+    ctx.arcTo(x + w, y, x + w, y + h, rr);
+    ctx.arcTo(x + w, y + h, x, y + h, rr);
+    ctx.arcTo(x, y + h, x, y, rr);
+    ctx.arcTo(x, y, x + w, y, rr);
     ctx.closePath();
   }
 
   function makeAxisSprite(title, sign, accent) {
     const canvas = document.createElement("canvas");
-    canvas.width = 768;
-    canvas.height = 220;
+    canvas.width = 640;
+    canvas.height = 180;
 
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Panel
-    roundedRect(ctx, 18, 18, 732, 184, 18);
-    ctx.fillStyle = "rgba(5, 9, 13, 0.90)";
+    // Dark tactical plate
+    roundedRect(ctx, 10, 10, 620, 160, 14);
+    ctx.fillStyle = "rgba(5, 9, 13, 0.94)";
     ctx.fill();
-    ctx.lineWidth = 4;
-    ctx.strokeStyle = "rgba(88, 110, 128, 0.82)";
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = "rgba(91, 113, 130, 0.88)";
     ctx.stroke();
 
-    // Accent rule
+    // Axis accent
     ctx.fillStyle = accent;
-    ctx.fillRect(42, 42, 10, 136);
+    ctx.fillRect(28, 30, 8, 120);
 
-    // Main label
-    ctx.fillStyle = "#eef3f6";
-    ctx.font = "900 58px Segoe UI, Arial, sans-serif";
+    // Direction name
     ctx.textAlign = "left";
     ctx.textBaseline = "middle";
-    ctx.fillText(title, 82, 91);
+    ctx.fillStyle = "#eef3f6";
+    ctx.font = "900 48px Segoe UI, Arial, sans-serif";
+    ctx.fillText(title, 58, 70);
 
     // Axis sign
     ctx.fillStyle = accent;
-    ctx.font = "800 34px Segoe UI, Arial, sans-serif";
-    ctx.fillText(sign, 82, 151);
+    ctx.font = "800 28px Segoe UI, Arial, sans-serif";
+    ctx.fillText(sign, 58, 126);
 
     const texture = new THREE.CanvasTexture(canvas);
     texture.colorSpace = THREE.SRGBColorSpace;
@@ -60,27 +60,30 @@ if (!window.__PHANTOM_GRID_AXIS_SPRITES_V045__) {
       depthTest: false,
       depthWrite: false,
       toneMapped: false,
+      fog: false,
     });
 
     const sprite = new THREE.Sprite(material);
-    sprite.scale.set(118, 33.8, 1);
-    sprite.renderOrder = 9999;
+    sprite.scale.set(92, 26, 1);
+    sprite.renderOrder = 100000;
+    sprite.frustumCulled = false;
     sprite.userData.phantomAxisLabel = true;
     return sprite;
   }
 
   function installAxisLabels(scene) {
-    if (!scene || scene.userData.__phantomAxisLabelsV045) return;
+    if (!scene?.isScene || scene.userData.__phantomAxisLabelsV046) return;
 
-    scene.userData.__phantomAxisLabelsV045 = true;
+    // Mark before scene.add() below so our own addition cannot recurse.
+    scene.userData.__phantomAxisLabelsV046 = true;
 
     const group = new THREE.Group();
-    group.name = "PHANTOM_GRID_AXIS_LABELS_V045";
-    group.renderOrder = 9999;
+    group.name = "PHANTOM_GRID_AXIS_LABELS_V046";
+    group.renderOrder = 100000;
 
-    // The visible axes in app.js run from -450 to +450.
-    // Put labels just beyond those exact endpoints.
-    const R = 478;
+    // app.js draws the three local axes from -450 to +450.
+    // Labels sit directly on those endpoints.
+    const R = 450;
 
     const defs = [
       { title: "NORTH", sign: "+Z", color: "#91a9ec", pos: [0, 0,  R] },
@@ -97,11 +100,22 @@ if (!window.__PHANTOM_GRID_AXIS_SPRITES_V045__) {
       group.add(sprite);
     }
 
-    scene.add(group);
+    originalAdd.call(scene, group);
+    console.info("[PHANTOM GRID] Axis labels V0.4.6 installed:", group.children.length);
   }
 
-  THREE.WebGLRenderer.prototype.render = function(scene, camera) {
-    installAxisLabels(scene);
-    return originalRender.call(this, scene, camera);
+  // app.js definitely calls scene.add(root). Hooking Object3D.add therefore
+  // gives us the actual Scene object before the first animation frame.
+  THREE.Object3D.prototype.add = function(...objects) {
+    const result = originalAdd.apply(this, objects);
+
+    if (this?.isScene) {
+      installAxisLabels(this);
+
+      // Once we have the real Scene, restore Three.js immediately.
+      THREE.Object3D.prototype.add = originalAdd;
+    }
+
+    return result;
   };
 }
