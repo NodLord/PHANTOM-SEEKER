@@ -30,17 +30,25 @@ if (!window.__PHANTOM_GRID_AXIS_LABELS_V048__) {
     if (glow) {
       // Wide cyan halo baked into the transparent texture.
       ctx.save();
-      ctx.globalAlpha = 0.82;
+      ctx.globalAlpha = 0.72;
       ctx.shadowColor = color;
-      ctx.shadowBlur = 32;
+      ctx.shadowBlur = 58;
       ctx.fillStyle = color;
       ctx.fillText(text, width / 2, height / 2);
       ctx.restore();
 
       ctx.save();
-      ctx.globalAlpha = 0.58;
+      ctx.globalAlpha = 0.86;
       ctx.shadowColor = color;
-      ctx.shadowBlur = 18;
+      ctx.shadowBlur = 36;
+      ctx.fillStyle = color;
+      ctx.fillText(text, width / 2, height / 2);
+      ctx.restore();
+
+      ctx.save();
+      ctx.globalAlpha = 0.68;
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 20;
       ctx.fillStyle = color;
       ctx.fillText(text, width / 2, height / 2);
       ctx.restore();

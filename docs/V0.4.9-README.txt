@@ -1,0 +1,30 @@
+PHANTOM SEEKER V0.4.9 // STYLIZED GLOW + NEBULA HAZE
+
+WP9
+- same size as V0.4.8
+- stronger, broader cyan bloom
+- artificial display priority remains enabled
+
+GUARDIANS
+- intense cyan inner glow
+- broad cyan additive halo
+- fixed screen-space sizes so bloom remains visible when zoomed out
+
+BRAIN TREES
+- visible green inner glow
+- broad diffuse green outer halo
+- dense Brain Tree regions now visually merge into a soft green cloud
+
+SPACE BACKGROUND
+- old subtle dust replaced by 30 procedural nebula-cloud sprites
+- blue-grey / teal / faint violet palette
+- 2,100 embedded diffuse stars
+- all layers remain well outside the 400 ly survey volume
+- orbital drift increased to 0.00012 rad/frame
+
+FILES TO REPLACE
+- /grid.html
+- /js/app.js
+- /js/grid-v045-axis-labels.js
+
+No HOME or survey-data files are changed.
