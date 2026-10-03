@@ -1,0 +1,343 @@
+
+/* PHANTOM SEEKER V0.4.4 // POLISH PASS */
+
+/* All numbered section labels: 00 / 00.5 / 01 / 02 / 03 */
+.section-index {
+  font-size: 16px !important;
+  line-height: 1.2 !important;
+  letter-spacing: .18em !important;
+  font-weight: 900 !important;
+}
+
+/* Expedition status */
+.expedition-status,
+.participation-protocol {
+  position: relative;
+  overflow: hidden;
+}
+
+.expedition-status {
+  background:
+    linear-gradient(90deg, rgba(242,161,61,.025), transparent 42%),
+    rgba(7,10,14,.28);
+}
+
+.status-heading,
+.protocol-heading {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto;
+  gap: 28px;
+  align-items: end;
+  margin: 26px 0 32px;
+}
+
+.status-heading h2,
+.protocol-heading h2 {
+  margin: 0 0 12px;
+  font-size: clamp(34px,4.2vw,64px);
+  line-height: 1;
+  letter-spacing: .025em;
+}
+
+.status-heading p,
+.protocol-heading p {
+  max-width: 900px;
+  margin: 0;
+  color: #a5b2bd;
+  font-family: Georgia,"Times New Roman",serif;
+  font-size: 18px;
+  line-height: 1.72;
+}
+
+.status-signal {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid rgba(242,161,61,.38);
+  background: rgba(10,14,19,.68);
+  color: #dba35c;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: .13em;
+  white-space: nowrap;
+}
+
+.status-signal span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f2a13d;
+  box-shadow: 0 0 10px rgba(242,161,61,.55);
+  animation: status-pulse 2.8s ease-in-out infinite;
+}
+
+@keyframes status-pulse {
+  0%,100% { opacity:.45; }
+  50% { opacity:1; }
+}
+
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 1px;
+  background: #24313c;
+  border: 1px solid #24313c;
+}
+
+.status-card {
+  min-height: 145px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 19px 20px;
+  background: #0b1016;
+}
+
+.status-label {
+  color: #8092a0;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .14em;
+}
+
+.status-card strong {
+  color: #edf2f5;
+  font-size: clamp(29px,3vw,48px);
+  line-height: 1;
+  letter-spacing: .025em;
+}
+
+.status-card:nth-child(2) strong {
+  color: #f2b05c;
+}
+
+.status-card small {
+  color: #6f808d;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: .105em;
+}
+
+.status-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.status-actions > span {
+  color: #758693;
+  font-size: 12px;
+  letter-spacing: .08em;
+}
+
+/* Participation protocol */
+.protocol-grid {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 1px;
+  margin-top: 30px;
+  border: 1px solid #24313c;
+  background: #24313c;
+}
+
+.protocol-grid article {
+  min-height: 175px;
+  padding: 21px;
+  background: #0b1016;
+}
+
+.protocol-grid b {
+  display: block;
+  margin-bottom: 14px;
+  color: #f1aa50;
+  font-size: 13px;
+  letter-spacing: .13em;
+}
+
+.protocol-grid p {
+  margin: 0;
+  color: #b5c0c8;
+  font-family: Georgia,"Times New Roman",serif;
+  font-size: 17px;
+  line-height: 1.68;
+}
+
+.protocol-grid strong {
+  color: #eef2f5;
+}
+
+.protocol-footer {
+  padding-top: 15px;
+  color: #6c7d89;
+  font-size: 11px;
+  letter-spacing: .105em;
+  text-transform: uppercase;
+}
+
+/* Waypoint callsigns */
+.waypoint-tag {
+  font-size: clamp(18px,1.55vw,25px) !important;
+  line-height: 1.15 !important;
+  font-weight: 900 !important;
+  letter-spacing: .135em !important;
+  margin-bottom: 12px !important;
+}
+
+#chapter1 .waypoint-tag {
+  color: #f2a13d !important;
+  text-shadow: 0 0 18px rgba(242,161,61,.09);
+}
+
+#chapter2 .waypoint-tag {
+  color: #67dcff !important;
+  text-shadow: 0 0 18px rgba(103,220,255,.09);
+}
+
+/* Route distance is a primary mission datum, not a footnote. */
+#route-map-distance {
+  padding: 8px 12px !important;
+  border-color: rgba(242,161,61,.58) !important;
+  background: rgba(18,14,9,.84) !important;
+  color: #f5b45e !important;
+  font-size: 17px !important;
+  font-weight: 900 !important;
+  letter-spacing: .095em !important;
+}
+
+/* Join preview */
+.join-expedition-dialog {
+  width: min(620px,calc(100% - 30px));
+  padding: 0;
+  border: 1px solid #344655;
+  background: #080d12;
+  color: #e8eef2;
+  box-shadow: 0 20px 80px rgba(0,0,0,.6);
+}
+
+.join-expedition-dialog::backdrop {
+  background: rgba(2,5,8,.78);
+  backdrop-filter: blur(5px);
+}
+
+.join-expedition-dialog form {
+  position: relative;
+  padding: 28px;
+}
+
+.join-expedition-dialog h2 {
+  margin: 9px 0 12px;
+  font-size: clamp(28px,4vw,44px);
+}
+
+.join-expedition-dialog p {
+  color: #9cabb7;
+  font-family: Georgia,"Times New Roman",serif;
+  line-height: 1.65;
+}
+
+.dialog-close {
+  position: absolute;
+  top: 10px;
+  right: 11px;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #344655;
+  background: #0c1319;
+  color: #91a3b1;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.join-preview-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.join-preview-fields label {
+  color: #718390;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: .11em;
+}
+
+.join-preview-fields input,
+.join-preview-fields select {
+  width: 100%;
+  min-height: 41px;
+  margin-top: 6px;
+  padding: 0 10px;
+  border: 1px solid #2d3d49;
+  background: #0b1117;
+  color: #778895;
+}
+
+.join-notice {
+  margin: 17px 0;
+  padding: 12px 14px;
+  border-left: 2px solid #f2a13d;
+  background: rgba(242,161,61,.045);
+  color: #8999a5;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.join-disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+@media(max-width:1000px) {
+  .section-index {
+    font-size: 14px !important;
+  }
+  .status-grid {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+  .protocol-grid {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:650px) {
+  .section-index {
+    font-size: 12px !important;
+  }
+
+  .status-heading,
+  .protocol-heading {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .status-grid,
+  .protocol-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .join-preview-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .protocol-grid p {
+    font-size: 16px;
+  }
+
+  .waypoint-tag {
+    font-size: 18px !important;
+  }
+
+  #route-map-distance {
+    font-size: 14px !important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  .status-signal span { animation:none; }
+}

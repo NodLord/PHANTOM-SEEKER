@@ -1,14 +1,17 @@
 (() => {
-  // Load the V0.4.3 home styles without requiring another index.html edit.
-  if (!document.querySelector('link[data-phantom-v043="home"]')) {
+  // V0.4.4 styles. Using a new filename also avoids stale GitHub/browser CSS caches.
+  if (!document.querySelector('link[data-phantom-v044="home"]')) {
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = "css/v043.css";
-    link.dataset.phantomV043 = "home";
+    link.href = "css/v044.css";
+    link.dataset.phantomV044 = "home";
     document.head.appendChild(link);
   }
 
-  // Clean up a few labels left over from the earlier 3D route prototype.
+  // -------------------------------------------------------------------
+  // TEXT / LABEL CORRECTIONS
+  // -------------------------------------------------------------------
+  // Remove leftover vertical labels from the earlier route-map prototype.
   document.querySelector(".compass-dir.up")?.remove();
   document.querySelector(".compass-dir.down")?.remove();
 
@@ -17,6 +20,13 @@
 
   const routeCanvas = document.getElementById("expedition-route-map");
   if (routeCanvas) routeCanvas.setAttribute("aria-label", "Interactive galactic route map");
+
+  // WP11 nickname has changed everywhere on the static homepage.
+  document.querySelectorAll("*").forEach(el => {
+    if (el.children.length === 0 && el.textContent.trim() === "THE DEEP DARK") {
+      el.textContent = "THE PURPLE SURVEY";
+    }
+  });
 
   // -------------------------------------------------------------------
   // EXPEDITION STATUS
@@ -87,7 +97,7 @@
 
       <div class="protocol-heading">
         <div>
-          <h2>JOIN THE DEAD PEOPLE'S TOUR.</h2>
+          <h2>RULES FOR THE TEMPORARILY ALIVE.</h2>
           <p>
             The expedition is deliberately light on bureaucracy. One operational rule matters;
             the rest is mostly an attempt to stop commanders becoming part of the archaeology.
@@ -138,8 +148,6 @@
 
   // -------------------------------------------------------------------
   // JOIN EXPEDITION PREVIEW
-  // No fake local registration. The real database arrives in V0.5.
-  // There is deliberately no PENDING / VERIFIED state.
   // -------------------------------------------------------------------
   if (!document.getElementById("join-expedition-dialog")) {
     const dialog = document.createElement("dialog");
@@ -194,7 +202,7 @@
   }
 
   // -------------------------------------------------------------------
-  // Existing scroll reveal behavior.
+  // Scroll reveal
   // -------------------------------------------------------------------
   const items = document.querySelectorAll(".reveal");
   if (!("IntersectionObserver" in window)) {

@@ -1,0 +1,64 @@
+
+/* PHANTOM GRID V0.4.4 // AXIS END LABELS */
+
+.viewport-wrap {
+  position: relative !important;
+}
+
+.grid-axis-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.grid-axis-label {
+  position: absolute;
+  transform: translate(-50%,-50%);
+  min-width: 66px;
+  padding: 6px 8px 5px;
+  border: 1px solid rgba(82,104,121,.72);
+  background: rgba(5,9,13,.90);
+  box-shadow: 0 0 0 1px rgba(0,0,0,.35);
+  backdrop-filter: blur(4px);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.grid-axis-label strong {
+  display: block;
+  font-size: 11px;
+  line-height: 1.05;
+  font-weight: 950;
+  letter-spacing: .12em;
+}
+
+.grid-axis-label span {
+  display: block;
+  margin-top: 2px;
+  color: #8394a2;
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: .09em;
+}
+
+.grid-axis-label.axis-x strong { color: #e08b8b; }
+.grid-axis-label.axis-y strong { color: #8fda9a; }
+.grid-axis-label.axis-z strong { color: #91a9ec; }
+
+.grid-axis-label.behind-axis {
+  opacity: .48;
+  border-style: dashed;
+}
+
+@media(max-width:900px) {
+  .grid-axis-label {
+    min-width: 55px;
+    padding: 5px 6px;
+  }
+
+  .grid-axis-label strong { font-size: 9px; }
+  .grid-axis-label span { font-size: 8px; }
+}

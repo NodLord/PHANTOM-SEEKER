@@ -1,0 +1,54 @@
+PHANTOM SEEKER V0.4.4 // POLISH + AXIS FIX
+
+FIXES
+=====
+1. PHANTOM GRID
+- Axis endpoint labels now load through a deterministic sequential module chain.
+- NORTH +Z / SOUTH -Z / EAST +X / WEST -X / UP +Y / DOWN -Y.
+- Labels are pinned to screen edges when an axis endpoint leaves the viewport.
+- The core app.js remains untouched.
+
+2. HOME TYPOGRAPHY
+- All numbered section labels (00 / 00.5 / 01 / 02 / 03) are larger and share one size.
+- Status-card headers and footer text are larger.
+- Participation-rule titles and descriptions are larger.
+- Waypoint callsigns are significantly larger.
+- Chapter I waypoint callsigns are amber/orange.
+- Chapter II waypoint callsigns are cyan.
+
+3. PARTICIPATION TITLE
+- Replaced `JOIN THE DEAD PEOPLE'S TOUR.` with:
+  `RULES FOR THE TEMPORARILY ALIVE.`
+
+4. WP11
+- `THE DEEP DARK` is replaced everywhere by:
+  `THE PURPLE SURVEY`
+- The route JSON is updated, so the galactic map label and tactical route panel also use the new name.
+
+FILES TO REPLACE
+================
+- /js/home.js
+- /grid.html
+- /data/expedition_route.json
+
+FILES TO ADD
+============
+- /css/v044.css
+- /css/grid-v044.css
+- /js/grid-v044-preload.js
+- /js/grid-v044.js
+
+Old V0.4.3 overlay files may remain in the repository; V0.4.4 no longer references them.
+
+DO NOT REPLACE
+==============
+- /index.html
+- /css/home.css
+- /css/style.css
+- /js/route-map.js
+- /js/app.js
+
+DEPLOYMENT
+==========
+Upload/replace the files at the exact paths above, commit, wait for GitHub Pages to turn green,
+then Ctrl+F5 both the HOME page and PHANTOM GRID.
