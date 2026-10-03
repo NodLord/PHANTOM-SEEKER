@@ -1,0 +1,303 @@
+
+/* PHANTOM SEEKER V0.4.3 // PUBLIC EXPEDITION INFO */
+
+.expedition-status,
+.participation-protocol {
+  position: relative;
+  overflow: hidden;
+}
+
+.expedition-status {
+  background:
+    linear-gradient(90deg, rgba(242,161,61,.025), transparent 42%),
+    rgba(7,10,14,.28);
+}
+
+.status-heading,
+.protocol-heading {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto;
+  gap: 28px;
+  align-items: end;
+  margin: 22px 0 28px;
+}
+
+.status-heading h2,
+.protocol-heading h2 {
+  margin: 0 0 10px;
+  font-size: clamp(31px,4vw,60px);
+  line-height: 1;
+  letter-spacing: .025em;
+}
+
+.status-heading p,
+.protocol-heading p {
+  max-width: 850px;
+  margin: 0;
+  color: #98a7b3;
+  font-family: Georgia,"Times New Roman",serif;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.status-signal {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid rgba(242,161,61,.38);
+  background: rgba(10,14,19,.68);
+  color: #dba35c;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: .13em;
+  white-space: nowrap;
+}
+
+.status-signal span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f2a13d;
+  box-shadow: 0 0 10px rgba(242,161,61,.55);
+  animation: status-pulse 2.8s ease-in-out infinite;
+}
+
+@keyframes status-pulse {
+  0%,100% { opacity:.45; }
+  50% { opacity:1; }
+}
+
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 1px;
+  background: #24313c;
+  border: 1px solid #24313c;
+}
+
+.status-card {
+  min-height: 125px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 16px 17px;
+  background: #0b1016;
+}
+
+.status-label {
+  color: #708291;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: .14em;
+}
+
+.status-card strong {
+  color: #edf2f5;
+  font-size: clamp(24px,2.7vw,42px);
+  line-height: 1;
+  letter-spacing: .025em;
+}
+
+.status-card:nth-child(2) strong {
+  color: #f2b05c;
+}
+
+.status-card small {
+  color: #5e6f7d;
+  font-size: 9px;
+  letter-spacing: .1em;
+}
+
+.status-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+.status-actions > span {
+  color: #677987;
+  font-size: 10px;
+  letter-spacing: .08em;
+}
+
+.protocol-grid {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 1px;
+  margin-top: 26px;
+  border: 1px solid #24313c;
+  background: #24313c;
+}
+
+.protocol-grid article {
+  min-height: 150px;
+  padding: 18px;
+  background: #0b1016;
+}
+
+.protocol-grid b {
+  display: block;
+  margin-bottom: 12px;
+  color: #f1aa50;
+  font-size: 10px;
+  letter-spacing: .13em;
+}
+
+.protocol-grid p {
+  margin: 0;
+  color: #a8b4be;
+  font-family: Georgia,"Times New Roman",serif;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.protocol-grid strong {
+  color: #e9eef2;
+}
+
+.protocol-footer {
+  padding-top: 13px;
+  color: #60717e;
+  font-size: 9px;
+  letter-spacing: .105em;
+  text-transform: uppercase;
+}
+
+.join-expedition-dialog {
+  width: min(620px,calc(100% - 30px));
+  padding: 0;
+  border: 1px solid #344655;
+  background: #080d12;
+  color: #e8eef2;
+  box-shadow: 0 20px 80px rgba(0,0,0,.6);
+}
+
+.join-expedition-dialog::backdrop {
+  background: rgba(2,5,8,.78);
+  backdrop-filter: blur(5px);
+}
+
+.join-expedition-dialog form {
+  position: relative;
+  padding: 28px;
+}
+
+.join-expedition-dialog h2 {
+  margin: 9px 0 12px;
+  font-size: clamp(28px,4vw,44px);
+}
+
+.join-expedition-dialog p {
+  color: #9cabb7;
+  font-family: Georgia,"Times New Roman",serif;
+  line-height: 1.65;
+}
+
+.dialog-close {
+  position: absolute;
+  top: 10px;
+  right: 11px;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #344655;
+  background: #0c1319;
+  color: #91a3b1;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.join-preview-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.join-preview-fields label {
+  color: #718390;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: .11em;
+}
+
+.join-preview-fields input,
+.join-preview-fields select {
+  width: 100%;
+  min-height: 41px;
+  margin-top: 6px;
+  padding: 0 10px;
+  border: 1px solid #2d3d49;
+  background: #0b1117;
+  color: #778895;
+}
+
+.join-notice {
+  margin: 17px 0;
+  padding: 12px 14px;
+  border-left: 2px solid #f2a13d;
+  background: rgba(242,161,61,.045);
+  color: #8999a5;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.join-disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+/* Make the route length immediately visible on the route map HUD. */
+#route-map-distance {
+  padding: 8px 12px !important;
+  border-color: rgba(242,161,61,.58) !important;
+  background: rgba(18,14,9,.84) !important;
+  color: #f5b45e !important;
+  font-size: 17px !important;
+  font-weight: 900 !important;
+  letter-spacing: .095em !important;
+}
+
+/* Earlier route-map prototype left vertical compass labels in some builds. */
+.route-3d-compass .compass-dir.up,
+.route-3d-compass .compass-dir.down {
+  display: none !important;
+}
+
+@media(max-width:1000px) {
+  .status-grid {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+  .protocol-grid {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:650px) {
+  .status-heading,
+  .protocol-heading {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .status-grid,
+  .protocol-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .join-preview-fields {
+    grid-template-columns: 1fr;
+  }
+
+  #route-map-distance {
+    font-size: 14px !important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  .status-signal span { animation:none; }
+}

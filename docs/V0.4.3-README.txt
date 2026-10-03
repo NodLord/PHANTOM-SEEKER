@@ -1,0 +1,67 @@
+PHANTOM SEEKER V0.4.3 // PUBLIC EXPEDITION INFO
+
+HOME
+----
+Adds, without modifying the locked expedition narrative:
+- EXPEDITION STATUS
+- target departure: ~1 month
+- final date: TBA
+- registered commanders: 00
+- expedition carriers: 02
+- JOIN EXPEDITION preview
+- no PENDING / VERIFIED commander states
+- no personal Fleet Carrier registration field
+- PARTICIPATION PROTOCOL
+- Fleetcomm Private Group rule
+- only USS Frank's Pharmacy + VVV Marigold's Reach are expedition carriers
+- short lore/humour rules
+- larger ROUTE 48,668 LY display on the route map HUD
+- removes leftover UP/DOWN labels from the HOME route compass if present
+
+The JOIN EXPEDITION button is a preview only in V0.4.3.
+It does NOT fake a registration locally. V0.5 will connect it to the backend.
+When registration goes live, a submitted commander joins the manifest directly.
+There is no approval queue.
+
+PHANTOM GRID
+------------
+Adds dynamic labels to the actual visible HEN-local axes:
+- NORTH +Z
+- SOUTH -Z
+- EAST +X
+- WEST -X
+- UP +Y
+- DOWN -Y
+
+The labels follow the existing Three.js camera as the commander rotates the Grid.
+The main Phantom Grid app.js is NOT modified.
+
+FILES TO REPLACE
+----------------
+- /js/home.js
+- /grid.html
+
+FILES TO ADD
+------------
+- /css/v043.css
+- /css/grid-v043.css
+- /js/grid-v043-preload.js
+- /js/grid-v043.js
+
+DO NOT REPLACE
+--------------
+- /index.html
+- /css/home.css
+- /css/style.css
+- /js/route-map.js
+- /js/app.js
+- any data files
+
+DEPLOYMENT
+----------
+1. Upload/replace the files at the exact paths above.
+2. Commit.
+3. Wait for Pages build and deployment to turn green.
+4. Ctrl+F5 both:
+   /PHANTOM-SEEKER/index.html
+   /PHANTOM-SEEKER/grid.html

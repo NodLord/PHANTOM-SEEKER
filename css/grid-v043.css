@@ -1,0 +1,65 @@
+
+/* PHANTOM GRID V0.4.3 // DYNAMIC AXIS ORIENTATION */
+
+.viewport-wrap {
+  position: relative;
+}
+
+.grid-axis-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.grid-axis-label {
+  position: absolute;
+  transform: translate(-50%,-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  min-width: 48px;
+  padding: 4px 6px;
+  border: 1px solid rgba(70,89,104,.48);
+  background: rgba(5,9,13,.72);
+  backdrop-filter: blur(4px);
+  text-align: center;
+  transition: opacity .12s linear;
+}
+
+.grid-axis-label strong {
+  font-size: 9px;
+  line-height: 1;
+  letter-spacing: .11em;
+}
+
+.grid-axis-label span {
+  font-size: 8px;
+  line-height: 1;
+  color: #6e7f8d;
+  letter-spacing: .08em;
+}
+
+.grid-axis-label.axis-x strong {
+  color: #d68a8a;
+}
+
+.grid-axis-label.axis-y strong {
+  color: #8bd194;
+}
+
+.grid-axis-label.axis-z strong {
+  color: #91a9ec;
+}
+
+@media(max-width:900px) {
+  .grid-axis-label {
+    min-width: 41px;
+    padding: 3px 5px;
+  }
+
+  .grid-axis-label strong { font-size: 8px; }
+  .grid-axis-label span { font-size: 7px; }
+}
