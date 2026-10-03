@@ -171,7 +171,10 @@ function makeGlowPoints(color, sizePx, opacity) {
     opacity,
     alphaTest: 0.001,
     depthWrite: false,
-    depthTest: true,
+
+    // Bloom is a light contribution, not physical geometry. Keep it above
+    // wire shells/permit lines so those lines don't slice the halo apart.
+    depthTest: false,
     blending: THREE.AdditiveBlending,
     sizeAttenuation: false,
     fog: false,
@@ -179,6 +182,8 @@ function makeGlowPoints(color, sizePx, opacity) {
 
   const points = new THREE.Points(geometry, material);
   points.frustumCulled = false;
+  points.renderOrder = 120;
+  points.userData.baseGlowOpacity = opacity;
   return points;
 }
 
@@ -191,6 +196,35 @@ const brainGlowOuter = makeGlowPoints(COLORS.brain, 32, 0.13);
 const brainGlowInner = makeGlowPoints(COLORS.brain, 12, 0.38);
 
 root.add(guardianGlowOuter, guardianGlowInner, brainGlowOuter, brainGlowInner);
+
+// Bloom looks stronger when zoomed out because thousands of screen-space
+// halos overlap into the same pixels. Counter that mathematically so the
+// perceived intensity stays close to the "close camera" look.
+//
+// Around 620 ly camera distance = reference appearance (the preferred look).
+// Beyond that, opacity falls approximately with projected density (1/d²).
+const BLOOM_REFERENCE_DISTANCE = 620;
+
+function updateBloomForCamera() {
+  const distance = camera.position.distanceTo(controls.target);
+  const densityCompensation = THREE.MathUtils.clamp(
+    Math.pow(BLOOM_REFERENCE_DISTANCE / Math.max(distance, 1), 2.0),
+    0.16,
+    1.0
+  );
+
+  const layers = [
+    guardianGlowOuter,
+    guardianGlowInner,
+    brainGlowOuter,
+    brainGlowInner,
+  ];
+
+  for (const layer of layers) {
+    const base = Number(layer.userData.baseGlowOpacity || 0);
+    layer.material.opacity = base * densityCompensation;
+  }
+}
 
 function rebuildGlowGeometry(points, meshes) {
   const positions = [];
@@ -268,7 +302,7 @@ for (let i = 0; i < 30; i++) {
     map: nebulaTextures[i % nebulaTextures.length],
     color: nebulaPalette[i % nebulaPalette.length],
     transparent: true,
-    opacity: 0.18 + dustRand() * 0.13,
+    opacity: 0.085 + dustRand() * 0.065,
     depthTest: true,
     depthWrite: false,
     blending: THREE.AdditiveBlending,
@@ -278,9 +312,10 @@ for (let i = 0; i < 30; i++) {
 
   const sprite = new THREE.Sprite(material);
 
-  const radius = 650 + dustRand() * 620;
+  // Clouds remain deliberately farther away than the embedded stars.
+  const radius = 900 + dustRand() * 650;
   const angle = dustRand() * Math.PI * 2;
-  const elevation = (dustRand() - 0.5) * 0.82;
+  const elevation = (dustRand() - 0.5) * 0.90;
 
   sprite.position.set(
     Math.cos(angle) * radius,
@@ -288,7 +323,7 @@ for (let i = 0; i < 30; i++) {
     Math.sin(angle) * radius
   );
 
-  const scale = 300 + dustRand() * 360;
+  const scale = 330 + dustRand() * 390;
   sprite.scale.set(scale * (1.10 + dustRand() * 0.42), scale, 1);
   sprite.material.rotation = dustRand() * Math.PI * 2;
   sprite.renderOrder = -100;
@@ -338,7 +373,7 @@ function addDustStars({
     depthTest: true,
     blending: THREE.AdditiveBlending,
     sizeAttenuation: false,
-    fog: true,
+    fog: false,
   });
 
   const points = new THREE.Points(geometry, material);
@@ -348,19 +383,19 @@ function addDustStars({
 }
 
 addDustStars({
-  seed: 1309, count: 1250,
-  radiusMin: 600, radiusMax: 1120,
-  flattenY: 0.22,
-  sizePx: 2.7, opacity: 0.24,
-  color: 0xa8b7c4, phase: 0.2,
+  seed: 1309, count: 1650,
+  radiusMin: 500, radiusMax: 980,
+  flattenY: 0.20,
+  sizePx: 3.0, opacity: 0.40,
+  color: 0xb7c7d4, phase: 0.2,
 });
 
 addDustStars({
-  seed: 9091, count: 850,
-  radiusMin: 740, radiusMax: 1320,
-  flattenY: 0.31,
-  sizePx: 4.5, opacity: 0.12,
-  color: 0x869db0, phase: 1.1,
+  seed: 9091, count: 1050,
+  radiusMin: 580, radiusMax: 1080,
+  flattenY: 0.27,
+  sizePx: 4.4, opacity: 0.22,
+  color: 0x91a9bc, phase: 1.1,
 });
 
 function makeWireSphere(radius, color, opacity=0.18) {
@@ -1045,9 +1080,12 @@ function animate() {
   requestAnimationFrame(animate);
   controls.update();
 
-  // Slow, visible orbital drift around HEN 2-333.
-  spaceDust.rotation.y += 0.00012;
-  spaceDust.rotation.x += 0.000018;
+  // Bloom compensation follows camera distance continuously.
+  updateBloomForCamera();
+
+  // Slightly faster orbital drift around HEN 2-333.
+  spaceDust.rotation.y += 0.00018;
+  spaceDust.rotation.x += 0.000026;
 
   renderer.render(scene, camera);
 }

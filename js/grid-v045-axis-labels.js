@@ -80,7 +80,10 @@ if (!window.__PHANTOM_GRID_AXIS_LABELS_V048__) {
 
     const sprite = new THREE.Sprite(material);
     sprite.scale.set(scaleX, scaleY, 1);
-    sprite.renderOrder = forceTop ? 1000000 : 0;
+    // Normal compass labels draw after the glow pass, but because their
+    // depthTest remains enabled they can still be naturally occluded by
+    // nearer 3D geometry. WP9 keeps absolute priority.
+    sprite.renderOrder = forceTop ? 1000000 : 300;
     sprite.frustumCulled = false;
     return sprite;
   }

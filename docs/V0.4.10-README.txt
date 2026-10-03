@@ -1,0 +1,46 @@
+PHANTOM SEEKER V0.4.10 // BLOOM NORMALIZATION + SPACE DUST TUNING
+
+BLOOM
+=====
+- Bloom now compensates dynamically for camera distance.
+- Reference look is calibrated around ~620 ly camera distance.
+- When zooming out, bloom opacity is reduced approximately with 1/d².
+- When zooming in, bloom never becomes stronger than the chosen reference look.
+- Result: the global glow should remain much closer to the preferred close-up screenshot.
+
+DEPTH / SHELLS
+==============
+- Guardian and Brain Tree bloom now use depthTest=false.
+- Bloom renders AFTER wire shells / permit geometry.
+- Permit-zone and LY-shell wireframes should no longer cut hard black lines through the glow.
+- Original Guardian / Brain Tree markers remain true 3D geometry.
+
+SPACE DUST
+==========
+STARS:
+- moved closer toward HEN
+- more numerous
+- brighter
+- slightly sharper
+- less fog attenuation
+
+CLOUDS:
+- moved farther from HEN
+- substantially reduced opacity
+- remain broad and diffuse
+
+MOTION:
+- orbital drift increased from 0.00012 to 0.00018 rad/frame
+
+COMPASS / WP9
+=============
+- WP9 remains absolute top priority.
+- Compass labels render after glow but still use depth testing, so real nearby geometry can occlude them.
+
+FILES TO REPLACE
+================
+- /grid.html
+- /js/app.js
+- /js/grid-v045-axis-labels.js
+
+No HOME or survey-data files are changed.
