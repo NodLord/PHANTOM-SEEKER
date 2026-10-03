@@ -1,0 +1,42 @@
+PHANTOM SEEKER V0.4.7 // MINIMAL NAV LABELS + WP9
+
+CHANGES
+=======
+1. Navigation labels redesigned:
+   - no rectangles
+   - no background
+   - no borders
+   - no +X / -X / +Y / -Y / +Z / -Z text
+   - NORTH / SOUTH / EAST / WEST / UP / DOWN only
+   - white/grey text
+   - subtle black shadow
+
+2. Proper 3D depth:
+   - label depthTest is ON
+   - forced renderOrder was removed
+   - nearer Guardian markers, Brain Trees, shells and other geometry can render in front
+   - labels still use Sprite objects, so the text always faces the camera
+
+3. Brain Tree marker default:
+   - 0.80x instead of 1.00x
+   - slider and readout both start at 0.80x
+   - app.js internal initial scale is also 0.80
+
+4. WP9 marker label:
+   - adds a minimalist `WP9` sprite at Graea Hypue QL-V b19-15
+   - cyan #66d9ff, exactly the Guardian marker color used by app.js
+   - positioned from the system's HEN-local galactic coordinates
+   - small vertical offset keeps the label readable beside the Guardian marker
+
+FILES TO REPLACE
+================
+- /grid.html
+- /js/app.js
+- /js/grid-v045-axis-labels.js
+
+No HOME files or data files are modified.
+
+DEPLOYMENT
+==========
+Upload/replace those three files at the exact paths above.
+Commit, wait for GitHub Pages deployment to turn green, then Ctrl+F5 Phantom Grid.

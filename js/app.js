@@ -44,7 +44,7 @@ let systems = [];
 let guardians = [];
 let brains = [];
 
-let brainMarkerScale = 1.0;
+let brainMarkerScale = 0.80;
 const brainVariantsEnabled = new Set([
   "Roseum Brain Tree","Gypseeum Brain Tree","Ostrinum Brain Tree","Viride Brain Tree",
   "Lividum Brain Tree","Aureum Brain Tree","Puniceum Brain Tree","Lindigoticum Brain Tree"
