@@ -1,0 +1,262 @@
+/* =========================================================
+   PHANTOM GRID V0.4.11 // FINAL VISUAL POLISH
+   ========================================================= */
+
+/* ---------- Header geometry ---------- */
+
+.topbar {
+  padding-left: 16px;
+}
+
+.brand-lockup {
+  gap: 16px;
+}
+
+.expedition-logo {
+  width: 100px;
+  height: 100px;
+  flex-basis: 100px;
+  object-position: center;
+}
+
+/* The divider now terminates exactly at the expedition title. */
+.mission-line {
+  align-self: flex-start;
+  width: fit-content;
+  max-width: 100%;
+  gap: 0;
+}
+
+.carrier-caption {
+  display: none !important;
+}
+
+.survey-title strong {
+  color: var(--amber);
+  font-weight: 800;
+  text-shadow: 0 0 10px rgba(244,163,64,.12);
+}
+
+/* ---------- PHANTOM GRID glitch ----------
+   Near-permanent micro-corruption. Detailed rather than violent:
+   small RGB separation, many short horizontal slices, slight jitter. */
+
+.grid-title {
+  text-shadow:
+    -0.8px 0 rgba(0,220,255,.26),
+     0.8px 0 rgba(255,45,58,.20),
+     0 0 13px rgba(102,217,255,.10);
+  animation: pg-v0411-base 3.15s infinite steps(1,end);
+}
+
+.glitch-title::before,
+.glitch-title::after {
+  opacity: .15;
+  will-change: transform, clip-path, opacity;
+}
+
+.glitch-title::before {
+  text-shadow:
+    -2px 0 0 rgba(0,220,255,.72),
+     1px 0 0 rgba(255,45,58,.24);
+  animation: pg-v0411-cyan 2.85s infinite steps(1,end);
+}
+
+.glitch-title::after {
+  text-shadow:
+     2px 0 0 rgba(255,45,58,.62),
+    -1px 0 0 rgba(0,220,255,.28);
+  animation: pg-v0411-red 3.05s infinite steps(1,end);
+}
+
+@keyframes pg-v0411-base {
+  0%   { transform:translate(0,0); filter:none; }
+  7%   { transform:translate(-.35px,0); }
+  13%  { transform:translate(.35px,0); }
+  19%  { transform:translate(0,0) skewX(-.12deg); }
+  27%  { transform:translate(.45px,0); }
+  34%  { transform:translate(-.35px,0); }
+  41%  { transform:translate(0,0); }
+  49%  { transform:translate(-.45px,0) skewX(.10deg); }
+  58%  { transform:translate(.35px,0); }
+  66%  { transform:translate(0,0); }
+  74%  { transform:translate(.45px,0) skewX(-.10deg); }
+  83%  { transform:translate(-.35px,0); }
+  91%  { transform:translate(.25px,0); }
+  100% { transform:translate(0,0); }
+}
+
+@keyframes pg-v0411-cyan {
+  0%   { opacity:.13; transform:translate(-1px,0); clip-path:inset(4% 0 83% 0); }
+  6%   { opacity:.22; transform:translate(-2px,0); clip-path:inset(16% 0 70% 0); }
+  12%  { opacity:.15; transform:translate(1px,0);  clip-path:inset(31% 0 57% 0); }
+  18%  { opacity:.25; transform:translate(-1px,0); clip-path:inset(48% 0 39% 0); }
+  25%  { opacity:.16; transform:translate(1px,0);  clip-path:inset(66% 0 23% 0); }
+  31%  { opacity:.20; transform:translate(-2px,0); clip-path:inset(78% 0 9% 0); }
+  38%  { opacity:.11; transform:translate(0,0);   clip-path:inset(9% 0 76% 0); }
+  45%  { opacity:.27; transform:translate(-2px,0); clip-path:inset(24% 0 62% 0); }
+  53%  { opacity:.14; transform:translate(1px,0);  clip-path:inset(41% 0 45% 0); }
+  61%  { opacity:.23; transform:translate(-1px,0); clip-path:inset(58% 0 28% 0); }
+  69%  { opacity:.17; transform:translate(1px,0);  clip-path:inset(73% 0 14% 0); }
+  77%  { opacity:.29; transform:translate(-2px,0); clip-path:inset(35% 0 51% 0); }
+  85%  { opacity:.14; transform:translate(1px,0);  clip-path:inset(54% 0 34% 0); }
+  93%  { opacity:.22; transform:translate(-1px,0); clip-path:inset(13% 0 73% 0); }
+  100% { opacity:.13; transform:translate(-1px,0); clip-path:inset(4% 0 83% 0); }
+}
+
+@keyframes pg-v0411-red {
+  0%   { opacity:.11; transform:translate(1px,0);  clip-path:inset(84% 0 4% 0); }
+  8%   { opacity:.20; transform:translate(2px,0);  clip-path:inset(69% 0 18% 0); }
+  15%  { opacity:.13; transform:translate(-1px,0); clip-path:inset(55% 0 32% 0); }
+  22%  { opacity:.24; transform:translate(1px,0);  clip-path:inset(38% 0 49% 0); }
+  29%  { opacity:.15; transform:translate(-1px,0); clip-path:inset(21% 0 65% 0); }
+  36%  { opacity:.19; transform:translate(2px,0);  clip-path:inset(7% 0 80% 0); }
+  44%  { opacity:.12; transform:translate(0,0);    clip-path:inset(76% 0 10% 0); }
+  52%  { opacity:.26; transform:translate(2px,0);  clip-path:inset(61% 0 25% 0); }
+  60%  { opacity:.14; transform:translate(-1px,0); clip-path:inset(44% 0 42% 0); }
+  68%  { opacity:.21; transform:translate(1px,0);  clip-path:inset(28% 0 58% 0); }
+  76%  { opacity:.14; transform:translate(-1px,0); clip-path:inset(12% 0 74% 0); }
+  84%  { opacity:.25; transform:translate(2px,0);  clip-path:inset(49% 0 37% 0); }
+  92%  { opacity:.13; transform:translate(-1px,0); clip-path:inset(70% 0 17% 0); }
+  100% { opacity:.11; transform:translate(1px,0);  clip-path:inset(84% 0 4% 0); }
+}
+
+/* ---------- Custom tactical checkboxes ---------- */
+
+.controls input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+  margin: 0;
+  border: 1px solid #556370;
+  border-radius: 2px;
+  background: #111820;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.015);
+  cursor: pointer;
+}
+
+.controls input[type="checkbox"]:hover {
+  border-color: #82909d;
+}
+
+.controls input[type="checkbox"]:checked {
+  border-color: #8795a2;
+  background: #151e27;
+}
+
+.controls input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 0px;
+  width: 5px;
+  height: 9px;
+  border: solid #f2f5f7;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.controls input[type="checkbox"]:focus-visible {
+  outline: 1px solid var(--amber);
+  outline-offset: 2px;
+}
+
+/* ---------- Custom tactical range sliders ---------- */
+
+.controls input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 18px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.controls input[type="range"]::-webkit-slider-runnable-track {
+  height: 5px;
+  border: 1px solid #35424e;
+  border-radius: 0;
+  background: #111820;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.55);
+}
+
+.controls input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 15px;
+  margin-top: -6px;
+  border: 1px solid #dfe5ea;
+  border-radius: 1px;
+  background: #eef2f5;
+  box-shadow: 0 0 5px rgba(238,242,245,.16);
+}
+
+.controls input[type="range"]::-moz-range-track {
+  height: 5px;
+  border: 1px solid #35424e;
+  border-radius: 0;
+  background: #111820;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.55);
+}
+
+.controls input[type="range"]::-moz-range-progress {
+  height: 5px;
+  background: #cfd7de;
+}
+
+.controls input[type="range"]::-moz-range-thumb {
+  width: 10px;
+  height: 15px;
+  border: 1px solid #dfe5ea;
+  border-radius: 1px;
+  background: #eef2f5;
+  box-shadow: 0 0 5px rgba(238,242,245,.16);
+}
+
+.controls input[type="range"]:focus-visible {
+  outline: 1px solid var(--amber);
+  outline-offset: 2px;
+}
+
+/* ---------- Responsive header ---------- */
+
+@media (max-width: 980px) {
+  .expedition-logo {
+    width: 82px;
+    height: 82px;
+    flex-basis: 82px;
+  }
+}
+
+@media (max-width: 680px) {
+  .topbar {
+    padding-left: 14px;
+  }
+
+  .brand-lockup {
+    gap: 14px;
+  }
+
+  .expedition-logo {
+    width: 70px;
+    height: 70px;
+    flex-basis: 70px;
+  }
+
+  .mission-line {
+    width: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grid-title,
+  .glitch-title::before,
+  .glitch-title::after {
+    animation: none !important;
+  }
+}

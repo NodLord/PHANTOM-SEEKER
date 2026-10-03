@@ -9,6 +9,7 @@
   <link rel="icon" href="data:,">
 
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/grid-v0411.css">
 
   <script type="importmap">
   {
@@ -28,7 +29,6 @@
       <div class="brand-copy">
         <div class="mission-line">
           <div class="mission-title">EXPEDITION PHANTOM SEEKER <span>// VVV SQUAD</span></div>
-          <div class="carrier-caption">Main Fleet Carrier : <strong>USS FRANK'S PHARMACY</strong></div>
         </div>
 
         <div class="grid-line">
@@ -44,7 +44,7 @@
       <span class="disabled" title="Coming soon">PHANTOM LINK // COMING SOON</span>
     </nav>
 
-    <div class="status-pill"><span class="status-dot"></span> PUBLIC GRID V0.4.10</div>
+    <div class="status-pill"><span class="status-dot"></span> PUBLIC GRID V0.4.11</div>
   </header>
 
   <main class="layout">
@@ -111,7 +111,7 @@
         <div><span class="legend-mark hen"></span> HEN 2-333</div>
         <div><span class="legend-mark guardian"></span> Guardian system</div>
         <div><span class="legend-mark brain"></span> Brain Tree system</div>
-        <p>Axes use HEN-local galactic coordinates. Decorative stars are deliberately absent.</p>
+        <p>Axes use HEN-local galactic coordinates. Background haze and distant stars are decorative.</p>
       </section>
     </aside>
 
@@ -178,7 +178,7 @@
       await import("./js/grid-v045-axis-labels.js");
       await import("./js/app.js");
     } catch (error) {
-      console.error("PHANTOM GRID V0.4.5 module chain failed:", error);
+      console.error("PHANTOM GRID V0.4.11 module chain failed:", error);
       const box = document.getElementById("loadError");
       if (box) {
         box.hidden = false;

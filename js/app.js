@@ -1083,9 +1083,12 @@ function animate() {
   // Bloom compensation follows camera distance continuously.
   updateBloomForCamera();
 
-  // Slightly faster orbital drift around HEN 2-333.
+  // Keep the distant galactic haze aligned with the X/Z galactic plane.
+  // Rotate ONLY around galactic Y so the dust disk remains coplanar with
+  // the flat central GridHelper while still drifting around HEN 2-333.
+  spaceDust.rotation.x = 0;
+  spaceDust.rotation.z = 0;
   spaceDust.rotation.y += 0.00018;
-  spaceDust.rotation.x += 0.000026;
 
   renderer.render(scene, camera);
 }

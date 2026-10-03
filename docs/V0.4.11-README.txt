@@ -1,0 +1,51 @@
+PHANTOM SEEKER V0.4.11 // GRID FINAL POLISH
+
+HEADER
+======
+- Removed `Main Fleet Carrier : USS FRANK'S PHARMACY`.
+- The divider below the expedition title now stops exactly at the end of that title.
+- `HEN 2-333` in `// SURVEY REGION` is now expedition amber/orange.
+- Expedition logo increased from 92px to 100px.
+- Left padding and logo/text gap are both 16px for balanced spacing.
+- PHANTOM GRID glitch is now near-continuous, finer and more detailed rather than more violent.
+
+AXIS LABELS
+===========
+- NORTH / SOUTH / EAST / WEST / UP / DOWN are slightly larger.
+- WP9 is unchanged.
+
+CONTROLS
+========
+- Native white browser checkboxes replaced by dark tactical checkboxes with a white check.
+- Brain Tree and Range sliders now use dark tracks and white control thumbs.
+- No bright native browser UI remains in these controls.
+
+GALACTIC BACKGROUND
+===================
+- No density, colour, opacity, cloud, star, bloom, distance or speed settings changed.
+- ONLY the inclination behavior changed.
+- Space dust is hard-locked to rotation X=0 and Z=0.
+- It continues rotating at the same V0.4.10 speed around Y.
+- Therefore the dust/nebula disk remains coplanar with the flat X/Z GridHelper and galactic plane.
+
+SMALL TEXT CORRECTION
+=====================
+The Legend no longer says decorative stars are absent:
+`Background haze and distant stars are decorative.`
+
+FILES TO REPLACE
+================
+- /grid.html
+- /js/app.js
+- /js/grid-v045-axis-labels.js
+
+FILE TO ADD
+===========
+- /css/grid-v0411.css
+
+Do not replace style.css or any HOME/data files.
+
+DEPLOYMENT
+==========
+Upload/replace those files at the exact paths above.
+Commit, wait for GitHub Pages deployment to turn green, then Ctrl+F5 Phantom Grid.

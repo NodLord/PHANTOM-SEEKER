@@ -108,10 +108,10 @@ if (!window.__PHANTOM_GRID_AXIS_LABELS_V048__) {
 
     for (const def of directions) {
       const sprite = makeTextSprite(def.text, "#c8d0d6", {
-        fontSize: 44,
-        scaleX: def.text.length > 4 ? 56 : 42,
-        scaleY: 14,
-        shadowBlur: 9,
+        fontSize: 50,
+        scaleX: def.text.length > 4 ? 62 : 48,
+        scaleY: 16,
+        shadowBlur: 10,
         forceTop: false,
       });
       sprite.position.set(...def.pos);
