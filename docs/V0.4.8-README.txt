@@ -1,0 +1,50 @@
+PHANTOM SEEKER V0.4.8 // GLOW + DISTANT SPACE DUST + WP9 PRIORITY
+
+CHANGES
+=======
+1. WP9
+- artificial display priority enabled
+- depthTest OFF for WP9 only
+- renderOrder set very high
+- text is more than 2x larger than V0.4.7
+- cyan bloom baked directly into the transparent WP9 sprite
+- color remains #66d9ff, matching Guardian sites
+
+2. GUARDIAN BLOOM
+- cyan additive glow around Guardian systems
+- all Guardian glow points are batched in ONE Points object
+- depth testing remains active
+
+3. BRAIN TREE BLOOM
+- subtle green additive glow around Brain Tree systems
+- all Brain Tree glow points are batched in ONE Points object
+- respects Brain Tree variant filters, range filter and layer visibility
+- default Brain Tree marker size remains 0.80x
+
+4. DISTANT SPACE DUST
+- three very low-opacity distant stellar-cloud layers
+- located well outside the main 400 ly survey sphere
+- soft diffuse point textures, fogged and depth-aware
+- extremely slow rotation around HEN 2-333
+- deterministic seeded layout: it does not reshuffle on every reload
+
+PERFORMANCE
+===========
+This deliberately avoids a full post-processing UnrealBloomPass.
+Guardian bloom = 1 draw call.
+Brain Tree bloom = 1 draw call.
+Space dust = 3 draw calls.
+This keeps the public GitHub Pages version much lighter.
+
+FILES TO REPLACE
+================
+- /grid.html
+- /js/app.js
+- /js/grid-v045-axis-labels.js
+
+No HOME files or survey data files are changed.
+
+DEPLOYMENT
+==========
+Upload/replace those three files, commit, wait for GitHub Pages to turn green,
+then Ctrl+F5 Phantom Grid.

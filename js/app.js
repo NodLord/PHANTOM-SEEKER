@@ -57,6 +57,7 @@ function applyBrainFilters() {
     mesh.visible = matchesVariant && withinRange;
     mesh.scale.setScalar(brainMarkerScale);
   });
+  refreshBrainGlow();
 }
 
 
@@ -72,6 +73,197 @@ const COLORS = {
   axisY: 0x7eb985,
   axisZ: 0x7f92c7,
 };
+
+// ---------------------------------------------------------------------------
+// V0.4.8 VISUAL EFFECTS
+// Lightweight glow layers are used instead of a full post-processing bloom
+// pipeline. Guardian and Brain Tree glows are batched into one Points draw
+// call per layer, keeping the public Grid reasonably light.
+// ---------------------------------------------------------------------------
+
+function makeSoftGlowTexture(size = 128) {
+  const canvas = document.createElement("canvas");
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext("2d");
+
+  const c = size / 2;
+  const grad = ctx.createRadialGradient(c, c, 0, c, c, c);
+  grad.addColorStop(0.00, "rgba(255,255,255,1.00)");
+  grad.addColorStop(0.14, "rgba(255,255,255,0.72)");
+  grad.addColorStop(0.38, "rgba(255,255,255,0.22)");
+  grad.addColorStop(0.72, "rgba(255,255,255,0.055)");
+  grad.addColorStop(1.00, "rgba(255,255,255,0.00)");
+
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, size, size);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.minFilter = THREE.LinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+  texture.generateMipmaps = false;
+  return texture;
+}
+
+const glowTexture = makeSoftGlowTexture();
+
+let guardianGlowPoints = null;
+let brainGlowPoints = null;
+
+function makeGlowPoints(color, size, opacity) {
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.Float32BufferAttribute([], 3));
+
+  const material = new THREE.PointsMaterial({
+    color,
+    size,
+    map: glowTexture,
+    transparent: true,
+    opacity,
+    alphaTest: 0.001,
+    depthWrite: false,
+    depthTest: true,
+    blending: THREE.AdditiveBlending,
+    sizeAttenuation: true,
+    fog: true,
+  });
+
+  const points = new THREE.Points(geometry, material);
+  points.frustumCulled = false;
+  return points;
+}
+
+guardianGlowPoints = makeGlowPoints(COLORS.guardian, 16.0, 0.30);
+brainGlowPoints = makeGlowPoints(COLORS.brain, 6.0, 0.16);
+guardianGlowPoints.name = "guardian-bloom";
+brainGlowPoints.name = "brain-tree-bloom";
+root.add(guardianGlowPoints, brainGlowPoints);
+
+function rebuildGlowGeometry(points, meshes) {
+  const positions = [];
+  for (const mesh of meshes) {
+    if (!mesh?.isMesh || !mesh.visible) continue;
+    positions.push(mesh.position.x, mesh.position.y, mesh.position.z);
+  }
+  points.geometry.dispose();
+  points.geometry = new THREE.BufferGeometry();
+  points.geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+  points.geometry.computeBoundingSphere();
+}
+
+function refreshGuardianGlow() {
+  if (!guardianGlowPoints) return;
+  guardianGlowPoints.visible = groups.guardian.visible;
+  rebuildGlowGeometry(guardianGlowPoints, groups.guardian.children);
+}
+
+function refreshBrainGlow() {
+  if (!brainGlowPoints) return;
+  brainGlowPoints.visible = groups.brain.visible;
+  rebuildGlowGeometry(brainGlowPoints, groups.brain.children);
+}
+
+// ---------------------------------------------------------------------------
+// DISTANT SPACE DUST
+// Stylised, low-opacity stellar haze well outside the 400 ly survey sphere.
+// It rotates extremely slowly around HEN 2-333 and is deliberately subtle.
+// ---------------------------------------------------------------------------
+
+function seededRandom(seed = 3090) {
+  let s = seed >>> 0;
+  return () => {
+    s = (s * 1664525 + 1013904223) >>> 0;
+    return s / 4294967296;
+  };
+}
+
+function gaussian(rand) {
+  const u = Math.max(rand(), 1e-7);
+  const v = Math.max(rand(), 1e-7);
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+
+const spaceDust = new THREE.Group();
+spaceDust.name = "distant-space-dust";
+root.add(spaceDust);
+
+function addDustCloud({
+  seed,
+  count,
+  radiusMin,
+  radiusMax,
+  flattenY,
+  size,
+  opacity,
+  color,
+  phase = 0,
+}) {
+  const rand = seededRandom(seed);
+  const positions = new Float32Array(count * 3);
+
+  for (let i = 0; i < count; i++) {
+    // Broad shell distribution with soft clumping into several stellar clouds.
+    const radius = radiusMin + (radiusMax - radiusMin) * Math.pow(rand(), 0.72);
+    const cloud = i % 5;
+    const base = phase + cloud * (Math.PI * 2 / 5);
+    const angle = base + gaussian(rand) * 0.46;
+    const elevation = gaussian(rand) * flattenY;
+
+    const x = Math.cos(angle) * radius + gaussian(rand) * 80;
+    const z = Math.sin(angle) * radius + gaussian(rand) * 80;
+    const y = elevation * radius + gaussian(rand) * 38;
+
+    positions[i*3] = x;
+    positions[i*3+1] = y;
+    positions[i*3+2] = z;
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+
+  const material = new THREE.PointsMaterial({
+    color,
+    size,
+    map: glowTexture,
+    transparent: true,
+    opacity,
+    alphaTest: 0.002,
+    depthWrite: false,
+    depthTest: true,
+    blending: THREE.AdditiveBlending,
+    sizeAttenuation: true,
+    fog: true,
+  });
+
+  const points = new THREE.Points(geometry, material);
+  points.frustumCulled = false;
+  spaceDust.add(points);
+}
+
+addDustCloud({
+  seed: 1309, count: 900,
+  radiusMin: 560, radiusMax: 980,
+  flattenY: 0.20,
+  size: 8.0, opacity: 0.045,
+  color: 0x91a5b8, phase: 0.2,
+});
+
+addDustCloud({
+  seed: 9091, count: 650,
+  radiusMin: 700, radiusMax: 1180,
+  flattenY: 0.28,
+  size: 13.0, opacity: 0.025,
+  color: 0x738da5, phase: 1.1,
+});
+
+addDustCloud({
+  seed: 4117, count: 420,
+  radiusMin: 820, radiusMax: 1320,
+  flattenY: 0.34,
+  size: 19.0, opacity: 0.014,
+  color: 0x65798d, phase: 2.35,
+});
 
 function makeWireSphere(radius, color, opacity=0.18) {
   const geo = new THREE.SphereGeometry(radius, 28, 18);
@@ -314,8 +506,14 @@ document.getElementById("layerPermit").addEventListener("change", e => {
 document.getElementById("layer150").addEventListener("change", e => shell150.visible = e.target.checked);
 document.getElementById("layer300").addEventListener("change", e => shell300.visible = e.target.checked);
 document.getElementById("layer400").addEventListener("change", e => shell400.visible = e.target.checked);
-document.getElementById("layerGuardian").addEventListener("change", e => groups.guardian.visible = e.target.checked);
-document.getElementById("layerBrain").addEventListener("change", e => groups.brain.visible = e.target.checked);
+document.getElementById("layerGuardian").addEventListener("change", e => {
+  groups.guardian.visible = e.target.checked;
+  refreshGuardianGlow();
+});
+document.getElementById("layerBrain").addEventListener("change", e => {
+  groups.brain.visible = e.target.checked;
+  refreshBrainGlow();
+});
 
 const rangeMax = document.getElementById("rangeMax");
 rangeMax.addEventListener("input", () => {
@@ -326,6 +524,7 @@ rangeMax.addEventListener("input", () => {
     mesh.visible = Number(mesh.userData.distanceFromHen) <= max;
   });
   applyBrainFilters();
+  refreshGuardianGlow();
 });
 
 
@@ -717,6 +916,8 @@ async function loadData() {
     guardians.forEach(addGuardian);
     brains.forEach(addBrain);
     applyBrainFilters();
+    refreshGuardianGlow();
+    refreshBrainGlow();
 
     const btRecords = brains.reduce((n,x) => n + Number(x.siteCount || 1), 0);
     const gRecords = guardians.reduce((n,x) => n + Number(x.siteCount || 1), 0);
@@ -745,6 +946,12 @@ await loadData();
 function animate() {
   requestAnimationFrame(animate);
   controls.update();
+
+  // Barely perceptible motion. The background should feel alive without
+  // becoming a screensaver behind the archaeology.
+  spaceDust.rotation.y += 0.000045;
+  spaceDust.rotation.x += 0.000008;
+
   renderer.render(scene, camera);
 }
 animate();
