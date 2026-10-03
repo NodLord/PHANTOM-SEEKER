@@ -1,0 +1,58 @@
+PHANTOM SEEKER V0.4.5 // PHANTOM GRID AXIS LABEL FIX
+
+WHAT WAS WRONG
+==============
+The previous V0.4.4 compass patch used a DOM overlay projected from a camera captured outside app.js.
+That layer was not reliably attaching to the actual Three.js axes in the public Grid.
+
+V0.4.5 removes that mechanism completely.
+
+NEW METHOD
+==========
+NORTH / SOUTH / EAST / WEST / UP / DOWN are now REAL THREE.JS SPRITES.
+
+They are inserted directly into the same Three.js scene as:
+- the HEN permit sphere
+- Guardian markers
+- Brain Tree markers
+- the X/Y/Z axis lines
+
+The labels sit just beyond the real axis endpoints:
+- NORTH  +Z
+- SOUTH  -Z
+- EAST   +X
+- WEST   -X
+- UP     +Y
+- DOWN   -Y
+
+Because they are Three.js sprites:
+- they remain physically attached to the axes while rotating the map
+- they always face the camera
+- they move and zoom with the map
+- they are not screen-corner overlays
+- they remain readable above the survey geometry
+
+FILES TO REPLACE
+================
+- /grid.html
+
+FILE TO ADD
+===========
+- /js/grid-v045-axis-labels.js
+
+The old V0.4.4 files may stay in the repository, but grid.html no longer loads:
+- css/grid-v044.css
+- js/grid-v044-preload.js
+- js/grid-v044.js
+
+DO NOT REPLACE
+==============
+- /js/app.js
+- /css/style.css
+- any data files
+- any HOME files
+
+DEPLOYMENT
+==========
+Upload the two files at the exact paths above, commit, wait for Pages deployment to turn green,
+then Ctrl+F5 Phantom Grid.

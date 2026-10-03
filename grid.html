@@ -9,7 +9,6 @@
   <link rel="icon" href="data:,">
 
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/grid-v044.css">
 
   <script type="importmap">
   {
@@ -45,7 +44,7 @@
       <span class="disabled" title="Coming soon">PHANTOM LINK // COMING SOON</span>
     </nav>
 
-    <div class="status-pill"><span class="status-dot"></span> PUBLIC GRID V0.4.4</div>
+    <div class="status-pill"><span class="status-dot"></span> PUBLIC GRID V0.4.5</div>
   </header>
 
   <main class="layout">
@@ -175,11 +174,11 @@
 
   <script type="module">
     try {
-      await import("./js/grid-v044-preload.js");
+      // Install real Three.js axis labels before the Grid renderer starts.
+      await import("./js/grid-v045-axis-labels.js");
       await import("./js/app.js");
-      await import("./js/grid-v044.js");
     } catch (error) {
-      console.error("PHANTOM GRID V0.4.4 module chain failed:", error);
+      console.error("PHANTOM GRID V0.4.5 module chain failed:", error);
       const box = document.getElementById("loadError");
       if (box) {
         box.hidden = false;
