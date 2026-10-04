@@ -1,0 +1,43 @@
+PHANTOM SEEKER V0.4.24 // DEEP SURVEY FIELD II
+=================================================
+
+BASE
+----
+Incremental patch built from V0.4.23. No Home narrative, Route Map, title/glitch system,
+Phantom Grid, datasets or expedition data were rebuilt.
+
+FILES TO REPLACE
+----------------
+index.html
+
+FILES TO ADD
+------------
+css/home-space-v0424.css
+js/home-space-v0424.js
+docs/V0.4.24-README.txt
+
+DEEP FIELD CHANGES
+------------------
+- Removes the former .scanlines and .noise visual layers completely.
+- Adds a fine animated film-grain lens instead.
+- Deep field keeps the darker blue-grey charcoal palette.
+- Major celestial objects are heavily biased toward the left/right edges to protect text.
+- Galaxies now use pre-rendered logarithmic spiral arm star fields, central bulges and dust lanes.
+- Nebulae now use ten procedural morphologies with cold blue, blue-violet and restrained green variants,
+  filamentary structure and embedded star-grain detail.
+- Top hero scene: middle former left galaxy removed, lower galaxy moved farther down/left,
+  upper-right object becomes a pine-green nebula.
+- Closing scene: left galaxy moved farther left; right galaxy replaced by a larger blue/violet nebula.
+- Solar systems no longer render orbit circles. They show one scintillating star plus 3-6 grey planets
+  moving quickly on invisible elliptical orbits.
+- Ship traffic is now smaller, faster, more detailed and fully 3D-feeling: horizontal, diagonal and
+  receding-horizon trajectories are supported. Each ship leaves a fading engine trail.
+- Three lightweight silhouette families remain: Anaconda-like, Krait-like and Caspian-like.
+- Scroll parallax and autonomous slow drift remain active.
+
+PERFORMANCE
+-----------
+- Galaxy and nebula detail is pre-rendered once into reusable offscreen sprites.
+- Canvas DPR is capped at 1.45.
+- Only a small number of moving ships may be active simultaneously.
+- Film grain updates at ~11 fps using a small repeating tile instead of repainting high-resolution noise.

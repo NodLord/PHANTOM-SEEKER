@@ -1,0 +1,108 @@
+/* =========================================================
+   PHANTOM SEEKER V0.4.24 // DEEP SURVEY FIELD II
+   HOME ONLY — refined deep-space layer.
+
+   Changes from V0.4.23:
+   - removes legacy scanlines and analogue noise completely;
+   - keeps the darker blue-grey void;
+   - upgrades the deep field to detailed spiral galaxies, varied nebulae,
+     star clusters, moving solar systems and faster 3D ship traffic;
+   - adds a fine animated film-grain lens instead of scanlines/noise;
+   - pushes major celestial objects toward page edges to protect readability.
+   ========================================================= */
+
+:root {
+  --phantom-void-0: #010408;
+  --phantom-void-1: #03080d;
+  --phantom-void-2: #06111a;
+}
+
+html,
+body {
+  background: var(--phantom-void-0) !important;
+}
+
+body {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 54% 19%, rgba(25, 43, 56, .17), transparent 42%),
+    radial-gradient(circle at 18% 67%, rgba(16, 33, 46, .12), transparent 39%),
+    linear-gradient(180deg, #04090e 0%, #02070b 51%, #010408 100%) !important;
+}
+
+body::before {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+}
+
+.hero-grid {
+  display: none !important;
+}
+
+.hero::after {
+  background: none !important;
+}
+
+/* Old optical layers are retired in V0.4.24. */
+.scanlines,
+.noise {
+  display: none !important;
+  opacity: 0 !important;
+  background: none !important;
+}
+
+#phantom-deep-field {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: .985;
+  contain: strict;
+}
+
+/* Fine moving grain, intentionally above the page as an optical lens. */
+#phantom-film-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: .145;
+  mix-blend-mode: soft-light;
+  contain: strict;
+}
+
+.site-header,
+main,
+.site-footer {
+  position: relative;
+  z-index: 2;
+}
+
+.section-shell,
+.chapter,
+.final-manifesto {
+  position: relative;
+}
+
+.final-manifesto {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(35, 56, 72, .045), transparent 41%) !important;
+}
+
+@media (max-width: 760px) {
+  #phantom-deep-field { opacity: .88; }
+  #phantom-film-grain { opacity: .11; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #phantom-deep-field { opacity: .90; }
+  #phantom-film-grain { opacity: .08; }
+}
