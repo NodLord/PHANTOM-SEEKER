@@ -1,0 +1,56 @@
+PHANTOM SEEKER V0.4.28 // NEBULA ENGINE
+============================================
+
+BASE
+----
+Incremental patch built directly on V0.4.27.5.
+
+SCOPE
+-----
+This update ONLY overhauls nebula generation/rendering. It intentionally does
+not yet change global spawn balancing, side distribution or celestial density;
+those remain planned for V0.4.29.
+
+NEBULA ENGINE
+-------------
+- Replaces the old soft-cloud sprite generator with cached procedural 2.5D volumes.
+- Every nebula is built once from a deterministic seed as three independent layers:
+  1. distant emission / halo,
+  2. structured gas body,
+  3. foreground ionisation + dark dust + embedded stars.
+- Runtime rendering uses drawImage only; no live blur/raymarching was introduced.
+- Internal layer parallax reacts subtly to scroll/camera movement, giving the
+  impression of depth inside the nebula instead of a flat coloured cloud.
+- Eight morphology families:
+  emission / filament / bubble / bipolar / shell / torn / dark cloud / veil.
+- Twelve cold-biased palettes including cyan, midnight blue, violet, pine green,
+  blue-grey and genuinely dark absorption-cloud variants.
+- Procedural detail includes domain-warped fractal density, ridged structure,
+  cavities, dark dust lanes, high-resolution filaments and sparse embedded stars.
+- Curated Hero/footer nebulae use the same new 2.5D engine.
+
+PERFORMANCE
+-----------
+V0.4.27.3/27.5 Performance Core remains intact:
+- Deep Field and Traffic remain on separate canvases.
+- Deep Field remains adaptive 20-30 FPS.
+- Traffic/FSD stays at display cadence.
+- FSD flash/wake sprites remain cached.
+- No expensive per-frame canvas blur is added.
+
+UNCHANGED
+---------
+- Ship traffic, braking and FSD behaviour from V0.4.27.5.
+- Galaxy engine and rotation.
+- Solar systems.
+- Film grain.
+- Home content, title/glitch system, Route Map and Phantom Grid.
+
+FILES
+-----
+Replace:
+- index.html
+
+Add:
+- js/home-space-v0428.js
+- docs/V0.4.28-README.txt
