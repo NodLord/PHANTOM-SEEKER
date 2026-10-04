@@ -1,0 +1,48 @@
+PHANTOM SEEKER V0.4.15 // STATIC TITLE + FILM-GRAIN SHADOW
+
+GLITCH
+======
+The main white title is now COMPLETELY STATIC:
+- no translate
+- no skew
+- no scale
+- no letter-spacing animation
+- no 2/3-second title jump
+
+Only these elements animate:
+- cyan digital fragments
+- orange digital fragments
+- dark random data-loss rectangles
+- internal grain texture movement
+
+FILM GRAIN
+==========
+Removed the grey transparent rectangle effect.
+
+Film grain is now a SECOND COPY OF THE TITLE:
+- positioned behind the main white title
+- shifted 4px right and 5px down
+- made entirely from a film-grain texture
+- no rectangular background
+- behaves like a textured shadow of the title
+
+DIGITAL GLITCH
+==============
+- colored fragments remain close to the white title
+- orange/cyan stay vivid
+- random erasure rectangles remain
+- same exact effect on:
+  HOME // EXPEDITION PHANTOM SEEKER
+  GRID // PHANTOM GRID
+
+FILES TO REPLACE
+================
+- /index.html
+- /grid.html
+
+FILE TO ADD
+===========
+- /css/glitch-v0415.css
+
+No other files change.
+The V0.4.14 HOME bloom remains active unchanged.

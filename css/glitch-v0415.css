@@ -1,0 +1,391 @@
+/* =========================================================
+   PHANTOM SEEKER V0.4.15 // STATIC TITLE + DIGITAL ATTACK
+   HOME + PHANTOM GRID use the exact same effect.
+   ========================================================= */
+
+.glitch-title {
+  --glitch-orange: #f4a340;
+  --glitch-blue: #66d9ff;
+  --glitch-white: var(--text, #e9eef2);
+  --glitch-bg-home: #10171d;
+  --glitch-bg-grid: #0b1117;
+
+  position: relative !important;
+  display: inline-block;
+  isolation: isolate;
+  contain: paint;
+  overflow: hidden !important;
+  color: transparent !important;
+
+  /* Absolutely no movement on the title container itself. */
+  animation: none !important;
+  transform: none !important;
+}
+
+/* ---------------------------------------------------------
+   MAIN WHITE TITLE
+   Completely static. No translate, skew, scale or letter-spacing animation.
+   --------------------------------------------------------- */
+
+.glitch-title .glitch-core {
+  position: relative;
+  z-index: 3;
+  display: block;
+  color: var(--glitch-white);
+  font: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+
+  transform: none !important;
+  animation: none !important;
+
+  text-shadow:
+    -.35px 0 rgba(102,217,255,.20),
+     .35px 0 rgba(244,163,64,.18);
+}
+
+/* ---------------------------------------------------------
+   FILM-GRAIN SHADOW TEXT
+   A second copy of the title sits slightly down/right,
+   under the white title, with a visible noisy texture.
+   No rectangular overlay is allowed.
+   --------------------------------------------------------- */
+
+.glitch-noise {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+
+  font: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  white-space: normal;
+  pointer-events: none;
+
+  transform: translate(4px, 5px) !important;
+  animation: grain-shadow-drift .78s infinite steps(2,end) !important;
+
+  /* The text itself is generated from the grain texture. */
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+
+  background:
+    radial-gradient(circle at 18% 28%, rgba(255,255,255,.34) 0 0.55px, transparent .7px),
+    radial-gradient(circle at 72% 63%, rgba(255,255,255,.22) 0 0.45px, transparent .65px),
+    radial-gradient(circle at 42% 82%, rgba(255,255,255,.18) 0 0.35px, transparent .55px),
+    repeating-radial-gradient(circle at 35% 50%,
+      rgba(255,255,255,.08) 0 0.65px,
+      rgba(0,0,0,.12) .8px 1.45px,
+      transparent 1.6px 2.6px),
+    linear-gradient(90deg,
+      rgba(145,157,168,.18),
+      rgba(196,205,213,.28) 45%,
+      rgba(116,127,138,.14));
+
+  background-size:
+    9px 9px,
+    13px 13px,
+    17px 17px,
+    11px 11px,
+    100% 100%;
+
+  background-position:
+    0 0,
+    4px 2px,
+    -3px 5px,
+    0 0,
+    0 0;
+
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+
+  opacity: .34;
+  mix-blend-mode: screen;
+}
+
+/* ---------------------------------------------------------
+   ORANGE / CYAN DIGITAL FRAGMENTS
+   They attack the text, but remain close to it.
+   Stronger saturation, very little positional travel.
+   --------------------------------------------------------- */
+
+.glitch-title::before,
+.glitch-title::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: block;
+  width: 100%;
+
+  font: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  white-space: normal;
+
+  pointer-events: none;
+  mix-blend-mode: screen;
+  will-change: clip-path, opacity;
+}
+
+.glitch-title::before {
+  color: var(--glitch-blue);
+  opacity: .82;
+  text-shadow:
+    -1.5px 0 var(--glitch-blue),
+    -3px 0 rgba(102,217,255,.36),
+     0 0 8px rgba(102,217,255,.26);
+  transform: translateX(-.55px);
+  animation: static-blue-fragments 2.05s infinite steps(1,end) !important;
+}
+
+.glitch-title::after {
+  color: var(--glitch-orange);
+  opacity: .78;
+  text-shadow:
+     1.5px 0 var(--glitch-orange),
+     3px 0 rgba(244,163,64,.34),
+     0 0 8px rgba(244,163,64,.23);
+  transform: translateX(.55px);
+  animation: static-orange-fragments 2.42s infinite steps(1,end) !important;
+}
+
+/* ---------------------------------------------------------
+   RANDOM DATA-LOSS BLOCKS
+   These are the dark rectangles you liked.
+   They briefly cover chunks of letters, with cyan/orange edges.
+   --------------------------------------------------------- */
+
+.glitch-bug {
+  position: absolute;
+  z-index: 6;
+  display: block;
+  height: .18em;
+  min-height: 5px;
+  pointer-events: none;
+  opacity: 0;
+
+  background: var(--glitch-bg-home);
+  border-left: 2px solid var(--glitch-blue);
+  border-right: 1px solid var(--glitch-orange);
+
+  box-shadow:
+    1.12em .42em 0 var(--glitch-bg-home),
+    1.12em .42em 0 1px rgba(244,163,64,.72),
+    2.55em -.34em 0 var(--glitch-bg-home),
+    2.55em -.34em 0 1px rgba(102,217,255,.72);
+}
+
+.grid-title .glitch-bug {
+  background: var(--glitch-bg-grid);
+  box-shadow:
+    1.12em .42em 0 var(--glitch-bg-grid),
+    1.12em .42em 0 1px rgba(244,163,64,.72),
+    2.55em -.34em 0 var(--glitch-bg-grid),
+    2.55em -.34em 0 1px rgba(102,217,255,.72);
+}
+
+.glitch-bug-a {
+  width: 10%;
+  animation: erase-a 2.20s infinite steps(1,end) !important;
+}
+
+.glitch-bug-b {
+  width: 6.5%;
+  height: .24em;
+  animation: erase-b 2.95s infinite steps(1,end) !important;
+}
+
+.glitch-bug-c {
+  width: 13%;
+  height: .12em;
+  animation: erase-c 1.82s infinite steps(1,end) !important;
+}
+
+/* ---------------------------------------------------------
+   GRAIN SHADOW
+   Texture drifts internally but the layer itself never moves.
+   --------------------------------------------------------- */
+
+@keyframes grain-shadow-drift {
+  0%   { background-position:0 0, 4px 2px, -3px 5px, 0 0, 0 0; opacity:.30; }
+  25%  { background-position:2px -1px, 1px 4px, -5px 2px, 3px -2px, 0 0; opacity:.36; }
+  50%  { background-position:-1px 2px, 6px 0, 0 6px, -2px 3px, 0 0; opacity:.32; }
+  75%  { background-position:3px 1px, 2px -2px, -4px 7px, 2px 2px, 0 0; opacity:.38; }
+  100% { background-position:0 0, 4px 2px, -3px 5px, 0 0, 0 0; opacity:.30; }
+}
+
+/* ---------------------------------------------------------
+   DIGITAL FRAGMENTS
+   Clip patterns change, but fragment layers don't fly sideways.
+   --------------------------------------------------------- */
+
+@keyframes static-blue-fragments {
+  0% {
+    clip-path: polygon(
+      0 7%,34% 7%,34% 24%,0 24%,
+      0 24%,0 100%,0 100%,0 24%,
+      57% 36%,100% 36%,100% 54%,57% 54%,
+      57% 54%,57% 100%,57% 100%,57% 54%,
+      14% 72%,64% 72%,64% 90%,14% 90%
+    );
+  }
+  19% {
+    clip-path: polygon(
+      17% 5%,71% 5%,71% 21%,17% 21%,
+      17% 21%,17% 100%,17% 100%,17% 21%,
+      0 43%,47% 43%,47% 61%,0 61%,
+      0 61%,0 100%,0 100%,0 61%,
+      62% 74%,100% 74%,100% 93%,62% 93%
+    );
+  }
+  43% {
+    clip-path: polygon(
+      0 13%,30% 13%,30% 29%,0 29%,
+      0 29%,0 100%,0 100%,0 29%,
+      45% 34%,100% 34%,100% 51%,45% 51%,
+      45% 51%,45% 100%,45% 100%,45% 51%,
+      23% 68%,77% 68%,77% 86%,23% 86%
+    );
+  }
+  67% {
+    clip-path: polygon(
+      39% 4%,100% 4%,100% 21%,39% 21%,
+      39% 21%,39% 100%,39% 100%,39% 21%,
+      0 39%,55% 39%,55% 57%,0 57%,
+      0 57%,0 100%,0 100%,0 57%,
+      63% 72%,100% 72%,100% 90%,63% 90%
+    );
+  }
+  85% {
+    clip-path: polygon(
+      0 8%,52% 8%,52% 25%,0 25%,
+      0 25%,0 100%,0 100%,0 25%,
+      63% 40%,100% 40%,100% 58%,63% 58%,
+      63% 58%,63% 100%,63% 100%,63% 58%,
+      16% 74%,68% 74%,68% 92%,16% 92%
+    );
+  }
+  100% {
+    clip-path: polygon(
+      0 7%,34% 7%,34% 24%,0 24%,
+      0 24%,0 100%,0 100%,0 24%,
+      57% 36%,100% 36%,100% 54%,57% 54%,
+      57% 54%,57% 100%,57% 100%,57% 54%,
+      14% 72%,64% 72%,64% 90%,14% 90%
+    );
+  }
+}
+
+@keyframes static-orange-fragments {
+  0% {
+    clip-path: polygon(
+      32% 8%,100% 8%,100% 26%,32% 26%,
+      32% 26%,32% 100%,32% 100%,32% 26%,
+      0 36%,43% 36%,43% 55%,0 55%,
+      0 55%,0 100%,0 100%,0 55%,
+      51% 71%,92% 71%,92% 90%,51% 90%
+    );
+  }
+  23% {
+    clip-path: polygon(
+      0 5%,48% 5%,48% 22%,0 22%,
+      0 22%,0 100%,0 100%,0 22%,
+      54% 38%,100% 38%,100% 56%,54% 56%,
+      54% 56%,54% 100%,54% 100%,54% 56%,
+      20% 76%,80% 76%,80% 94%,20% 94%
+    );
+  }
+  48% {
+    clip-path: polygon(
+      43% 3%,100% 3%,100% 21%,43% 21%,
+      43% 21%,43% 100%,43% 100%,43% 21%,
+      0 32%,52% 32%,52% 51%,0 51%,
+      0 51%,0 100%,0 100%,0 51%,
+      56% 67%,100% 67%,100% 86%,56% 86%
+    );
+  }
+  71% {
+    clip-path: polygon(
+      13% 10%,65% 10%,65% 28%,13% 28%,
+      13% 28%,13% 100%,13% 100%,13% 28%,
+      58% 41%,100% 41%,100% 59%,58% 59%,
+      58% 59%,58% 100%,58% 100%,58% 59%,
+      0 73%,45% 73%,45% 92%,0 92%
+    );
+  }
+  91% {
+    clip-path: polygon(
+      0 7%,39% 7%,39% 24%,0 24%,
+      0 24%,0 100%,0 100%,0 24%,
+      49% 34%,100% 34%,100% 52%,49% 52%,
+      49% 52%,49% 100%,49% 100%,49% 52%,
+      30% 70%,89% 70%,89% 88%,30% 88%
+    );
+  }
+  100% {
+    clip-path: polygon(
+      32% 8%,100% 8%,100% 26%,32% 26%,
+      32% 26%,32% 100%,32% 100%,32% 26%,
+      0 36%,43% 36%,43% 55%,0 55%,
+      0 55%,0 100%,0 100%,0 55%,
+      51% 71%,92% 71%,92% 90%,51% 90%
+    );
+  }
+}
+
+/* ---------------------------------------------------------
+   ERASURE BLOCK TIMINGS
+   --------------------------------------------------------- */
+
+@keyframes erase-a {
+  0%,14%  { left:8%; top:20%; opacity:0; }
+  15%,24% { left:18%; top:23%; opacity:.92; }
+  25%,41% { left:63%; top:47%; opacity:.10; }
+  42%,51% { left:34%; top:67%; opacity:.88; }
+  52%,75% { left:72%; top:31%; opacity:.08; }
+  76%,86% { left:13%; top:82%; opacity:.86; }
+  87%,100%{ opacity:0; }
+}
+
+@keyframes erase-b {
+  0%,20%  { left:73%; top:72%; opacity:0; }
+  21%,31% { left:52%; top:14%; opacity:.86; }
+  32%,55% { left:12%; top:55%; opacity:.08; }
+  56%,66% { left:69%; top:42%; opacity:.90; }
+  67%,90% { left:28%; top:86%; opacity:.06; }
+  91%,100%{ opacity:0; }
+}
+
+@keyframes erase-c {
+  0%,10%  { left:45%; top:40%; opacity:0; }
+  11%,20% { left:5%; top:36%; opacity:.82; }
+  21%,39% { left:79%; top:63%; opacity:.07; }
+  40%,49% { left:43%; top:9%; opacity:.88; }
+  50%,74% { left:20%; top:74%; opacity:.06; }
+  75%,84% { left:60%; top:52%; opacity:.84; }
+  85%,100%{ opacity:0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glitch-title::before,
+  .glitch-title::after,
+  .glitch-noise,
+  .glitch-bug {
+    animation: none !important;
+  }
+
+  .glitch-title::before,
+  .glitch-title::after,
+  .glitch-bug {
+    display: none !important;
+  }
+
+  .glitch-noise {
+    opacity: .24;
+  }
+}
