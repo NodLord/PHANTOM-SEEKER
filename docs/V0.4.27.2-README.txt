@@ -1,0 +1,34 @@
+PHANTOM SEEKER V0.4.27.2 // WORLD-SPACE FSD HOTFIX
+===================================================
+
+BASE
+----
+Incremental hotfix built from V0.4.27.1. No celestial generation, title/glitch,
+Route Map, Phantom Grid or narrative content is modified.
+
+FIXED
+-----
+- Ships are now anchored to the same Deep Survey Field cameraY/depth model as
+  the celestial scene. Scrolling moves them with the world instead of pinning
+  them to the viewport.
+- Historical engine-trail samples are stored in route space and re-projected
+  every frame, so scrolling no longer detaches trails from their ship.
+- FSD charge position is re-projected every frame while the ship is stopped.
+- FSD wakes store the world anchor/depth of the ship and remain attached to the
+  3D background throughout their full lifetime.
+
+FSD VISUAL PASS
+---------------
+- Stronger initial jump flash.
+- Large soft bloom envelope plus a short white-hot core.
+- Wake rebuilt as three diffuse layers: outer ionised haze, mid veil and faint
+  central filament.
+- Feathered/blurred edges replace the old hard filled cone.
+- Deterministic charged dust remains inside the wake and fades with it.
+- Wake lifetime remains approximately 4.2 seconds.
+
+FILES
+-----
+Replace: index.html
+Add:     js/home-space-v0427-2.js
+Add:     docs/V0.4.27.2-README.txt
