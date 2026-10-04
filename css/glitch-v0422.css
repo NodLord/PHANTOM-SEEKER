@@ -1,0 +1,223 @@
+/* =========================================================
+   PHANTOM SEEKER V0.4.22 // MATERIAL COVERAGE + SIGNAL BLOCKS
+   Incremental override over V0.4.21.
+
+   Fixes:
+   - 4096x2048 PNG RGBA material, much more detailed and realistic.
+   - Sparse alpha holes only; no broad transparent islands.
+   - Static heading material REPEATS, so background-clip can never run out
+     of texture at the left/right edge of long headings.
+   - Slightly increased diffuse white bloom on ALL textured white headings.
+   - Route-map heading now blooms too.
+   - Main live title: faster micro-bursts and regular monochrome/metal signal
+     blocks, with occasional difference-mode inversion.
+   ========================================================= */
+
+:root {
+  --phantom-paint-v0422: url("../assets/title-paint-organic-v0422.png");
+  --phantom-paint-v0421: var(--phantom-paint-v0422);
+  --phantom-paint-v0420: var(--phantom-paint-v0422);
+}
+
+/* ---------------------------------------------------------
+   MATERIAL COVERAGE
+   The old no-repeat 980px/1200px paint layer was the actual reason some
+   headings could disappear. This layer tiles at a restrained scale instead.
+   --------------------------------------------------------- */
+.glitch-title .glitch-core {
+  background-image: var(--phantom-paint-v0422) !important;
+  background-repeat: repeat !important;
+  background-size: 1180px 590px !important;
+  background-position: 13% 41% !important;
+  color: rgba(239,244,247,.97) !important;
+  -webkit-text-fill-color: transparent !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  text-shadow: none !important;
+}
+
+.manifesto h2,
+.route-map-heading h2,
+.route-overview h2,
+.status-heading h2,
+.protocol-heading h2,
+.waypoint-main h3,
+.final-manifesto > div {
+  background-image: var(--phantom-paint-v0422) !important;
+  background-repeat: repeat !important;
+  background-size: 920px 460px !important;
+  color: rgba(239,244,247,.97) !important;
+  -webkit-text-fill-color: transparent !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  text-shadow: none !important;
+  filter:
+    drop-shadow(0 0 7px rgba(240,246,250,.125))
+    drop-shadow(0 0 24px rgba(229,240,247,.050)) !important;
+}
+
+/* Small crop offsets keep repeated headings from looking stamped from the
+   exact same piece of metal, while repeat guarantees full glyph coverage. */
+.status-heading h2       { background-position: 11% 23% !important; }
+.manifesto h2             { background-position: 67% 39% !important; }
+.route-map-heading h2     { background-position: 29% 17% !important; }
+.route-overview h2        { background-position: 73% 64% !important; }
+.protocol-heading h2      { background-position: 36% 71% !important; }
+.final-manifesto > div    { background-position: 58% 32% !important; }
+.chapter .waypoint:nth-of-type(3n+1) .waypoint-main h3 { background-position: 18% 33% !important; }
+.chapter .waypoint:nth-of-type(3n+2) .waypoint-main h3 { background-position: 61% 56% !important; }
+.chapter .waypoint:nth-of-type(3n)   .waypoint-main h3 { background-position: 42% 77% !important; }
+
+/* The route-map title now intentionally gets the same restrained bloom. */
+.route-map-heading h2 {
+  filter:
+    drop-shadow(0 0 7px rgba(240,246,250,.125))
+    drop-shadow(0 0 24px rgba(229,240,247,.050)) !important;
+}
+
+/* Hero: still atmospheric, but kept in the same energy family as the other
+   white headings instead of becoming a glowing cloud. */
+.hero-title.glitch-title .glitch-core {
+  filter:
+    drop-shadow(0 0 7px rgba(242,247,250,.135))
+    drop-shadow(0 0 25px rgba(231,241,248,.052))
+    drop-shadow(0 0 58px rgba(218,234,244,.016)) !important;
+}
+
+/* Keep the logo exactly at the restrained pre-V0.4.20 treatment. */
+.hero-logo {
+  filter: drop-shadow(0 0 38px rgba(193,220,238,.07)) !important;
+}
+
+/* Grid title receives the same material and a low-energy local halo. */
+.grid-title.glitch-title .glitch-core {
+  filter:
+    drop-shadow(0 0 7px rgba(240,246,250,.12))
+    drop-shadow(0 0 23px rgba(229,240,247,.046)) !important;
+}
+
+/* Mission Philosophy keeps its Chapter I / Chapter II color language. */
+.manifesto h2 .philosophy-amber {
+  color:#f4a340 !important;
+  -webkit-text-fill-color:#f4a340 !important;
+}
+.manifesto h2 .philosophy-cyan {
+  color:#66d9ff !important;
+  -webkit-text-fill-color:#66d9ff !important;
+}
+
+/* ---------------------------------------------------------
+   MAIN SIGNAL BLOCKS
+   Restore visible blocks, but keep them monochrome / metallic. The title
+   itself never moves. Existing three i.glitch-bug nodes are used as windows.
+   --------------------------------------------------------- */
+.glitch-title .glitch-bug {
+  position:absolute !important;
+  inset:0 !important;
+  z-index:6 !important;
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  min-height:0 !important;
+  opacity:0;
+  overflow:hidden;
+  pointer-events:none;
+  border:0 !important;
+  box-shadow:none !important;
+  animation:none !important;
+  filter:none !important;
+  transform:none;
+  background:none !important;
+  mix-blend-mode:normal;
+}
+
+/* V0.4.20 used ::before to redraw inverted text. V0.4.22 uses the rectangle
+   itself, which is simpler and avoids any secondary glyph-alignment issue. */
+.glitch-title .glitch-bug::before,
+.glitch-title .glitch-bug::after {
+  content:none !important;
+  display:none !important;
+}
+
+.glitch-title .glitch-bug.phantom-block-grey {
+  background:rgba(117,126,132,.74) !important;
+  mix-blend-mode:normal !important;
+}
+.glitch-title .glitch-bug.phantom-block-black {
+  background:rgba(3,5,7,.88) !important;
+  mix-blend-mode:normal !important;
+}
+.glitch-title .glitch-bug.phantom-block-metal {
+  background:
+    linear-gradient(90deg,
+      rgba(66,72,76,.82) 0%,
+      rgba(173,181,184,.78) 29%,
+      rgba(80,87,91,.88) 57%,
+      rgba(208,214,216,.70) 78%,
+      rgba(72,78,82,.86) 100%) !important;
+  mix-blend-mode:normal !important;
+}
+.glitch-title .glitch-bug.phantom-block-invert {
+  background:#fff !important;
+  mix-blend-mode:difference !important;
+}
+
+.glitch-title .glitch-bug-a.phantom-block-active {
+  animation:phantom-block-a-v0422 .54s 1 steps(1,end) !important;
+}
+.glitch-title .glitch-bug-b.phantom-block-active {
+  animation:phantom-block-b-v0422 .47s 1 steps(1,end) !important;
+}
+.glitch-title .glitch-bug-c.phantom-block-active {
+  animation:phantom-block-c-v0422 .60s 1 steps(1,end) !important;
+}
+
+@keyframes phantom-block-a-v0422 {
+  0%   {opacity:0; clip-path:inset(13% 96% 67% 0)}
+  10%  {opacity:.96; clip-path:inset(13% 76% 67% 8%)}
+  38%  {opacity:.90; clip-path:inset(13% 49% 67% 36%)}
+  68%  {opacity:.84; clip-path:inset(13% 17% 67% 67%)}
+  84%  {opacity:.48; clip-path:inset(13% 3% 67% 86%)}
+  100% {opacity:0; clip-path:inset(13% 0 67% 96%)}
+}
+@keyframes phantom-block-b-v0422 {
+  0%   {opacity:0; clip-path:inset(43% 0 38% 96%)}
+  12%  {opacity:.94; clip-path:inset(43% 8% 38% 73%)}
+  42%  {opacity:.88; clip-path:inset(43% 37% 38% 45%)}
+  72%  {opacity:.82; clip-path:inset(43% 68% 38% 14%)}
+  88%  {opacity:.42; clip-path:inset(43% 88% 38% 3%)}
+  100% {opacity:0; clip-path:inset(43% 96% 38% 0)}
+}
+@keyframes phantom-block-c-v0422 {
+  0%   {opacity:0; clip-path:inset(72% 94% 11% 0)}
+  11%  {opacity:.92; clip-path:inset(72% 71% 11% 14%)}
+  39%  {opacity:.86; clip-path:inset(72% 43% 11% 42%)}
+  69%  {opacity:.80; clip-path:inset(72% 14% 11% 72%)}
+  86%  {opacity:.40; clip-path:inset(72% 2% 11% 89%)}
+  100% {opacity:0; clip-path:inset(72% 0 11% 96%)}
+}
+
+/* ---------------------------------------------------------
+   FAIL-SAFE
+   --------------------------------------------------------- */
+@supports not (-webkit-background-clip:text) {
+  .glitch-title .glitch-core,
+  .manifesto h2,
+  .route-map-heading h2,
+  .route-overview h2,
+  .status-heading h2,
+  .protocol-heading h2,
+  .waypoint-main h3,
+  .final-manifesto > div {
+    color:#edf2f5 !important;
+    -webkit-text-fill-color:#edf2f5 !important;
+    background-image:none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glitch-title .glitch-bug {
+    animation:none !important;
+    opacity:0 !important;
+  }
+}

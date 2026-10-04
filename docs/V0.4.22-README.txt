@@ -1,0 +1,60 @@
+PHANTOM SEEKER V0.4.22 // MATERIAL COVERAGE + SIGNAL BLOCKS
+================================================================
+
+BASE
+----
+Built incrementally from the supplied/deployed V0.4.21 files.
+No route-map JavaScript, Three.js Grid code, datasets or narrative text were rebuilt.
+
+WHY SOME LETTERS DISAPPEARED
+----------------------------
+This was NOT caused by the WebP format or by the DOM text itself.
+The V0.4.21 CSS used a large transparent alpha material with background-repeat:no-repeat
+and fixed material sizes (980/1200 px). With background-clip:text, long headings could
+therefore land partly outside the painted image, while other headings could line up with
+large transparent regions. Browser text selection revealed the underlying text because
+the characters were still present.
+
+V0.4.22 fixes both failure modes:
+- the new material has only sparse/small transparent chips;
+- the paint layer repeats, so every glyph always has material underneath it.
+
+FILES TO REPLACE
+----------------
+index.html
+grid.html
+
+FILES TO ADD
+------------
+css/glitch-v0422.css
+js/glitch-v0422.js
+assets/title-paint-organic-v0422.png
+docs/V0.4.22-README.txt
+docs/V0.4.22-texture-preview.jpg
+
+TEXTURE
+-------
+4096 x 2048 PNG RGBA
+File size: 9.59 MiB
+Fully transparent pixels: 0.748%
+Partially transparent pixels: 10.003%
+
+The material uses varied off-white / light-grey paint, cracks, abrasion, fine scratches,
+micro-pitting and small true-alpha chips. No broad transparent islands are permitted.
+
+HOME CHANGES
+------------
+- Slightly stronger but still diffuse white bloom on every textured white heading.
+- Bloom is now enabled on the galactic map heading too.
+- Map heading renamed to:
+  EXPEDITION MAP // GALACTIC PROJECTION
+- Main title micro-bursts now recur roughly every 2.6-4.4 seconds.
+- Signal rectangles recur roughly every 4.2-6.8 seconds.
+- Rectangle palette: grey / black / metallic, with rare difference-mode inversion.
+- Existing four-second decreasing boot sequence is preserved.
+- Hero logo bloom remains at the restrained pre-V0.4.20 level.
+
+GRID
+----
+PHANTOM GRID uses the same new paint material and signal scheduler.
+Status label updated to PUBLIC GRID V0.4.22.
