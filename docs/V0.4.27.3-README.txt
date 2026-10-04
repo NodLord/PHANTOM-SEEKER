@@ -1,0 +1,62 @@
+PHANTOM SEEKER V0.4.27.3 // PERFORMANCE CORE
+================================================
+
+BASE
+----
+Incremental hotfix built from V0.4.27.2.
+No narrative content, title/glitch system, Route Map, Phantom Grid, datasets,
+ship silhouettes, ship spawn ratios or FSD behaviour were intentionally changed.
+
+WHY THIS PATCH EXISTS
+---------------------
+V0.4.27.2 rendered the entire deep celestial scene and the fast ship/FSD layer
+on one high-DPR Canvas 2D surface every animation frame. During FSD jumps the
+wake also performed several live canvas blur filters, gradients and dozens of
+particles every frame. Those operations can bottleneck the browser/CPU/GPU
+composition path even on a strong graphics card.
+
+PERFORMANCE CORE
+----------------
+1. SPLIT CANVASES
+   - phantom-deep-field: stars / galaxies / nebulae / clusters / systems
+   - phantom-traffic-field: ships / engine trails / FSD charge / flash / wake
+
+2. DIFFERENT RENDER BUDGETS
+   - deep field: adaptive 20 / 24 / 30 FPS
+   - traffic: display cadence (normally 60 FPS)
+   - deep field DPR cap: 1.10
+   - traffic DPR cap: 1.25
+
+3. FSD SPRITE CACHE
+   Three depth-scaled wake sprites and three flash sprites are generated once in
+   memory. All expensive blur work happens during initialization. Runtime FSD
+   rendering is reduced to drawImage + alpha/scale/rotation. No live blur filters
+   are used by the FSD wake renderer.
+
+4. CLUSTER CACHE
+   Star clusters are rasterized once per segment entity and reused as sprites
+   instead of redrawing every cluster star on every frame.
+
+5. DEPTH SORT CACHE
+   The merged visible celestial registry is rebuilt/sorted only when the camera
+   crosses into a new 1120px world segment (or after resize), not every frame.
+
+6. INVISIBLE ADAPTIVE BUDGET
+   A tiny internal frame-cost monitor adjusts only the slow deep-field cadence.
+   It never changes DOM text, gameplay-style traffic timing, or user controls.
+
+WORLD-SPACE PRESERVATION
+------------------------
+Ships, old trail samples, FSD charge, flash and wake remain anchored to the same
+cameraY/depth projection introduced in V0.4.27.2. Scrolling during a jump does
+not detach the effect from the 3D scene.
+
+FILES TO REPLACE
+----------------
+index.html
+
+FILES TO ADD
+------------
+css/home-space-v0427-3.css
+js/home-space-v0427-3.js
+docs/V0.4.27.3-README.txt

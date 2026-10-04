@@ -1,0 +1,35 @@
+/* =========================================================
+   PHANTOM SEEKER V0.4.27.3 // PERFORMANCE CORE
+   Incremental performance layer over V0.4.27.2.
+
+   - Deep celestial field and ship/FSD traffic use separate canvases.
+   - Deep canvas renders at a restrained cadence / DPR.
+   - Traffic canvas remains responsive at display cadence.
+   - Both stay behind the DOM and film-grain lens.
+   ========================================================= */
+
+#phantom-deep-field {
+  z-index: 0 !important;
+  will-change: contents;
+}
+
+#phantom-traffic-field {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 1;
+  contain: strict;
+  will-change: contents;
+}
+
+@media (max-width: 760px) {
+  #phantom-traffic-field { opacity: .92; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #phantom-traffic-field { opacity: .88; }
+}
