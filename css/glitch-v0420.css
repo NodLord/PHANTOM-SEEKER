@@ -1,0 +1,353 @@
+/* =========================================================
+   PHANTOM SEEKER V0.4.20 // GHOST SIGNAL BOOT
+   HOME + PHANTOM GRID
+
+   Incremental layer over V0.4.19.
+   - New optimized 2048x1024 organic paint material (WebP + alpha).
+   - More chipped / abraded surface while keeping strong legibility.
+   - No film-grain shadow.
+   - Main title gets a broad, unclipped monochrome bloom.
+   - Home logo/title halos are bridged into one diffuse field.
+   - 4 second boot sequence, decaying in intensity.
+   - Very short monochrome desync micro-bursts every 5-7 seconds.
+   - Rare moving inversion windows: no visible rectangle design, only the
+     text pixels inside the window invert.
+   - Same static paint texture is also applied to the requested large HOME
+     headings and every waypoint system name, with NO glitch animation.
+   ========================================================= */
+
+:root {
+  --phantom-paint-v0420: url("../assets/title-paint-organic-v0420.webp");
+}
+
+/* ---------------------------------------------------------
+   SHARED LIVE TITLE MATERIAL
+   --------------------------------------------------------- */
+.glitch-title {
+  overflow: visible !important;
+  contain: none !important;
+}
+
+.glitch-title .glitch-core {
+  z-index: 3 !important;
+  color: rgba(242,247,250,.96) !important;
+  -webkit-text-fill-color: transparent !important;
+  background-image: var(--phantom-paint-v0420) !important;
+  background-repeat: no-repeat !important;
+  background-position: 50% 48% !important;
+  background-size: 100% 100% !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  transform: none !important;
+  animation: none !important;
+  text-shadow: none !important;
+  filter:
+    drop-shadow(0 0 7px rgba(239,246,250,.18))
+    drop-shadow(0 0 24px rgba(228,240,248,.10))
+    drop-shadow(0 0 58px rgba(208,229,242,.055)) !important;
+}
+
+/* Home hero: deliberately broader and stronger than the other large white
+   typography. The parent is no longer paint-contained, so the halo has no
+   hard rectangular edge. */
+.hero-title.glitch-title .glitch-core {
+  filter:
+    drop-shadow(0 0 8px rgba(245,249,252,.30))
+    drop-shadow(0 0 26px rgba(234,243,249,.19))
+    drop-shadow(0 0 72px rgba(211,229,241,.105))
+    drop-shadow(0 0 138px rgba(188,215,232,.050)) !important;
+}
+
+/* The old grain copy remains in the DOM only for backwards-compatible HTML. */
+.glitch-title .glitch-noise {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  animation: none !important;
+  background: none !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+/* ---------------------------------------------------------
+   HOME BLOOM FIELD // LOGO + HERO TITLE
+   Broad low-energy halos overlap in the middle of the hero. This is a
+   background field, not a box-shadow, so there are no title-boundary cuts.
+   --------------------------------------------------------- */
+.hero::after {
+  background:
+    radial-gradient(ellipse 42% 48% at 30% 49%, rgba(227,239,247,.105), transparent 72%),
+    radial-gradient(ellipse 49% 45% at 67% 48%, rgba(226,239,248,.105), transparent 74%),
+    radial-gradient(ellipse 40% 22% at 49% 49%, rgba(221,236,246,.040), transparent 78%) !important;
+  filter: blur(18px);
+}
+
+.hero-logo {
+  filter:
+    drop-shadow(0 0 14px rgba(241,248,252,.20))
+    drop-shadow(0 0 46px rgba(220,237,247,.12))
+    drop-shadow(0 0 104px rgba(196,220,236,.060)) !important;
+}
+
+/* ---------------------------------------------------------
+   MONOCHROME SIGNAL LAYERS
+   They stay under the paint and are normally invisible. JS only activates
+   them for the 4-second boot or for a 5-7 second micro-burst.
+   --------------------------------------------------------- */
+.glitch-title::before,
+.glitch-title::after {
+  z-index: 2 !important;
+  opacity: 0;
+  mix-blend-mode: normal !important;
+  text-shadow: none !important;
+  animation: none !important;
+  will-change: clip-path, opacity, transform;
+}
+
+.glitch-title::before {
+  color: rgba(250,252,253,.97) !important;
+  transform: none;
+}
+
+.glitch-title::after {
+  color: rgba(1,3,5,.98) !important;
+  transform: none;
+}
+
+/* ---------------------------------------------------------
+   4 SECOND BOOT // HIGH CORRUPTION -> STABLE SIGNAL
+   The real .glitch-core never moves.
+   --------------------------------------------------------- */
+html.phantom-boot-v0420 .glitch-title::before {
+  animation: phantom-boot-white-v0420 4s 1 steps(1,end) !important;
+}
+html.phantom-boot-v0420 .glitch-title::after {
+  animation: phantom-boot-black-v0420 4s 1 steps(1,end) !important;
+}
+html.phantom-boot-v0420 .glitch-title .glitch-core {
+  animation: phantom-boot-core-v0420 4s 1 linear !important;
+}
+
+@keyframes phantom-boot-core-v0420 {
+  0%   { opacity:.42; filter:brightness(1.55) contrast(1.18) drop-shadow(0 0 30px rgba(245,250,252,.30)); }
+  8%   { opacity:.72; }
+  18%  { opacity:.58; }
+  30%  { opacity:.86; }
+  46%  { opacity:.78; }
+  63%  { opacity:.94; }
+  78%  { opacity:.97; }
+  100% { opacity:1; }
+}
+
+@keyframes phantom-boot-white-v0420 {
+  0%   { opacity:.78; clip-path:inset(4% 4% 72% 0); transform:translateX(-7px); }
+  4%   { opacity:0; }
+  7%   { opacity:.73; clip-path:inset(36% 0 38% 12%); transform:translateX(6px); }
+  11%  { opacity:.66; clip-path:inset(69% 18% 9% 0); transform:translateX(-5px); }
+  14%  { opacity:0; }
+  18%  { opacity:.58; clip-path:inset(14% 25% 68% 3%); transform:translateX(5px); }
+  23%  { opacity:0; }
+  28%  { opacity:.49; clip-path:inset(47% 7% 38% 35%); transform:translateX(-4px); }
+  34%  { opacity:0; }
+  40%  { opacity:.40; clip-path:inset(76% 42% 15% 18%); transform:translateX(3px); }
+  46%  { opacity:0; }
+  53%  { opacity:.31; clip-path:inset(27% 62% 66% 9%); transform:translateX(-3px); }
+  59%  { opacity:0; }
+  67%  { opacity:.25; clip-path:inset(58% 18% 36% 69%); transform:translateX(2px); }
+  72%  { opacity:0; }
+  81%  { opacity:.18; clip-path:inset(87% 53% 8% 31%); transform:translateX(-2px); }
+  86%,100% { opacity:0; transform:none; }
+}
+
+@keyframes phantom-boot-black-v0420 {
+  0%   { opacity:.74; clip-path:inset(24% 7% 55% 18%); transform:translateX(7px); }
+  5%   { opacity:.63; clip-path:inset(61% 24% 18% 0); transform:translateX(-6px); }
+  9%   { opacity:0; }
+  13%  { opacity:.57; clip-path:inset(8% 51% 76% 0); transform:translateX(-5px); }
+  17%  { opacity:0; }
+  22%  { opacity:.49; clip-path:inset(43% 10% 41% 48%); transform:translateX(4px); }
+  27%  { opacity:0; }
+  35%  { opacity:.40; clip-path:inset(70% 33% 19% 17%); transform:translateX(-4px); }
+  41%  { opacity:0; }
+  49%  { opacity:.31; clip-path:inset(18% 73% 75% 3%); transform:translateX(3px); }
+  55%  { opacity:0; }
+  64%  { opacity:.24; clip-path:inset(51% 41% 43% 47%); transform:translateX(-2px); }
+  70%  { opacity:0; }
+  80%  { opacity:.16; clip-path:inset(79% 72% 15% 9%); transform:translateX(2px); }
+  85%,100% { opacity:0; transform:none; }
+}
+
+/* ---------------------------------------------------------
+   RANDOM MICRO-BURSTS // 5-7 SECOND JS SCHEDULER
+   Only tiny slices move 1-3 pixels for roughly 100 ms.
+   --------------------------------------------------------- */
+.glitch-title.phantom-burst-a::before { animation:phantom-burst-a-w .105s 1 steps(1,end) !important; }
+.glitch-title.phantom-burst-a::after  { animation:phantom-burst-a-b .105s 1 steps(1,end) !important; }
+.glitch-title.phantom-burst-b::before { animation:phantom-burst-b-w .118s 1 steps(1,end) !important; }
+.glitch-title.phantom-burst-b::after  { animation:phantom-burst-b-b .118s 1 steps(1,end) !important; }
+.glitch-title.phantom-burst-c::before { animation:phantom-burst-c-w .096s 1 steps(1,end) !important; }
+.glitch-title.phantom-burst-c::after  { animation:phantom-burst-c-b .096s 1 steps(1,end) !important; }
+
+@keyframes phantom-burst-a-w { 0%{opacity:.52;clip-path:inset(16% 58% 80% 7%);transform:translateX(-3px)} 42%{opacity:.32;clip-path:inset(63% 13% 33% 71%);transform:translateX(2px)} 74%,100%{opacity:0;transform:none} }
+@keyframes phantom-burst-a-b { 0%{opacity:0} 23%{opacity:.44;clip-path:inset(42% 71% 54% 9%);transform:translateX(2px)} 62%{opacity:.26;clip-path:inset(84% 44% 12% 38%);transform:translateX(-2px)} 82%,100%{opacity:0;transform:none} }
+@keyframes phantom-burst-b-w { 0%{opacity:.48;clip-path:inset(33% 17% 63% 72%);transform:translateX(2px)} 38%{opacity:0} 49%{opacity:.29;clip-path:inset(74% 66% 22% 8%);transform:translateX(-3px)} 80%,100%{opacity:0;transform:none} }
+@keyframes phantom-burst-b-b { 0%{opacity:0} 18%{opacity:.41;clip-path:inset(9% 77% 87% 6%);transform:translateX(-2px)} 54%{opacity:.24;clip-path:inset(55% 49% 41% 42%);transform:translateX(2px)} 78%,100%{opacity:0;transform:none} }
+@keyframes phantom-burst-c-w { 0%{opacity:.47;clip-path:inset(79% 21% 17% 67%);transform:translateX(-2px)} 35%{opacity:.25;clip-path:inset(28% 64% 68% 11%);transform:translateX(3px)} 70%,100%{opacity:0;transform:none} }
+@keyframes phantom-burst-c-b { 0%{opacity:0} 15%{opacity:.39;clip-path:inset(48% 22% 48% 73%);transform:translateX(2px)} 51%{opacity:.22;clip-path:inset(13% 46% 83% 37%);transform:translateX(-2px)} 73%,100%{opacity:0;transform:none} }
+
+/* ---------------------------------------------------------
+   RARE INVERSION WINDOWS
+   Existing <i class="glitch-bug"> elements are repurposed. The element is
+   a full-size invisible overlay. Its pseudo-element redraws ONLY the title
+   using the same alpha paint, inverted. clip-path defines the moving window,
+   therefore the page background itself never becomes a visible rectangle.
+   --------------------------------------------------------- */
+.glitch-title .glitch-bug {
+  position:absolute !important;
+  inset:0 !important;
+  z-index:6 !important;
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  min-height:0 !important;
+  opacity:0;
+  overflow:hidden;
+  pointer-events:none;
+  background:none !important;
+  border:0 !important;
+  box-shadow:none !important;
+  animation:none !important;
+  font:inherit !important;
+  font-style:normal !important;
+  line-height:inherit !important;
+  letter-spacing:inherit !important;
+  text-transform:inherit !important;
+}
+
+.glitch-title .glitch-bug::before {
+  content:attr(data-text);
+  position:absolute;
+  inset:0;
+  display:block;
+  width:100%;
+  font:inherit;
+  font-style:normal;
+  font-weight:inherit;
+  line-height:inherit;
+  letter-spacing:inherit;
+  white-space:normal;
+  text-transform:inherit;
+  color:rgba(245,248,250,.95);
+  -webkit-text-fill-color:transparent;
+  background-image:var(--phantom-paint-v0420);
+  background-repeat:no-repeat;
+  background-position:50% 48%;
+  background-size:100% 100%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  filter:grayscale(1) invert(1) contrast(1.28) brightness(.78);
+}
+
+.glitch-title .glitch-bug-a.phantom-invert-active { animation:phantom-invert-a-v0420 .46s 1 steps(1,end) !important; }
+.glitch-title .glitch-bug-b.phantom-invert-active { animation:phantom-invert-b-v0420 .39s 1 steps(1,end) !important; }
+.glitch-title .glitch-bug-c.phantom-invert-active { animation:phantom-invert-c-v0420 .52s 1 steps(1,end) !important; }
+
+@keyframes phantom-invert-a-v0420 {
+  0%{opacity:0;clip-path:inset(18% 90% 63% 0)}
+  14%{opacity:1;clip-path:inset(18% 72% 63% 12%)}
+  44%{opacity:1;clip-path:inset(18% 42% 63% 42%)}
+  76%{opacity:1;clip-path:inset(18% 9% 63% 75%)}
+  88%,100%{opacity:0;clip-path:inset(18% 0 63% 92%)}
+}
+@keyframes phantom-invert-b-v0420 {
+  0%{opacity:0;clip-path:inset(48% 0 34% 90%)}
+  18%{opacity:1;clip-path:inset(48% 10% 34% 72%)}
+  48%{opacity:1;clip-path:inset(48% 43% 34% 39%)}
+  79%{opacity:1;clip-path:inset(48% 74% 34% 8%)}
+  90%,100%{opacity:0;clip-path:inset(48% 92% 34% 0)}
+}
+@keyframes phantom-invert-c-v0420 {
+  0%{opacity:0;clip-path:inset(74% 87% 12% 0)}
+  16%{opacity:1;clip-path:inset(74% 67% 12% 16%)}
+  45%{opacity:1;clip-path:inset(74% 36% 12% 48%)}
+  77%{opacity:1;clip-path:inset(74% 6% 12% 79%)}
+  90%,100%{opacity:0;clip-path:inset(74% 0 12% 94%)}
+}
+
+/* ---------------------------------------------------------
+   STATIC ORGANIC PAINT // REQUESTED LARGE HOME TITLES
+   No boot, no desync, no inversion. Existing site bloom/color rules remain.
+   --------------------------------------------------------- */
+.manifesto h2,
+.route-map-heading h2,
+.route-overview h2,
+.status-heading h2,
+.protocol-heading h2,
+.waypoint-main h3,
+.final-manifesto > div {
+  color:rgba(239,244,247,.96) !important;
+  -webkit-text-fill-color:transparent !important;
+  background-image:var(--phantom-paint-v0420) !important;
+  background-repeat:no-repeat !important;
+  background-size:1100px 550px !important;
+  background-position:50% 50% !important;
+  -webkit-background-clip:text !important;
+  background-clip:text !important;
+}
+
+/* Different crops keep repeated system names from looking stamped from one
+   identical patch of material. */
+.status-heading h2 { background-position:73% 32% !important; }
+.manifesto h2 { background-position:18% 58% !important; }
+.route-map-heading h2 { background-position:64% 22% !important; }
+.route-overview h2 { background-position:38% 76% !important; }
+.protocol-heading h2 { background-position:81% 61% !important; }
+.final-manifesto > div { background-position:52% 38% !important; }
+.chapter .waypoint:nth-of-type(3n+1) .waypoint-main h3 { background-position:22% 36% !important; }
+.chapter .waypoint:nth-of-type(3n+2) .waypoint-main h3 { background-position:69% 62% !important; }
+.chapter .waypoint:nth-of-type(3n) .waypoint-main h3 { background-position:43% 81% !important; }
+
+/* Mission Philosophy's orange/cyan words intentionally retain their chapter
+   colors rather than inheriting transparent text fill from the parent H2. */
+.manifesto h2 .philosophy-amber {
+  color:#f4a340 !important;
+  -webkit-text-fill-color:#f4a340 !important;
+}
+.manifesto h2 .philosophy-cyan {
+  color:#66d9ff !important;
+  -webkit-text-fill-color:#66d9ff !important;
+}
+
+/* Fallback for engines without background-clip:text. */
+@supports not (-webkit-background-clip:text) {
+  .glitch-title .glitch-core,
+  .manifesto h2,
+  .route-map-heading h2,
+  .route-overview h2,
+  .status-heading h2,
+  .protocol-heading h2,
+  .waypoint-main h3,
+  .final-manifesto > div {
+    color:#edf2f5 !important;
+    -webkit-text-fill-color:#edf2f5 !important;
+    background-image:none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.phantom-boot-v0420 .glitch-title::before,
+  html.phantom-boot-v0420 .glitch-title::after,
+  html.phantom-boot-v0420 .glitch-title .glitch-core,
+  .glitch-title.phantom-burst-a::before,
+  .glitch-title.phantom-burst-a::after,
+  .glitch-title.phantom-burst-b::before,
+  .glitch-title.phantom-burst-b::after,
+  .glitch-title.phantom-burst-c::before,
+  .glitch-title.phantom-burst-c::after,
+  .glitch-title .glitch-bug.phantom-invert-active {
+    animation:none !important;
+  }
+  .glitch-title::before,
+  .glitch-title::after,
+  .glitch-title .glitch-bug { opacity:0 !important; }
+}

@@ -1,0 +1,53 @@
+PHANTOM SEEKER V0.4.20 // GHOST SIGNAL BOOT
+
+Scope
+-----
+Incremental visual patch only. No route data, Three.js survey logic, datasets,
+expedition narrative, waypoint content, or navigation behaviour was changed.
+
+Changes
+-------
+1. New title material:
+   assets/title-paint-organic-v0420.webp
+   - 2048 x 1024 RGBA WebP
+   - ~0.86 MB instead of the previous ~13.7 MB 4096x2048 PNG
+   - more real alpha holes / flakes / scuffs while retaining legibility
+   - semi-transparent worn rims around missing paint
+
+2. Main title signal system:
+   - film grain remains fully removed
+   - broad monochrome bloom restored
+   - HOME logo and hero title now share an overlapping diffuse halo field
+   - title container paint clipping removed so the halo has no rectangular cut
+   - 4 second boot corruption sequence, decreasing in intensity
+   - micro desynchronisation bursts every 5-7 seconds, 1-3 px only
+   - rare inversion windows approximately every 18-30 seconds
+   - inversion windows have no rectangle artwork: only text pixels inside the
+     moving window are redrawn with inverted monochrome paint
+   - real title geometry never translates, scales or skews
+
+3. Static HOME typography using the same paint material, without glitch effects:
+   - 00.5 FINAL PREPARATIONS
+   - 00 MISSION PHILOSOPHY large heading (DIED / REMAINS keep their colors)
+   - 01 GALACTIC ROUTE large heading
+   - 02 ROUTE INDEX large heading
+   - 03 PARTICIPATION PROTOCOL large heading
+   - all waypoint / prologue / epilogue system-name H3 headings
+   - bottom EXPEDITION PHANTOM SEEKER title
+
+4. PHANTOM GRID:
+   - the main PHANTOM GRID glitch title uses the V0.4.20 material / boot /
+     micro-burst / rare inversion system for visual continuity
+   - PUBLIC GRID label updated to V0.4.20
+
+Files added
+-----------
+css/glitch-v0420.css
+js/glitch-v0420.js
+assets/title-paint-organic-v0420.webp
+docs/V0.4.20-README.txt
+
+Files replaced
+--------------
+index.html
+grid.html
