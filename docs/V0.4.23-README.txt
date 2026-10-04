@@ -1,0 +1,67 @@
+PHANTOM SEEKER V0.4.23 // DEEP SURVEY FIELD — LAYER 1
+======================================================
+
+BASE
+----
+Incremental patch built from the current V0.4.22 Home index.
+This patch modifies the Home background only.
+
+FILES TO REPLACE
+----------------
+index.html
+
+FILES TO ADD
+------------
+css/home-space-v0423.css
+js/home-space-v0423.js
+docs/V0.4.23-README.txt
+
+WHAT THIS TEST DOES
+-------------------
+- Removes the old fixed 48 px page grid.
+- Removes the perspective grid from the Hero.
+- Darkens the existing charcoal / blue-grey background.
+- Adds one fixed procedural canvas behind the complete Home page.
+- Simulates a very large deep-space survey volume rather than a flat wallpaper.
+- Scroll moves the virtual camera slowly through that volume.
+- The field also drifts slowly when the page is not moving.
+- New objects emerge naturally while old objects leave the viewport during scrolling.
+
+DEEP LAYER CONTENT
+------------------
+- multiple cold grey / deep-blue nebula shapes;
+- distant space-dust clouds;
+- many stars at several parallax depths;
+- compact stellar clusters;
+- rare tiny distant galaxies;
+- minimalist solar systems with visible orbital ellipses;
+- rare distant moving ship silhouettes inspired by Anaconda, Krait and Caspian forms;
+- tiny survey ticks around some systems, but NO background grid.
+
+STYLE
+-----
+The layer is intentionally not photo-realistic. It is rendered as a restrained old deep-space
+survey display: low-saturation, technical, cold and slightly degraded. Existing scanlines and
+very faint analogue noise stay above it.
+
+PERFORMANCE
+-----------
+No external image files and no Three.js instance are added.
+Nebula sprites are generated once into small offscreen canvases, and the world is split into
+cached procedural segments. Only nearby world segments are kept in memory.
+Device pixel ratio is capped at 1.6 to avoid wasting GPU fill-rate at 1440p/4K.
+
+NOT INCLUDED YET
+----------------
+This is deliberately only the DEEP 3D layer. The closer Phantom Dust layer — slow foreground
+micro-particles, grains and occasional near-camera dust passing over some blocks — is NOT added
+in V0.4.23. It can be tuned separately after this depth test is approved.
+
+UNTOUCHED
+---------
+- all Home text/content;
+- title texture and glitch V0.4.22;
+- Galaxy Route Map and its JavaScript;
+- Phantom Grid;
+- datasets;
+- navigation and expedition structure.

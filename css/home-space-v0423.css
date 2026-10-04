@@ -1,0 +1,94 @@
+/* =========================================================
+   PHANTOM SEEKER V0.4.23 // DEEP SURVEY FIELD
+   HOME ONLY — first background-layer test.
+
+   Purpose:
+   - remove the old flat grids;
+   - deepen the charcoal / blue-grey void;
+   - place a procedural, scroll-reactive deep-space survey field behind the page;
+   - leave content, route map, title/glitch system and Phantom Grid untouched.
+   ========================================================= */
+
+:root {
+  --phantom-void-0: #020509;
+  --phantom-void-1: #04080d;
+  --phantom-void-2: #071019;
+}
+
+html,
+body {
+  background: var(--phantom-void-0) !important;
+}
+
+body {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 54% 18%, rgba(26, 45, 58, .20), transparent 44%),
+    radial-gradient(circle at 18% 64%, rgba(18, 35, 48, .16), transparent 42%),
+    linear-gradient(180deg, #05090e 0%, #03070b 54%, #020509 100%) !important;
+}
+
+/* The original 48px page grid is intentionally removed. */
+body::before {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+}
+
+/* The perspective hero grid is also removed for this survey-field direction. */
+.hero-grid {
+  display: none !important;
+}
+
+/* Old hero-only radial scenery would fight the continuous deep field. */
+.hero::after {
+  background: none !important;
+}
+
+#phantom-deep-field {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: .96;
+  contain: strict;
+}
+
+/* Lift the site above the deep canvas without changing local stacking systems. */
+.site-header,
+main,
+.site-footer {
+  position: relative;
+  z-index: 2;
+}
+
+/* Keep the existing analogue scan/noise veil as the "old survey terminal" lens. */
+.scanlines,
+.noise {
+  pointer-events: none;
+}
+
+/* Content stays readable over luminous objects that happen to drift behind it. */
+.section-shell,
+.chapter,
+.final-manifesto {
+  position: relative;
+}
+
+/* The closing panel keeps only a very faint local vignette rather than an opaque field. */
+.final-manifesto {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(40, 61, 76, .055), transparent 39%) !important;
+}
+
+@media (max-width: 760px) {
+  #phantom-deep-field { opacity: .82; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #phantom-deep-field { opacity: .86; }
+}
