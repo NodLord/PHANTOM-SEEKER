@@ -1,0 +1,151 @@
+/* =========================================================
+   PHANTOM SEEKER V0.4.19 // MONOCHROME SIGNAL DECAY
+   HOME + PHANTOM GRID
+
+   Incremental visual layer over V0.4.18.
+   - New HD organic paint material, far fewer missing-paint holes.
+   - Film-grain shadow is removed completely on both titles.
+   - Cyan/orange corruption becomes monochrome, much faster and much smaller.
+   - Corruption remains BETWEEN the paint and the background.
+   - Data-loss rectangles keep their V0.4.15 timing/frequency and stay on top,
+     but their palette is now black / white / neutral gray.
+   - Live HTML glyph geometry remains untouched.
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   NEW PAINT MATERIAL // HOME + GRID
+   4096x2048 RGBA. Mostly intact silver-white paint, subtle cloudy
+   tonal variation, embedded grime, partial abrasion and sparse real
+   alpha holes. The letters remain much easier to read than V0.4.18.
+   --------------------------------------------------------- */
+.glitch-title .glitch-core {
+  z-index: 3 !important;
+
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+
+  background-image: url("../assets/title-paint-organic-v0419.png") !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+  background-size: 100% 100% !important;
+
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+
+  text-shadow: none !important;
+  filter: none !important;
+}
+
+/* ---------------------------------------------------------
+   FILM GRAIN // REMOVED
+   The DOM copy is kept only so the existing HTML structure does not
+   change, but it contributes no pixels and runs no animation.
+   --------------------------------------------------------- */
+.glitch-title .glitch-noise {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  animation: none !important;
+  background: none !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+/* ---------------------------------------------------------
+   MONOCHROME SIGNAL GLITCH
+   These copies stay UNDER the physical paint. They can therefore be
+   seen mainly through worn / translucent areas and genuine alpha holes.
+   No glow, no saturated color, no large corrupted surfaces.
+   --------------------------------------------------------- */
+.glitch-title::before,
+.glitch-title::after {
+  z-index: 2 !important;
+  mix-blend-mode: normal !important;
+  text-shadow: none !important;
+  will-change: clip-path, opacity !important;
+}
+
+/* Bright signal fragment. */
+.glitch-title::before {
+  color: rgba(248, 250, 251, .96) !important;
+  transform: translateX(-.30px) !important;
+  opacity: 0;
+  animation: phantom-mono-white-v0419 .24s infinite steps(1, end) !important;
+}
+
+/* Black signal fragment. Deliberately close to the site background,
+   so it reads as a brief dropout rather than a second loud layer. */
+.glitch-title::after {
+  color: rgba(2, 4, 6, .98) !important;
+  transform: translateX(.30px) !important;
+  opacity: 0;
+  animation: phantom-mono-black-v0419 .31s infinite steps(1, end) !important;
+}
+
+/* Thin, short-lived slices. Each visible frame corrupts only a small
+   percentage of the title instead of the broad V0.4.15 bands. */
+@keyframes phantom-mono-white-v0419 {
+  0%   { clip-path: inset(8% 72% 88% 5%);  opacity:0; }
+  8%   { clip-path: inset(8% 72% 88% 5%);  opacity:.34; }
+  17%  { clip-path: inset(31% 51% 66% 28%); opacity:.23; }
+  25%  { clip-path: inset(31% 51% 66% 28%); opacity:0; }
+  39%  { clip-path: inset(53% 19% 44% 63%); opacity:.31; }
+  47%  { clip-path: inset(53% 19% 44% 63%); opacity:0; }
+  61%  { clip-path: inset(72% 62% 25% 17%); opacity:.26; }
+  70%  { clip-path: inset(72% 62% 25% 17%); opacity:0; }
+  84%  { clip-path: inset(89% 37% 8% 45%);  opacity:.30; }
+  92%,100% { clip-path: inset(89% 37% 8% 45%); opacity:0; }
+}
+
+@keyframes phantom-mono-black-v0419 {
+  0%   { clip-path: inset(18% 48% 79% 34%); opacity:0; }
+  9%   { clip-path: inset(18% 48% 79% 34%); opacity:.36; }
+  18%  { clip-path: inset(40% 73% 57% 8%);  opacity:.24; }
+  27%  { clip-path: inset(40% 73% 57% 8%);  opacity:0; }
+  41%  { clip-path: inset(61% 35% 36% 49%); opacity:.33; }
+  50%  { clip-path: inset(61% 35% 36% 49%); opacity:0; }
+  65%  { clip-path: inset(79% 58% 18% 24%); opacity:.25; }
+  74%  { clip-path: inset(79% 58% 18% 24%); opacity:0; }
+  88%  { clip-path: inset(5% 18% 92% 70%);  opacity:.31; }
+  96%,100% { clip-path: inset(5% 18% 92% 70%); opacity:0; }
+}
+
+/* ---------------------------------------------------------
+   DATA-LOSS RECTANGLES // SAME TIMING, MONOCHROME PALETTE
+   erase-a / erase-b / erase-c remain defined by glitch-v0415.css and
+   are intentionally NOT overridden here. Frequency and movement stay
+   exactly as before. Only the color treatment changes.
+   --------------------------------------------------------- */
+.glitch-title .glitch-bug {
+  z-index: 6 !important;
+  background: #05080a !important;
+  border-left: 2px solid rgba(248,250,251,.92) !important;
+  border-right: 1px solid rgba(116,124,130,.86) !important;
+
+  box-shadow:
+    1.12em .42em 0 #05080a,
+    1.12em .42em 0 1px rgba(244,247,249,.70),
+    2.55em -.34em 0 #05080a,
+    2.55em -.34em 0 1px rgba(119,127,133,.68) !important;
+}
+
+.grid-title .glitch-bug {
+  background: #030608 !important;
+  box-shadow:
+    1.12em .42em 0 #030608,
+    1.12em .42em 0 1px rgba(244,247,249,.70),
+    2.55em -.34em 0 #030608,
+    2.55em -.34em 0 1px rgba(119,127,133,.68) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glitch-title::before,
+  .glitch-title::after {
+    display: none !important;
+    animation: none !important;
+  }
+
+  .glitch-title .glitch-noise {
+    display: none !important;
+  }
+}

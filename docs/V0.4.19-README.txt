@@ -1,0 +1,44 @@
+PHANTOM SEEKER // PATCH V0.4.19
+MONOCHROME SIGNAL DECAY
+
+SOURCE OF TRUTH
+---------------
+This patch is incremental from the deployed V0.4.18 structure.
+It does not rebuild Home, Route Map or Phantom Grid.
+No JavaScript or dataset is replaced.
+
+FILES TO REPLACE
+----------------
+index.html
+grid.html
+
+FILES TO ADD
+------------
+css/glitch-v0419.css
+assets/title-paint-organic-v0419.png
+docs/V0.4.19-README.txt
+
+VISUAL CHANGES
+--------------
+1. HOME + PHANTOM GRID use the same new 4096x2048 RGBA organic paint material.
+2. The new material is substantially more intact than V0.4.18:
+   - approximately 87% fully opaque paint
+   - approximately 1.5% true transparent holes
+   - remaining wear is mostly subtle / semi-transparent abrasion
+3. Film-grain shadow text is completely disabled on both titles.
+4. Orange/cyan title corruption becomes monochrome black/white.
+5. Signal corruption runs much faster (.24s and .31s cycles) but each slice is much smaller and lower-opacity.
+6. Signal corruption remains beneath the physical paint layer.
+7. Data-loss rectangles remain above the title at the exact existing V0.4.15 timing/frequency, now with black/white/gray treatment only.
+8. Live HTML text remains the glyph mask. Font, size, wrapping and responsive geometry are not rasterized or replaced.
+
+UNTOUCHED
+---------
+js/home.js
+js/route-map.js
+js/app.js
+js/grid-v045-axis-labels.js
+all data/*.json
+Galaxy Route Map behavior
+Phantom Grid Three.js behavior and datasets
+Narrative / waypoint text
