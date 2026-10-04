@@ -1,0 +1,86 @@
+/* =========================================================
+   PHANTOM SEEKER V0.4.17 // HOME TITLE MATERIAL PASS
+   Selected treatment: SCATTERED LIGHT (option 04 / top of pass 2)
+
+   Scope: HOME hero title only.
+   - Keeps the live HTML text as the exact glyph geometry.
+   - Removes the clipped white bloom from the HOME title.
+   - Applies the distressed logo-like material as a texture clipped
+     inside the real text, so font/size/wrapping remain unchanged.
+   - Moves the film-grain shadow to exactly +5px / +5px.
+   - Strengthens film grain without touching the orange/cyan attacks,
+     data-loss rectangles, timing, Grid title, or any JS.
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   LIVE TITLE MATERIAL
+   The text itself remains the original DOM text. The PNG is ONLY
+   paint/material, never a pre-rendered replacement title.
+   --------------------------------------------------------- */
+.hero-title.glitch-title .glitch-core {
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+
+  background-image: url("../assets/title-texture-scattered-v0417.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% 100%;
+
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+
+  /* V0.4.14 white haze caused the rectangular clipping at the
+     title bounds. Remove it entirely on HOME. Dynamic cyan/orange
+     glitch layers remain untouched in glitch-v0415.css. */
+  text-shadow: none !important;
+  filter: none !important;
+}
+
+/* ---------------------------------------------------------
+   FILM-GRAIN SHADOW
+   Same live text, same geometry. Only the offset and grain strength
+   change on HOME. Grid keeps the shared V0.4.15 values.
+   --------------------------------------------------------- */
+.hero-title.glitch-title .glitch-noise {
+  transform: translate(5px, 5px) !important;
+
+  background:
+    radial-gradient(circle at 18% 28%, rgba(255,255,255,.46) 0 .58px, transparent .76px),
+    radial-gradient(circle at 72% 63%, rgba(255,255,255,.32) 0 .48px, transparent .70px),
+    radial-gradient(circle at 42% 82%, rgba(255,255,255,.27) 0 .40px, transparent .62px),
+    repeating-radial-gradient(circle at 35% 50%,
+      rgba(255,255,255,.13) 0 .68px,
+      rgba(0,0,0,.19) .82px 1.52px,
+      transparent 1.68px 2.66px),
+    linear-gradient(90deg,
+      rgba(128,141,153,.22),
+      rgba(210,218,224,.38) 45%,
+      rgba(104,116,128,.20));
+
+  background-size:
+    9px 9px,
+    13px 13px,
+    17px 17px,
+    11px 11px,
+    100% 100%;
+
+  background-position:
+    0 0,
+    4px 2px,
+    -3px 5px,
+    0 0,
+    0 0;
+
+  filter: contrast(1.22) brightness(1.10);
+  animation: home-grain-shadow-drift-v0417 .78s infinite steps(2,end) !important;
+}
+
+/* Same internal drift pattern as V0.4.15, with stronger grain opacity.
+   The layer position itself never moves. */
+@keyframes home-grain-shadow-drift-v0417 {
+  0%   { background-position:0 0, 4px 2px, -3px 5px, 0 0, 0 0; opacity:.41; }
+  25%  { background-position:2px -1px, 1px 4px, -5px 2px, 3px -2px, 0 0; opacity:.49; }
+  50%  { background-position:-1px 2px, 6px 0, 0 6px, -2px 3px, 0 0; opacity:.44; }
+  75%  { background-position:3px 1px, 2px -2px, -4px 7px, 2px 2px, 0 0; opacity:.51; }
+  100% { background-position:0 0, 4px 2px, -3px 5px, 0 0, 0 0; opacity:.41; }
+}

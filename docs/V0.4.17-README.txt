@@ -1,0 +1,64 @@
+PHANTOM SEEKER // PATCH V0.4.17
+================================
+
+SOURCE OF TRUTH
+---------------
+Built directly from the supplied public repository V0.4.15.
+The broken V0.4.16 pre-rendered-title approach is NOT used.
+
+SELECTED VISUAL
+---------------
+Option 04: SCATTERED LIGHT (the top treatment in the second comparison image).
+
+WHAT CHANGED
+------------
+HOME hero title only:
+
+1. The title remains the original live HTML text:
+   EXPEDITION PHANTOM SEEKER
+   No PNG contains the lettering itself.
+
+2. The original font, font size, line breaks, kerning and responsive geometry
+   therefore remain controlled by the existing site CSS/browser rendering.
+
+3. A new transparent 4096x2048 material texture is clipped inside the live
+   glyphs:
+   assets/title-texture-scattered-v0417.png
+
+4. The HOME title white bloom is completely removed, eliminating the visible
+   rectangular clipping at the title bounds.
+
+5. The film-grain shadow is now exactly:
+   +5px right / +5px down
+   and its grain contrast/opacity is strengthened.
+
+6. Orange/cyan digital fragments, random data-loss rectangles, glitch timing,
+   title position and all other V0.4.15 glitch behavior remain intact.
+
+7. Phantom Grid is untouched.
+   Route Map, JavaScript and datasets are untouched.
+
+FILES TO REPLACE / ADD
+----------------------
+REPLACE:
+  index.html
+
+ADD:
+  css/home-v0417.css
+  assets/title-texture-scattered-v0417.png
+  docs/V0.4.17-README.txt
+
+IF V0.4.16 IS CURRENTLY DEPLOYED
+--------------------------------
+The V0.4.17 index.html no longer loads css/home-v0416.css and no longer uses
+assets/hero-title-scattered-v0416.png. Those two obsolete V0.4.16 files may be
+deleted from the repository, but leaving them unreferenced is harmless.
+
+DO NOT REPLACE
+--------------
+css/glitch-v0415.css
+css/home.css
+css/home-v0414.css
+grid.html
+js/*
+data/*
