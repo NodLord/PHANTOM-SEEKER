@@ -1,0 +1,38 @@
+PHANTOM SEEKER V0.4.27.4 // FSD LIGHT BALANCE
+================================================
+
+BASE
+----
+Incremental hotfix built directly on V0.4.27.3 PERFORMANCE CORE.
+The dual-canvas architecture, cached sprites, adaptive deep-field cadence,
+DPR split, world-space anchoring and all V0.4.27.3 optimizations are preserved.
+
+CHANGES
+-------
+- FSD flash is now deliberately stronger than the wake.
+- Flash sprite is larger and uses three cached light layers:
+  wide bloom envelope, dense mid bloom, white ignition core.
+- Flash live duration increased slightly (~540 ms) but remains brief.
+- Flash scale and opacity increased, still depth-dependent.
+- Wake brightness and bloom reduced substantially.
+- Wake keeps the same diffuse volumetric silhouette and ~4.2 s lifetime.
+- Charged dust and center filament in the wake are dimmer.
+- Flash and wake now have separate alpha budgets, so one can be tuned without
+  affecting the other.
+- All expensive blur work remains PRECOMPUTED in cached sprites. No real-time
+  Canvas blur was reintroduced.
+
+FILES TO REPLACE
+----------------
+index.html
+
+FILES TO ADD
+------------
+js/home-space-v0427-4.js
+docs/V0.4.27.4-README.txt
+
+UNCHANGED
+---------
+Deep Survey Field, galaxy/nebula/system rendering, ship trajectories,
+world-space scroll anchoring, ship silhouettes, trails, Route Map,
+Phantom Grid, title/glitch system and datasets.
