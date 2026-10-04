@@ -1,0 +1,34 @@
+PHANTOM SEEKER V0.4.21 // MATERIAL / BLOOM CORRECTION
+
+Incremental patch over V0.4.20. No JavaScript, route data, Three.js logic or
+expedition narrative has been changed.
+
+CHANGES
+- Replaces the V0.4.20 2048x1024 / heavily compressed paint map with a new
+  4096x2048 RGBA high-quality organic material.
+- The deployed 4K asset is WebP quality 96 (~3.1 MiB). A lossless PNG master
+  would be ~13 MiB, so it is intentionally not shipped in the public patch.
+- Material contains mostly intact paint, photographic relief, micro-pitting,
+  scratches, sparse true alpha holes and semi-transparent abrasion.
+- Restores the HOME hero logo to the pre-V0.4.20 diffuse drop-shadow.
+- Restores the original low-energy HOME background light field; removes the
+  V0.4.20 bridge haze that made the logo look blurred.
+- HOME hero title bloom is now much weaker and broader.
+- Fixes V0.4.20 heading rendering bugs (FINAL PREPARATIONS, GALACTIC X/Z
+  PROJECTION, EXPEDITION ROUTE, RULES FOR THE TEMPORARILY ALIVE, etc.).
+  The cause was large transparent texture areas combined with full-glyph
+  text-shadow. V0.4.21 uses a mostly intact material and drop-shadow from the
+  composited paint layer instead.
+- Galaxy Route Map heading remains bloom-free.
+- V0.4.20 boot sequence, 5-7 s micro-bursts and rare inversion windows are
+  preserved unchanged.
+- PHANTOM GRID uses the same new 4K paint material. Badge -> V0.4.21.
+
+FILES TO REPLACE
+- index.html
+- grid.html
+
+FILES TO ADD
+- css/glitch-v0421.css
+- assets/title-paint-organic-v0421.webp
+- docs/V0.4.21-README.txt

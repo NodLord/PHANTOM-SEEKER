@@ -1,0 +1,139 @@
+/* =========================================================
+   PHANTOM SEEKER V0.4.21 // MATERIAL / BLOOM CORRECTION
+   Incremental override over V0.4.20.
+
+   Goals:
+   - 4096x2048 high-quality organic paint material.
+   - Restore the pre-V0.4.20 logo halo.
+   - Greatly reduce and soften the HOME hero-title bloom.
+   - Preserve V0.4.20 boot / micro-bursts / inversion logic unchanged.
+   - Fix disappearing / blurred static headings caused by large transparent
+     regions interacting with the legacy text-shadow bloom.
+   ========================================================= */
+
+:root {
+  --phantom-paint-v0421: url("../assets/title-paint-organic-v0421.webp");
+  /* V0.4.20 rules use this token. Redirecting it keeps every existing signal
+     layer perfectly aligned without duplicating the animation CSS. */
+  --phantom-paint-v0420: var(--phantom-paint-v0421);
+}
+
+/* ---------------------------------------------------------
+   HIGH-RES PAINT SCALE
+   Use a fixed material scale rather than stretching a low-res map over the
+   whole word. The 4K source is downsampled by the browser, never enlarged.
+   --------------------------------------------------------- */
+.glitch-title .glitch-core,
+.glitch-title .glitch-bug::before {
+  background-image: var(--phantom-paint-v0421) !important;
+  background-size: 1200px 600px !important;
+  background-repeat: no-repeat !important;
+  background-position: 50% 48% !important;
+}
+
+/* ---------------------------------------------------------
+   BLOOM CORRECTION
+   V0.4.20 deliberately pushed this too far. Restore the old logo treatment
+   and the original low-energy hero background field.
+   --------------------------------------------------------- */
+.hero::after {
+  background:
+    radial-gradient(circle at 27% 49%, rgba(209,229,242,.075), transparent 26%),
+    radial-gradient(circle at 68% 51%, rgba(28,88,118,.08), transparent 33%) !important;
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+.hero-logo {
+  filter: drop-shadow(0 0 38px rgba(193,220,238,.07)) !important;
+}
+
+/* Main HOME title: broad but low-energy. It should read as atmospheric haze,
+   not a luminous cloud. No rectangular clipping is introduced. */
+.hero-title.glitch-title .glitch-core {
+  text-shadow: none !important;
+  filter:
+    drop-shadow(0 0 10px rgba(237,243,247,.085))
+    drop-shadow(0 0 38px rgba(237,243,247,.034))
+    drop-shadow(0 0 94px rgba(222,236,245,.012)) !important;
+}
+
+/* Grid stays in the same restrained monochrome family. */
+.grid-title.glitch-title .glitch-core {
+  text-shadow: none !important;
+  filter:
+    drop-shadow(0 0 8px rgba(237,243,247,.10))
+    drop-shadow(0 0 28px rgba(237,243,247,.040)) !important;
+}
+
+/* ---------------------------------------------------------
+   STATIC HOME TITLES // BUG FIX
+
+   The old V0.4.20 texture contained broad transparent areas. Combined with
+   the legacy text-shadow, parts of headings vanished while a blurred copy of
+   the complete glyph remained visible behind them. V0.4.21 uses a mostly
+   intact 4K material AND renders bloom from the composited paint layer using
+   filter:drop-shadow rather than from the original full glyph via text-shadow.
+   --------------------------------------------------------- */
+.manifesto h2,
+.route-map-heading h2,
+.route-overview h2,
+.status-heading h2,
+.protocol-heading h2,
+.waypoint-main h3,
+.final-manifesto > div {
+  background-image: var(--phantom-paint-v0421) !important;
+  background-repeat: no-repeat !important;
+  background-size: 980px 490px !important;
+  color: rgba(239,244,247,.96) !important;
+  -webkit-text-fill-color: transparent !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  text-shadow: none !important;
+  filter:
+    drop-shadow(0 0 8px rgba(237,243,247,.095))
+    drop-shadow(0 0 28px rgba(237,243,247,.040)) !important;
+}
+
+/* The Galaxy Route Map itself intentionally remains bloom-free. */
+.route-map-heading h2 {
+  filter: none !important;
+}
+
+/* Crop variation, retained but moved onto areas of the new material that are
+   visually dense enough to guarantee legibility. */
+.status-heading h2       { background-position: 24% 30% !important; }
+.manifesto h2             { background-position: 68% 44% !important; }
+.route-map-heading h2     { background-position: 46% 31% !important; }
+.route-overview h2        { background-position: 74% 68% !important; }
+.protocol-heading h2      { background-position: 31% 61% !important; }
+.final-manifesto > div    { background-position: 58% 35% !important; }
+.chapter .waypoint:nth-of-type(3n+1) .waypoint-main h3 { background-position: 21% 37% !important; }
+.chapter .waypoint:nth-of-type(3n+2) .waypoint-main h3 { background-position: 66% 57% !important; }
+.chapter .waypoint:nth-of-type(3n)   .waypoint-main h3 { background-position: 44% 73% !important; }
+
+/* Mission Philosophy keeps its Chapter I / II colour language. */
+.manifesto h2 .philosophy-amber {
+  color: #f4a340 !important;
+  -webkit-text-fill-color: #f4a340 !important;
+}
+.manifesto h2 .philosophy-cyan {
+  color: #66d9ff !important;
+  -webkit-text-fill-color: #66d9ff !important;
+}
+
+/* Retain a clean solid fallback if background-clipped text is unavailable. */
+@supports not (-webkit-background-clip:text) {
+  .glitch-title .glitch-core,
+  .manifesto h2,
+  .route-map-heading h2,
+  .route-overview h2,
+  .status-heading h2,
+  .protocol-heading h2,
+  .waypoint-main h3,
+  .final-manifesto > div {
+    color: #edf2f5 !important;
+    -webkit-text-fill-color: #edf2f5 !important;
+    background-image: none !important;
+  }
+}
