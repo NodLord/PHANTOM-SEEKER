@@ -1,0 +1,52 @@
+PHANTOM SEEKER V0.4.14 // STABLE DIGITAL GLITCH + DIFFUSE BLOOM
+
+GLITCH
+======
+- same exact effect on HOME `EXPEDITION PHANTOM SEEKER`
+  and GRID `PHANTOM GRID`
+- removed the excessive whole-title movement
+- real title now stays almost stationary
+- glitch attacks the letters instead:
+  - blocky missing-data erasures
+  - small encoding-error chunks
+  - bright Chapter I orange fragments
+  - bright Chapter II cyan fragments
+  - embedded film grain
+- no scanline-style lines across the title
+- orange/cyan are now brighter and more saturated
+
+BLOOM
+=====
+Color bloom has been rebalanced:
+- much less bright directly on the letter edge
+- much broader and more diffuse
+- extends farther into the surrounding darkness
+- waypoint nicknames retain stronger bloom than small colored UI
+- large white text gets a slightly wider white haze
+- small white body copy still has no bloom
+
+PROLOGUE PLAQUE
+===============
+The `PROLOGUE` waypoint rectangle now receives diffuse orange box bloom.
+Other colored waypoint plaques receive matching chapter bloom too.
+
+MISSION PHILOSOPHY
+==================
+- DIED remains orange
+- REMAINS remains cyan
+
+EXPEDITION ROUTE MAP
+====================
+Still untouched by the new bloom rules.
+
+FILES TO REPLACE
+================
+- /index.html
+- /grid.html
+
+FILES TO ADD
+============
+- /css/home-v0414.css
+- /css/glitch-v0414.css
+
+No app.js, route-map.js, survey data, or HOME JS changes.

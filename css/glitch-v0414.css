@@ -1,0 +1,349 @@
+/* =========================================================
+   PHANTOM SEEKER V0.4.14 // STABLE DIGITAL CORRUPTION
+   Same effect on HOME + PHANTOM GRID.
+   The title stays almost fixed. The glitch attacks the glyphs.
+   ========================================================= */
+
+.glitch-title {
+  --glitch-orange: #f4a340;
+  --glitch-blue: #66d9ff;
+  --glitch-white: var(--text, #e9eef2);
+  --glitch-bg: #0d1319;
+
+  position: relative !important;
+  display: inline-block;
+  isolation: isolate;
+  contain: paint;
+  overflow: hidden !important;
+  color: transparent !important;
+
+  /* Kill the old title-level motion from previous GRID CSS. */
+  animation: none !important;
+}
+
+/* Different local backgrounds for the erasure blocks. */
+.hero-title.glitch-title {
+  --glitch-bg: #10171d;
+}
+
+.grid-title.glitch-title {
+  --glitch-bg: #0b1117;
+}
+
+/* Real title remains visually stable. Only microscopic encoding jitter. */
+.glitch-title .glitch-core {
+  position: relative;
+  z-index: 2;
+  display: block;
+  color: var(--glitch-white);
+  font: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+
+  text-shadow:
+    -.4px 0 rgba(102,217,255,.22),
+     .4px 0 rgba(244,163,64,.20);
+
+  animation: stable-core-corruption 3.1s infinite steps(1,end) !important;
+}
+
+/* Bright colored signal fragments. Broad blocks, no scanline look. */
+.glitch-title::before,
+.glitch-title::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: block;
+  width: 100%;
+  font: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  white-space: normal;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  will-change: transform, clip-path, opacity;
+
+  /* Explicitly override earlier GRID glitch animations. */
+  animation-duration: inherit;
+}
+
+.glitch-title::before {
+  color: var(--glitch-blue);
+  opacity: .72;
+  text-shadow:
+    -2.4px 0 var(--glitch-blue),
+    -5px 0 rgba(102,217,255,.24);
+  animation: digital-fragments-blue 2.15s infinite steps(1,end) !important;
+}
+
+.glitch-title::after {
+  color: var(--glitch-orange);
+  opacity: .68;
+  text-shadow:
+     2.4px 0 var(--glitch-orange),
+     5px 0 rgba(244,163,64,.22);
+  animation: digital-fragments-orange 2.48s infinite steps(1,end) !important;
+}
+
+/* Film grain remains embedded in the glyphs. */
+.glitch-noise {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: block;
+  color: transparent;
+  font: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  pointer-events: none;
+  opacity: .12;
+
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='84' height='84' viewBox='0 0 84 84'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='4' seed='23'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.95'/%3E%3C/svg%3E");
+  background-size: 66px 66px;
+  -webkit-background-clip: text;
+  background-clip: text;
+  mix-blend-mode: screen;
+
+  animation: digital-grain .68s infinite steps(2,end) !important;
+}
+
+/* These blocks are dark "data loss" holes. They erase chunks of letters,
+   while tiny cyan/orange edges make the missing data look electronic. */
+.glitch-bug {
+  position: absolute;
+  z-index: 6;
+  display: block;
+  height: .18em;
+  min-height: 5px;
+  pointer-events: none;
+  opacity: 0;
+  background: var(--glitch-bg);
+  border-left: 2px solid var(--glitch-blue);
+  border-right: 1px solid var(--glitch-orange);
+  box-shadow:
+    1.15em .42em 0 var(--glitch-bg),
+    1.15em .42em 0 1px rgba(244,163,64,.55),
+    2.55em -.33em 0 var(--glitch-bg),
+    2.55em -.33em 0 1px rgba(102,217,255,.52);
+}
+
+.glitch-bug-a {
+  width: 10%;
+  animation: erase-block-a 2.25s infinite steps(1,end) !important;
+}
+
+.glitch-bug-b {
+  width: 6%;
+  height: .24em;
+  animation: erase-block-b 3.05s infinite steps(1,end) !important;
+}
+
+.glitch-bug-c {
+  width: 13%;
+  height: .12em;
+  animation: erase-block-c 1.85s infinite steps(1,end) !important;
+}
+
+/* The title itself barely moves. */
+@keyframes stable-core-corruption {
+  0%,7%   { transform:translate(0,0) skewX(0); letter-spacing:inherit; }
+  8%,9%   { transform:translate(-.18px,0) skewX(-.04deg); }
+  10%,18% { transform:translate(0,0) skewX(0); }
+  19%,20% { transform:translate(.20px,0) skewX(.05deg); letter-spacing:.001em; }
+  21%,34% { transform:translate(0,0); }
+  35%,36% { transform:translate(-.22px,0) skewX(-.05deg); }
+  37%,53% { transform:translate(0,0); }
+  54%,55% { transform:translate(.18px,0) skewX(.04deg); }
+  56%,72% { transform:translate(0,0); }
+  73%,74% { transform:translate(-.20px,0); letter-spacing:-.001em; }
+  75%,89% { transform:translate(0,0); }
+  90%,91% { transform:translate(.16px,0) skewX(.03deg); }
+  92%,100%{ transform:translate(0,0) skewX(0); letter-spacing:inherit; }
+}
+
+/* Colored chunks stay close to the title. The corruption comes from
+   clipping and data loss, not from throwing the whole word sideways. */
+@keyframes digital-fragments-blue {
+  0% {
+    transform:translate(-.8px,0);
+    clip-path:polygon(
+      0 6%,36% 6%,36% 23%,0 23%,
+      0 23%,0 100%,0 100%,0 23%,
+      56% 37%,100% 37%,100% 55%,56% 55%,
+      56% 55%,56% 100%,56% 100%,56% 55%,
+      12% 72%,65% 72%,65% 91%,12% 91%
+    );
+  }
+  22% {
+    transform:translate(-1.5px,0);
+    clip-path:polygon(
+      18% 4%,74% 4%,74% 20%,18% 20%,
+      18% 20%,18% 100%,18% 100%,18% 20%,
+      0 43%,48% 43%,48% 61%,0 61%,
+      0 61%,0 100%,0 100%,0 61%,
+      60% 75%,100% 75%,100% 94%,60% 94%
+    );
+  }
+  45% {
+    transform:translate(.65px,0);
+    clip-path:polygon(
+      0 12%,31% 12%,31% 29%,0 29%,
+      0 29%,0 100%,0 100%,0 29%,
+      44% 34%,100% 34%,100% 52%,44% 52%,
+      44% 52%,44% 100%,44% 100%,44% 52%,
+      24% 68%,77% 68%,77% 86%,24% 86%
+    );
+  }
+  68% {
+    transform:translate(-1.25px,0);
+    clip-path:polygon(
+      38% 5%,100% 5%,100% 22%,38% 22%,
+      38% 22%,38% 100%,38% 100%,38% 22%,
+      0 39%,54% 39%,54% 57%,0 57%,
+      0 57%,0 100%,0 100%,0 57%,
+      63% 72%,100% 72%,100% 90%,63% 90%
+    );
+  }
+  86% {
+    transform:translate(.55px,0);
+    clip-path:polygon(
+      0 8%,52% 8%,52% 25%,0 25%,
+      0 25%,0 100%,0 100%,0 25%,
+      63% 40%,100% 40%,100% 58%,63% 58%,
+      63% 58%,63% 100%,63% 100%,63% 58%,
+      16% 74%,68% 74%,68% 92%,16% 92%
+    );
+  }
+  100% {
+    transform:translate(-.8px,0);
+    clip-path:polygon(
+      0 6%,36% 6%,36% 23%,0 23%,
+      0 23%,0 100%,0 100%,0 23%,
+      56% 37%,100% 37%,100% 55%,56% 55%,
+      56% 55%,56% 100%,56% 100%,56% 55%,
+      12% 72%,65% 72%,65% 91%,12% 91%
+    );
+  }
+}
+
+@keyframes digital-fragments-orange {
+  0% {
+    transform:translate(.8px,0);
+    clip-path:polygon(
+      32% 8%,100% 8%,100% 26%,32% 26%,
+      32% 26%,32% 100%,32% 100%,32% 26%,
+      0 36%,43% 36%,43% 55%,0 55%,
+      0 55%,0 100%,0 100%,0 55%,
+      51% 71%,92% 71%,92% 90%,51% 90%
+    );
+  }
+  25% {
+    transform:translate(1.45px,0);
+    clip-path:polygon(
+      0 5%,48% 5%,48% 22%,0 22%,
+      0 22%,0 100%,0 100%,0 22%,
+      54% 38%,100% 38%,100% 56%,54% 56%,
+      54% 56%,54% 100%,54% 100%,54% 56%,
+      20% 76%,80% 76%,80% 94%,20% 94%
+    );
+  }
+  49% {
+    transform:translate(-.55px,0);
+    clip-path:polygon(
+      43% 3%,100% 3%,100% 21%,43% 21%,
+      43% 21%,43% 100%,43% 100%,43% 21%,
+      0 32%,52% 32%,52% 51%,0 51%,
+      0 51%,0 100%,0 100%,0 51%,
+      56% 67%,100% 67%,100% 86%,56% 86%
+    );
+  }
+  72% {
+    transform:translate(1.25px,0);
+    clip-path:polygon(
+      13% 10%,65% 10%,65% 28%,13% 28%,
+      13% 28%,13% 100%,13% 100%,13% 28%,
+      58% 41%,100% 41%,100% 59%,58% 59%,
+      58% 59%,58% 100%,58% 100%,58% 59%,
+      0 73%,45% 73%,45% 92%,0 92%
+    );
+  }
+  91% {
+    transform:translate(-.45px,0);
+    clip-path:polygon(
+      0 7%,39% 7%,39% 24%,0 24%,
+      0 24%,0 100%,0 100%,0 24%,
+      49% 34%,100% 34%,100% 52%,49% 52%,
+      49% 52%,49% 100%,49% 100%,49% 52%,
+      30% 70%,89% 70%,89% 88%,30% 88%
+    );
+  }
+  100% {
+    transform:translate(.8px,0);
+    clip-path:polygon(
+      32% 8%,100% 8%,100% 26%,32% 26%,
+      32% 26%,32% 100%,32% 100%,32% 26%,
+      0 36%,43% 36%,43% 55%,0 55%,
+      0 55%,0 100%,0 100%,0 55%,
+      51% 71%,92% 71%,92% 90%,51% 90%
+    );
+  }
+}
+
+@keyframes digital-grain {
+  0%   { background-position:0 0; opacity:.08; }
+  20%  { background-position:17px -12px; opacity:.15; }
+  40%  { background-position:-22px 14px; opacity:.10; }
+  60%  { background-position:29px 7px; opacity:.16; }
+  80%  { background-position:-13px -18px; opacity:.09; }
+  100% { background-position:0 0; opacity:.12; }
+}
+
+@keyframes erase-block-a {
+  0%,14%  { left:8%; top:20%; opacity:0; }
+  15%,24% { left:18%; top:23%; opacity:.92; }
+  25%,41% { left:63%; top:47%; opacity:.10; }
+  42%,51% { left:34%; top:67%; opacity:.88; }
+  52%,75% { left:72%; top:31%; opacity:.08; }
+  76%,86% { left:13%; top:82%; opacity:.86; }
+  87%,100%{ opacity:0; }
+}
+
+@keyframes erase-block-b {
+  0%,20%  { left:73%; top:72%; opacity:0; }
+  21%,31% { left:52%; top:14%; opacity:.86; }
+  32%,55% { left:12%; top:55%; opacity:.08; }
+  56%,66% { left:69%; top:42%; opacity:.90; }
+  67%,90% { left:28%; top:86%; opacity:.06; }
+  91%,100%{ opacity:0; }
+}
+
+@keyframes erase-block-c {
+  0%,10%  { left:45%; top:40%; opacity:0; }
+  11%,20% { left:5%; top:36%; opacity:.82; }
+  21%,39% { left:79%; top:63%; opacity:.07; }
+  40%,49% { left:43%; top:9%; opacity:.88; }
+  50%,74% { left:20%; top:74%; opacity:.06; }
+  75%,84% { left:60%; top:52%; opacity:.84; }
+  85%,100%{ opacity:0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glitch-title .glitch-core,
+  .glitch-title::before,
+  .glitch-title::after,
+  .glitch-noise,
+  .glitch-bug {
+    animation: none !important;
+  }
+
+  .glitch-title::before,
+  .glitch-title::after,
+  .glitch-bug {
+    display: none !important;
+  }
+}

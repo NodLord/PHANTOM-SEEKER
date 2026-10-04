@@ -1,0 +1,168 @@
+/* =========================================================
+   PHANTOM SEEKER V0.4.14 // SOFT DIFFUSE HOME BLOOM
+   No selectors target #galactic-route.
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   Philosophy accents
+   --------------------------------------------------------- */
+
+.philosophy-amber {
+  color: var(--amber) !important;
+  text-shadow:
+    0 0 10px rgba(244,163,64,.26),
+    0 0 28px rgba(244,163,64,.17),
+    0 0 62px rgba(244,163,64,.09) !important;
+}
+
+.philosophy-cyan {
+  color: var(--cyan) !important;
+  text-shadow:
+    0 0 10px rgba(102,217,255,.27),
+    0 0 28px rgba(102,217,255,.17),
+    0 0 62px rgba(102,217,255,.09) !important;
+}
+
+/* ---------------------------------------------------------
+   ORANGE
+   --------------------------------------------------------- */
+
+.hero .button.primary,
+.expedition-status .button.primary,
+.final-manifesto .button.primary,
+.status-signal,
+.status-card:nth-child(2) strong,
+.protocol-grid b,
+.route-strip a[href="#prologue"] b,
+.route-strip a[href="#wp1"] b,
+.route-strip a[href="#wp2"] b,
+.route-strip a[href="#wp3"] b,
+.route-strip a[href="#wp4"] b,
+.route-strip a[href="#wp5"] b,
+.route-strip a[href="#wp6"] b,
+.route-strip a[href="#wp7"] b,
+.route-strip a[href="#wp8"] b,
+#prologue .chapter-marker span,
+#chapter1 .chapter-marker span,
+#chapter1 .waypoint-id,
+#chapter1 .waypoint-tag,
+#wp8 .waypoint-id,
+#wp8 .waypoint-tag,
+.final-manifesto blockquote span {
+  text-shadow:
+    0 0 9px rgba(244,163,64,.20),
+    0 0 24px rgba(244,163,64,.13),
+    0 0 54px rgba(244,163,64,.065) !important;
+}
+
+/* ---------------------------------------------------------
+   CYAN
+   --------------------------------------------------------- */
+
+.route-strip a[href="#wp9"] b,
+.route-strip a[href="#wp10"] b,
+.route-strip a[href="#wp11"] b,
+.route-strip a[href="#wp12"] b,
+.route-strip a[href="#epilogue"] b,
+#chapter2 .chapter-marker span,
+#chapter2 .waypoint-id,
+#chapter2 .waypoint-tag,
+.epilogue .chapter-marker span,
+.epilogue .waypoint-id {
+  text-shadow:
+    0 0 9px rgba(102,217,255,.21),
+    0 0 24px rgba(102,217,255,.13),
+    0 0 54px rgba(102,217,255,.065) !important;
+}
+
+/* ---------------------------------------------------------
+   Waypoint nicknames get stronger, but still SOFT bloom.
+   --------------------------------------------------------- */
+
+#chapter1 .waypoint-tag,
+#wp8 .waypoint-tag {
+  text-shadow:
+    0 0 12px rgba(244,163,64,.29),
+    0 0 34px rgba(244,163,64,.18),
+    0 0 72px rgba(244,163,64,.085),
+    0 0 110px rgba(244,163,64,.035) !important;
+}
+
+#chapter2 .waypoint-tag {
+  text-shadow:
+    0 0 12px rgba(102,217,255,.30),
+    0 0 34px rgba(102,217,255,.18),
+    0 0 72px rgba(102,217,255,.085),
+    0 0 110px rgba(102,217,255,.035) !important;
+}
+
+/* ---------------------------------------------------------
+   Waypoint plaque bloom.
+   This includes the PROLOGUE rectangle that was previously missing.
+   --------------------------------------------------------- */
+
+#prologue .waypoint-id,
+#chapter1 .waypoint-id,
+#wp8 .waypoint-id {
+  box-shadow:
+    0 0 14px rgba(244,163,64,.14),
+    0 0 34px rgba(244,163,64,.085),
+    0 0 72px rgba(244,163,64,.04) !important;
+}
+
+#chapter2 .waypoint-id,
+.epilogue .waypoint-id {
+  box-shadow:
+    0 0 14px rgba(102,217,255,.14),
+    0 0 34px rgba(102,217,255,.085),
+    0 0 72px rgba(102,217,255,.04) !important;
+}
+
+/* ---------------------------------------------------------
+   Larger colored content
+   --------------------------------------------------------- */
+
+.status-card:nth-child(2) strong {
+  text-shadow:
+    0 0 13px rgba(244,163,64,.23),
+    0 0 38px rgba(244,163,64,.14),
+    0 0 82px rgba(244,163,64,.06) !important;
+}
+
+.final-manifesto blockquote span {
+  text-shadow:
+    0 0 12px rgba(244,163,64,.22),
+    0 0 36px rgba(244,163,64,.13),
+    0 0 76px rgba(244,163,64,.055) !important;
+}
+
+/* ---------------------------------------------------------
+   WHITE
+   Large white type gets a slightly broader haze.
+   Small white copy remains untouched.
+   --------------------------------------------------------- */
+
+.hero-title .glitch-core,
+.manifesto h2,
+.route-overview h2,
+.status-heading h2,
+.protocol-heading h2,
+.chapter-intro h2,
+.waypoint-main h3,
+.final-manifesto > div,
+.final-manifesto blockquote {
+  text-shadow:
+    0 0 11px rgba(237,243,247,.13),
+    0 0 32px rgba(237,243,247,.075),
+    0 0 74px rgba(237,243,247,.035) !important;
+}
+
+/* Keep the main title's orange/cyan signal fringe while extending white haze. */
+.hero-title .glitch-core {
+  text-shadow:
+    -.4px 0 rgba(102,217,255,.25),
+     .4px 0 rgba(244,163,64,.22),
+     0 0 12px rgba(237,243,247,.13),
+     0 0 34px rgba(237,243,247,.065),
+     0 0 76px rgba(237,243,247,.025) !important;
+}
