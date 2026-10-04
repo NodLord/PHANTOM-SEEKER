@@ -1,0 +1,334 @@
+/* =========================================================
+   PHANTOM SEEKER V0.4.13 // DIGITAL SIGNAL CORRUPTION
+   Same system on HOME + PHANTOM GRID.
+   No scanline-style cuts across the glyphs.
+   ========================================================= */
+
+.glitch-title {
+  --glitch-orange: var(--amber, #f4a340);
+  --glitch-blue: var(--cyan, #66d9ff);
+  --glitch-white: var(--text, #e9eef2);
+
+  position: relative !important;
+  display: inline-block;
+  isolation: isolate;
+  contain: paint;
+  overflow: visible !important;
+  color: transparent !important;
+}
+
+/* The actual title deforms too. This is important: the corruption is not
+   merely a colored duplicate floating over a perfectly static title. */
+.glitch-title .glitch-core {
+  position: relative;
+  z-index: 2;
+  display: block;
+  color: var(--glitch-white);
+  font: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+
+  text-shadow:
+    -0.55px 0 rgba(102,217,255,.20),
+     0.55px 0 rgba(244,163,64,.18);
+
+  transform-origin: 50% 50%;
+  animation: phantom-digital-core 2.35s infinite steps(1,end);
+}
+
+/* Digital fragments of the same title. Chunks are broad enough to look
+   like corrupted data blocks rather than horizontal scanlines. */
+.glitch-title::before,
+.glitch-title::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: block;
+  width: 100%;
+  color: var(--glitch-white);
+  font: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  white-space: normal;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  will-change: transform, clip-path, opacity;
+}
+
+.glitch-title::before {
+  color: var(--glitch-blue);
+  opacity: .40;
+  text-shadow:
+    -2px 0 rgba(102,217,255,.82),
+     1px 0 rgba(244,163,64,.22);
+  animation: phantom-digital-blue 1.92s infinite steps(1,end);
+}
+
+.glitch-title::after {
+  color: var(--glitch-orange);
+  opacity: .34;
+  text-shadow:
+     2px 0 rgba(244,163,64,.78),
+    -1px 0 rgba(102,217,255,.22);
+  animation: phantom-digital-orange 2.27s infinite steps(1,end);
+}
+
+/* Film grain lives INSIDE the glyphs. */
+.glitch-noise {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: block;
+  color: transparent;
+  font: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  white-space: normal;
+  pointer-events: none;
+  opacity: .13;
+
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='84' height='84' viewBox='0 0 84 84'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='3' seed='9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.95'/%3E%3C/svg%3E");
+  background-size: 68px 68px;
+  -webkit-background-clip: text;
+  background-clip: text;
+  mix-blend-mode: screen;
+
+  animation: phantom-digital-grain .62s infinite steps(2,end);
+}
+
+/* Small rectangular corruption blocks, not lines. */
+.glitch-bug {
+  position: absolute;
+  z-index: 5;
+  display: block;
+  width: 9%;
+  height: .11em;
+  min-height: 3px;
+  border-radius: 0;
+  pointer-events: none;
+  opacity: .0;
+  mix-blend-mode: screen;
+  background: var(--glitch-blue);
+  box-shadow:
+    1.2em .18em 0 -.02em rgba(244,163,64,.72),
+    2.7em -.10em 0 -.03em rgba(102,217,255,.72);
+}
+
+.glitch-bug-a { animation: phantom-block-a 2.10s infinite steps(1,end); }
+.glitch-bug-b {
+  width: 5.5%;
+  background: var(--glitch-orange);
+  animation: phantom-block-b 2.75s infinite steps(1,end);
+}
+.glitch-bug-c {
+  width: 12%;
+  height: .075em;
+  animation: phantom-block-c 1.68s infinite steps(1,end);
+}
+
+/* Core title corruption. Tiny horizontal displacement, scale changes,
+   skew and letter-spacing errors give the glyph body the digital damage. */
+@keyframes phantom-digital-core {
+  0%   { transform:translate(0,0) skewX(0) scaleX(1); letter-spacing:inherit; filter:none; }
+  6%   { transform:translate(-.7px,0) skewX(-.18deg) scaleX(1.0015); }
+  12%  { transform:translate(.9px,.1px) skewX(.22deg) scaleX(.999); }
+  18%  { transform:translate(0,0) skewX(-.10deg); letter-spacing:.004em; }
+  25%  { transform:translate(-1.1px,0) skewX(-.28deg) scaleX(1.002); }
+  31%  { transform:translate(.45px,0) skewX(.08deg); }
+  39%  { transform:translate(.9px,-.1px) skewX(.18deg) scaleX(.999); letter-spacing:-.003em; }
+  46%  { transform:translate(-.55px,0) skewX(-.12deg); }
+  53%  { transform:translate(1.15px,0) skewX(.30deg) scaleX(1.0025); }
+  61%  { transform:translate(0,0) skewX(-.08deg); letter-spacing:.003em; }
+  69%  { transform:translate(-.9px,.1px) skewX(-.22deg) scaleX(.999); }
+  77%  { transform:translate(.65px,0) skewX(.13deg); }
+  85%  { transform:translate(-1.0px,0) skewX(-.26deg) scaleX(1.0018); letter-spacing:-.002em; }
+  92%  { transform:translate(.35px,0) skewX(.06deg); }
+  100% { transform:translate(0,0) skewX(0) scaleX(1); letter-spacing:inherit; filter:none; }
+}
+
+/* Blocky chunks, intentionally avoiding thin scanline bands. */
+@keyframes phantom-digital-blue {
+  0% {
+    transform:translate(-1px,0);
+    clip-path:polygon(
+      0 5%,42% 5%,42% 20%,0 20%,
+      0 20%,0 100%,0 100%,0 20%,
+      58% 34%,100% 34%,100% 51%,58% 51%,
+      58% 51%,58% 100%,58% 100%,58% 51%,
+      8% 70%,61% 70%,61% 87%,8% 87%
+    );
+  }
+  18% {
+    transform:translate(-3px,.2px) skewX(-.35deg);
+    clip-path:polygon(
+      18% 3%,76% 3%,76% 18%,18% 18%,
+      18% 18%,18% 100%,18% 100%,18% 18%,
+      0 42%,47% 42%,47% 58%,0 58%,
+      0 58%,0 100%,0 100%,0 58%,
+      54% 74%,100% 74%,100% 94%,54% 94%
+    );
+  }
+  37% {
+    transform:translate(1.5px,0) skewX(.22deg);
+    clip-path:polygon(
+      0 11%,33% 11%,33% 27%,0 27%,
+      0 27%,0 100%,0 100%,0 27%,
+      46% 31%,100% 31%,100% 48%,46% 48%,
+      46% 48%,46% 100%,46% 100%,46% 48%,
+      22% 67%,74% 67%,74% 82%,22% 82%
+    );
+  }
+  58% {
+    transform:translate(-2.4px,-.15px) skewX(-.30deg);
+    clip-path:polygon(
+      37% 4%,100% 4%,100% 21%,37% 21%,
+      37% 21%,37% 100%,37% 100%,37% 21%,
+      0 38%,55% 38%,55% 55%,0 55%,
+      0 55%,0 100%,0 100%,0 55%,
+      63% 72%,100% 72%,100% 90%,63% 90%
+    );
+  }
+  79% {
+    transform:translate(1px,0);
+    clip-path:polygon(
+      0 7%,53% 7%,53% 23%,0 23%,
+      0 23%,0 100%,0 100%,0 23%,
+      61% 39%,100% 39%,100% 57%,61% 57%,
+      61% 57%,61% 100%,61% 100%,61% 57%,
+      13% 73%,66% 73%,66% 91%,13% 91%
+    );
+  }
+  100% {
+    transform:translate(-1px,0);
+    clip-path:polygon(
+      0 5%,42% 5%,42% 20%,0 20%,
+      0 20%,0 100%,0 100%,0 20%,
+      58% 34%,100% 34%,100% 51%,58% 51%,
+      58% 51%,58% 100%,58% 100%,58% 51%,
+      8% 70%,61% 70%,61% 87%,8% 87%
+    );
+  }
+}
+
+@keyframes phantom-digital-orange {
+  0% {
+    transform:translate(1px,0);
+    clip-path:polygon(
+      31% 8%,100% 8%,100% 25%,31% 25%,
+      31% 25%,31% 100%,31% 100%,31% 25%,
+      0 35%,44% 35%,44% 54%,0 54%,
+      0 54%,0 100%,0 100%,0 54%,
+      49% 70%,91% 70%,91% 88%,49% 88%
+    );
+  }
+  21% {
+    transform:translate(2.6px,0) skewX(.31deg);
+    clip-path:polygon(
+      0 4%,47% 4%,47% 20%,0 20%,
+      0 20%,0 100%,0 100%,0 20%,
+      52% 37%,100% 37%,100% 53%,52% 53%,
+      52% 53%,52% 100%,52% 100%,52% 53%,
+      19% 75%,78% 75%,78% 92%,19% 92%
+    );
+  }
+  44% {
+    transform:translate(-1.3px,.1px) skewX(-.22deg);
+    clip-path:polygon(
+      42% 2%,100% 2%,100% 19%,42% 19%,
+      42% 19%,42% 100%,42% 100%,42% 19%,
+      0 31%,51% 31%,51% 49%,0 49%,
+      0 49%,0 100%,0 100%,0 49%,
+      55% 66%,100% 66%,100% 85%,55% 85%
+    );
+  }
+  67% {
+    transform:translate(2.2px,-.1px) skewX(.28deg);
+    clip-path:polygon(
+      11% 10%,64% 10%,64% 27%,11% 27%,
+      11% 27%,11% 100%,11% 100%,11% 27%,
+      57% 40%,100% 40%,100% 58%,57% 58%,
+      57% 58%,57% 100%,57% 100%,57% 58%,
+      0 72%,43% 72%,43% 91%,0 91%
+    );
+  }
+  84% {
+    transform:translate(-.7px,0);
+    clip-path:polygon(
+      0 6%,38% 6%,38% 22%,0 22%,
+      0 22%,0 100%,0 100%,0 22%,
+      48% 33%,100% 33%,100% 51%,48% 51%,
+      48% 51%,48% 100%,48% 100%,48% 51%,
+      28% 69%,87% 69%,87% 87%,28% 87%
+    );
+  }
+  100% {
+    transform:translate(1px,0);
+    clip-path:polygon(
+      31% 8%,100% 8%,100% 25%,31% 25%,
+      31% 25%,31% 100%,31% 100%,31% 25%,
+      0 35%,44% 35%,44% 54%,0 54%,
+      0 54%,0 100%,0 100%,0 54%,
+      49% 70%,91% 70%,91% 88%,49% 88%
+    );
+  }
+}
+
+@keyframes phantom-digital-grain {
+  0%   { background-position:0 0; opacity:.08; }
+  18%  { background-position:19px -9px; opacity:.16; }
+  36%  { background-position:-17px 13px; opacity:.10; }
+  54%  { background-position:27px 7px; opacity:.17; }
+  72%  { background-position:-11px -21px; opacity:.09; }
+  90%  { background-position:8px 16px; opacity:.14; }
+  100% { background-position:0 0; opacity:.11; }
+}
+
+@keyframes phantom-block-a {
+  0%,12%  { left:7%; top:18%; opacity:.0; transform:translateX(0); }
+  13%,22% { left:19%; top:22%; opacity:.48; transform:translateX(2px); }
+  23%,41% { left:62%; top:46%; opacity:.12; transform:translateX(-2px); }
+  42%,50% { left:33%; top:68%; opacity:.41; transform:translateX(3px); }
+  51%,76% { left:71%; top:31%; opacity:.08; transform:translateX(-1px); }
+  77%,86% { left:13%; top:82%; opacity:.35; transform:translateX(2px); }
+  87%,100%{ opacity:0; }
+}
+
+@keyframes phantom-block-b {
+  0%,18%  { left:74%; top:72%; opacity:0; }
+  19%,29% { left:51%; top:12%; opacity:.38; transform:translateX(-2px); }
+  30%,52% { left:12%; top:55%; opacity:.07; }
+  53%,64% { left:68%; top:41%; opacity:.40; transform:translateX(3px); }
+  65%,89% { left:27%; top:87%; opacity:.09; }
+  90%,100%{ opacity:0; }
+}
+
+@keyframes phantom-block-c {
+  0%,9%   { left:44%; top:39%; opacity:0; }
+  10%,17% { left:5%; top:36%; opacity:.36; transform:translateX(2px); }
+  18%,36% { left:78%; top:62%; opacity:.06; }
+  37%,46% { left:42%; top:8%; opacity:.33; transform:translateX(-3px); }
+  47%,72% { left:21%; top:73%; opacity:.08; }
+  73%,82% { left:61%; top:52%; opacity:.32; transform:translateX(2px); }
+  83%,100%{ opacity:0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glitch-title .glitch-core,
+  .glitch-title::before,
+  .glitch-title::after,
+  .glitch-noise,
+  .glitch-bug {
+    animation: none !important;
+  }
+
+  .glitch-title::before,
+  .glitch-title::after,
+  .glitch-bug {
+    display: none !important;
+  }
+}

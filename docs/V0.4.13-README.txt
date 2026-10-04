@@ -1,0 +1,71 @@
+PHANTOM SEEKER V0.4.13 // DIGITAL GLITCH + HOME BLOOM
+
+DIGITAL GLITCH
+==============
+The V0.4.12 horizontal cut/scanline look has been removed.
+
+The new shared glitch on:
+- HOME // EXPEDITION PHANTOM SEEKER
+- GRID // PHANTOM GRID
+
+uses:
+- actual subtle deformation of the real title
+- tiny scale / skew / letter-spacing errors
+- broad digital data fragments instead of thin horizontal lines
+- orange + cyan chromatic displacement only
+- small rectangular digital corruption blocks
+- film grain clipped inside the glyphs
+- near-continuous low-level corruption
+
+MISSION PHILOSOPHY
+==================
+`REMEMBER WHAT DIED.`:
+- DIED = Chapter I orange
+
+`MEASURE WHAT REMAINS.`:
+- REMAINS = Chapter II cyan
+
+HOME BLOOM
+==========
+Added diffuse bloom to colored HOME UI, but NOT the expedition route map.
+
+ORANGE:
+- buttons / status accents
+- Chapter I route-index labels
+- Chapter I waypoint labels
+- WP8 transition label
+- protocol orange headings
+- final medication line
+- DIED
+
+CYAN:
+- WP9-WP12 + Epilogue route-index labels
+- Chapter II labels
+- Chapter II waypoint labels
+- Epilogue labels
+- REMAINS
+
+WAYPOINT CALLSIGNS:
+- receive a deliberately stronger color bloom than small UI text
+
+WHITE:
+- subtle diffuse white glow only on LARGE white typography
+- small white body text remains unglowed
+
+EXPEDITION ROUTE MAP
+====================
+No bloom changes were made inside `#galactic-route`.
+
+FILES TO REPLACE
+================
+- /index.html
+- /grid.html
+
+FILES TO ADD
+============
+- /css/home-v0413.css
+- /css/glitch-v0413.css
+
+The old V0.4.12 CSS files may remain in the repository, but the pages no longer load glitch-v0412.css.
+
+No app.js, route-map.js, HOME data or Phantom Grid survey data are changed.

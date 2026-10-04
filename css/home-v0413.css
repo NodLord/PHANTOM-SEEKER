@@ -1,0 +1,142 @@
+/* =========================================================
+   PHANTOM SEEKER V0.4.13 // HOME COLOR BLOOM
+   IMPORTANT: no bloom rules target #galactic-route.
+   ========================================================= */
+
+.philosophy-amber {
+  color: var(--amber) !important;
+  text-shadow:
+    0 0 5px rgba(244,163,64,.92),
+    0 0 15px rgba(244,163,64,.52),
+    0 0 34px rgba(244,163,64,.22);
+}
+
+.philosophy-cyan {
+  color: var(--cyan) !important;
+  text-shadow:
+    0 0 5px rgba(102,217,255,.92),
+    0 0 15px rgba(102,217,255,.50),
+    0 0 34px rgba(102,217,255,.21);
+}
+
+/* ---------------------------------------------------------
+   ORANGE // standard interface bloom
+   --------------------------------------------------------- */
+
+.hero .button.primary,
+.expedition-status .button.primary,
+.final-manifesto .button.primary,
+.status-signal,
+.status-card:nth-child(2) strong,
+.protocol-grid b,
+.route-strip a[href="#prologue"] b,
+.route-strip a[href="#wp1"] b,
+.route-strip a[href="#wp2"] b,
+.route-strip a[href="#wp3"] b,
+.route-strip a[href="#wp4"] b,
+.route-strip a[href="#wp5"] b,
+.route-strip a[href="#wp6"] b,
+.route-strip a[href="#wp7"] b,
+.route-strip a[href="#wp8"] b,
+#prologue .chapter-marker span,
+#chapter1 .chapter-marker span,
+#chapter1 .waypoint-id,
+#chapter1 .waypoint-tag,
+#wp8 .waypoint-id,
+#wp8 .waypoint-tag,
+.final-manifesto blockquote span {
+  text-shadow:
+    0 0 4px rgba(244,163,64,.80),
+    0 0 11px rgba(244,163,64,.36),
+    0 0 22px rgba(244,163,64,.14);
+}
+
+/* ---------------------------------------------------------
+   CYAN // standard interface bloom
+   --------------------------------------------------------- */
+
+.route-strip a[href="#wp9"] b,
+.route-strip a[href="#wp10"] b,
+.route-strip a[href="#wp11"] b,
+.route-strip a[href="#wp12"] b,
+.route-strip a[href="#epilogue"] b,
+#chapter2 .chapter-marker span,
+#chapter2 .waypoint-id,
+#chapter2 .waypoint-tag,
+.epilogue .chapter-marker span,
+.epilogue .waypoint-id {
+  text-shadow:
+    0 0 4px rgba(102,217,255,.82),
+    0 0 11px rgba(102,217,255,.36),
+    0 0 22px rgba(102,217,255,.14);
+}
+
+/* ---------------------------------------------------------
+   Waypoint callsigns deliberately get stronger bloom.
+   --------------------------------------------------------- */
+
+#chapter1 .waypoint-tag,
+#wp8 .waypoint-tag {
+  text-shadow:
+    0 0 5px rgba(244,163,64,.95),
+    0 0 15px rgba(244,163,64,.55),
+    0 0 31px rgba(244,163,64,.24),
+    0 0 52px rgba(244,163,64,.10) !important;
+}
+
+#chapter2 .waypoint-tag {
+  text-shadow:
+    0 0 5px rgba(102,217,255,.96),
+    0 0 15px rgba(102,217,255,.56),
+    0 0 31px rgba(102,217,255,.24),
+    0 0 52px rgba(102,217,255,.10) !important;
+}
+
+/* ---------------------------------------------------------
+   Larger colored UI receives proportionally larger bloom.
+   --------------------------------------------------------- */
+
+.status-card:nth-child(2) strong {
+  text-shadow:
+    0 0 7px rgba(244,163,64,.88),
+    0 0 20px rgba(244,163,64,.42),
+    0 0 42px rgba(244,163,64,.16) !important;
+}
+
+.final-manifesto blockquote span {
+  text-shadow:
+    0 0 5px rgba(244,163,64,.86),
+    0 0 16px rgba(244,163,64,.40),
+    0 0 35px rgba(244,163,64,.15) !important;
+}
+
+/* ---------------------------------------------------------
+   White diffuse bloom ONLY on large white typography.
+   Small white body copy is intentionally untouched.
+   The route-map section is also deliberately untouched.
+   --------------------------------------------------------- */
+
+.hero-title .glitch-core,
+.manifesto h2,
+.route-overview h2,
+.status-heading h2,
+.protocol-heading h2,
+.chapter-intro h2,
+.waypoint-main h3,
+.final-manifesto > div,
+.final-manifesto blockquote {
+  text-shadow:
+    0 0 8px rgba(237,243,247,.14),
+    0 0 22px rgba(237,243,247,.075),
+    0 0 46px rgba(237,243,247,.035);
+}
+
+/* Preserve the digital orange/cyan fringe on the main title in addition
+   to its subtle white atmospheric glow. */
+.hero-title .glitch-core {
+  text-shadow:
+    -.55px 0 rgba(102,217,255,.22),
+     .55px 0 rgba(244,163,64,.20),
+     0 0 8px rgba(237,243,247,.14),
+     0 0 24px rgba(237,243,247,.055);
+}
