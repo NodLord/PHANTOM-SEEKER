@@ -1,0 +1,60 @@
+PHANTOM SEEKER V0.4.25 // DEEP SURVEY FIELD III
+======================================================
+
+BASE
+----
+Incremental patch built from V0.4.24. Home deep-background layer only.
+No changes to Phantom Grid, Route Map, title/glitch system, datasets or expedition text.
+
+FILES TO REPLACE
+----------------
+index.html
+
+FILES TO ADD
+------------
+css/home-space-v0425.css
+js/home-space-v0425.js
+docs/V0.4.25-README.txt
+
+WHAT CHANGED
+------------
+GALAXIES
+- All galaxy renderers now use the detailed spiral model.
+- The hand-placed hero/footer galaxies are no longer screen-fixed. They exist in
+  world space and move with the deep camera / scrolling like the procedural field.
+- No solid central disk: the stellar envelope fades continuously and the spiral arms
+  are built from thousands of individual stars, arm knots and dust lanes.
+- Spiral morphologies vary (2/3/4 arms, barred variants, different twist and direction).
+- Galaxies are deliberately rarer than nebulae.
+
+NEBULAE
+- More nebulae than galaxies throughout the deep field.
+- Compact distant clouds rather than full-screen nebula textures.
+- Multiple cold survey palettes: cyan-blue, midnight blue, pine green, violet,
+  blue-grey and dark/black dust clouds.
+- Nebulae are biased toward the sides to protect text readability.
+- Hero/footer special nebulae are also world-space and scroll with camera depth.
+
+STARS / CLUSTERS / SYSTEMS
+- Denser background star population.
+- Clusters remain procedurally varied.
+- Survey solar systems are brighter and easier to read.
+- Orbit circles remain hidden.
+- Central star scintillates; grey planet points orbit visibly at different speeds.
+
+SHIPS
+- Existing Anaconda/Krait/Caspian-inspired traffic preserved.
+- Longer trails that persist after the hull has moved on.
+- Occasional slower passes.
+- Occasional closer passes with larger apparent scale.
+- Normal traffic remains small and fast, with diagonal / receding trajectories.
+
+FILM GRAIN
+- Fine black/white animated grain strengthened substantially.
+- Faster grain refresh.
+- No scanlines and no analogue-noise layer.
+
+PERFORMANCE
+-----------
+Still one 2D canvas for the deep field plus one small repeating grain canvas.
+No external textures or Three.js were added to the Home background.
