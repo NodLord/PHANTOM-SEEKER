@@ -1,0 +1,54 @@
+PHANTOM SEEKER V0.4.27 // SHIP TRAFFIC OVERHAUL
+==================================================
+
+BASE
+----
+Incremental patch built from the deployed V0.4.26 Deep Field architecture.
+No nebula, galaxy, title/glitch, Route Map, Phantom Grid, dataset or narrative code was rebuilt.
+
+FILES TO REPLACE
+----------------
+index.html
+
+FILES TO ADD
+------------
+js/home-space-v0427.js
+docs/V0.4.27-README.txt
+
+WHAT CHANGED
+------------
+1. Constant-speed ship trajectories
+   The old easing curve deliberately slowed ships at the end of a path. V0.4.27 replaces it
+   with cubic Bezier trajectories sampled into an arc-length lookup table, so apparent speed
+   remains nearly constant over the whole flight.
+
+2. Natural exits vs FSD endings
+   Non-jump trajectories always terminate beyond the viewport. A separate subset of traffic
+   deliberately ends inside an outer survey lane and performs an FSD jump instead of simply
+   vanishing.
+
+3. FSD jump effect
+   - short charge phase with increasing engine light
+   - no frozen hull: the ship drifts slightly forward while charging
+   - intense local flash at departure
+   - 4-second tapered luminous wake pointing backward from the jump vector
+   - wake size automatically follows apparent ship depth/scale
+
+4. Five distinct silhouettes
+   ANACONDA / KRAIT / BELUGA / CASPIAN / SIDEWINDER
+   Each has its own proportions, hull outline, panel detail and engine positions. Close passes
+   reveal more panel lines; distant ships remain readable mainly from silhouette.
+
+5. Engine trails
+   Trails are now model-specific and emitted from the actual engine positions rather than the
+   hull centre. They persist roughly 2.4-4.0 seconds depending on the pass and decay gradually.
+
+6. Traffic variety
+   Cross-screen, diagonal, climbing, descending and receding trajectories remain mixed. Close
+   and slow passes are still occasional rather than constant. FSD-capable endings are around
+   one third of spawned traffic.
+
+PERFORMANCE
+-----------
+No new texture assets and no WebGL layer were added. The FSD wake and ship models are Canvas2D
+geometry. Trajectory arc lengths are precomputed once at spawn.
