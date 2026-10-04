@@ -1,0 +1,35 @@
+PHANTOM SEEKER V0.4.27.5 // FSD COMPACT FLASH
+=================================================
+
+BASE
+----
+Incremental hotfix built directly from V0.4.27.4.
+
+PERFORMANCE CORE
+----------------
+UNCHANGED.
+
+The V0.4.27.3/V0.4.27.4 performance architecture is preserved:
+- separate Deep Field and Traffic canvases;
+- cached FSD flash/wake sprites;
+- no live Canvas blur added back into the render loop;
+- adaptive Deep Field cadence remains untouched;
+- world-space ships, trails and wakes remain intact.
+
+FSD CHANGES
+-----------
+- Flash lifetime: 540 ms -> 250 ms.
+- Complete flash footprint: -25%.
+  This scales the halo, luminous core AND the cross-spike together.
+- Complete wake footprint: -25%.
+- Wake lifetime and light balance remain unchanged from V0.4.27.4.
+- FSD braking / charge / jump timing remains unchanged.
+
+FILES
+-----
+Replace:
+- index.html
+
+Add:
+- js/home-space-v0427-5.js
+- docs/V0.4.27.5-README.txt
