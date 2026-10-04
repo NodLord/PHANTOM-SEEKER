@@ -1,0 +1,66 @@
+/* =========================================================
+   PHANTOM SEEKER V0.4.16 // HOME HERO TITLE FINAL TEXTURE PASS
+   HOME ONLY. Phantom Grid remains on glitch-v0415.css unchanged.
+
+   - Removes the white bloom from the Home hero title.
+   - Uses the 03 SCATTERED transparent PNG as the visible title face.
+   - Keeps the live title text underneath strictly for exact layout/scale.
+   - Moves film-grain shadow to +5px / +5px and strengthens its grain.
+   - Does not alter cyan/orange fragments or random data-loss blocks.
+   ========================================================= */
+
+/* The live text continues to define exactly the same box, wrapping,
+   font family, weight, line-height and responsive size as V0.4.15. */
+.hero-title .glitch-core {
+  position: relative;
+  text-shadow: none !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  filter: none !important;
+}
+
+.hero-title .hero-title-layout-text {
+  display: block;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  text-shadow: none !important;
+}
+
+/* 03 SCATTERED distressed paint face. The PNG is 4110 x 1830 RGBA.
+   It is stretched only inside the original live-text box so the title
+   keeps the same CSS geometry and responsive footprint. */
+.hero-title .hero-title-texture {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  object-position: 0 0;
+  pointer-events: none;
+  user-select: none;
+  filter: none !important;
+}
+
+/* Film-grain shadow: equal 5px offset on both axes, with denser and
+   more visible grain. It remains text-shaped, never a grey rectangle. */
+.hero-title .glitch-noise {
+  transform: translate(5px, 5px) !important;
+  background-size:
+    7px 7px,
+    11px 11px,
+    15px 15px,
+    9px 9px,
+    100% 100% !important;
+  filter: contrast(1.30) brightness(1.08);
+  animation: home-grain-shadow-drift-v0416 .78s infinite steps(2,end) !important;
+}
+
+@keyframes home-grain-shadow-drift-v0416 {
+  0%   { background-position:0 0, 4px 2px, -3px 5px, 0 0, 0 0; opacity:.43; }
+  25%  { background-position:2px -1px, 1px 4px, -5px 2px, 3px -2px, 0 0; opacity:.50; }
+  50%  { background-position:-1px 2px, 6px 0, 0 6px, -2px 3px, 0 0; opacity:.46; }
+  75%  { background-position:3px 1px, 2px -2px, -4px 7px, 2px 2px, 0 0; opacity:.54; }
+  100% { background-position:0 0, 4px 2px, -3px 5px, 0 0, 0 0; opacity:.43; }
+}

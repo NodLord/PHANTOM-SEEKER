@@ -1,0 +1,27 @@
+PHANTOM SEEKER V0.4.16 // HOME HERO TITLE FINAL TEXTURE PASS
+
+SOURCE OF TRUTH
+- Built directly from the deployed V0.4.15 repository supplied by CMDR Frank Leaan.
+- No Grid, Route Map, dataset, narrative, waypoint, or JavaScript logic was changed.
+
+FILES IN THIS PATCH
+1. REPLACE: index.html
+2. ADD: css/home-v0416.css
+3. ADD: assets/hero-title-scattered-v0416.png
+4. ADD: docs/V0.4.16-README.txt
+
+HOME HERO TITLE CHANGES
+- Removes the white bloom from the Home title only.
+- Keeps the original live CSS title as an invisible layout reference, preserving its exact font family, weight, wrapping, size, line-height, and responsive footprint.
+- Adds a 4110 x 1830 transparent RGBA PNG for the visible title face, based on the selected 03 SCATTERED treatment and the texture language of the official Phantom Seeker logo.
+- The title surface is cool white/silver with restrained rough paint loss and transparent worn areas.
+- Film-grain shadow offset changed from +4/+5 px to exactly +5/+5 px.
+- Film-grain shadow density/contrast increased.
+- Cyan/orange glitch fragments and all three random data-loss blocks remain unchanged.
+- Phantom Grid still uses glitch-v0415.css exactly as before.
+
+INSTALL
+Extract/copy the patch ZIP into the root of NodLord/PHANTOM-SEEKER and allow index.html to be replaced. The three new files will land in css/, assets/, and docs/.
+
+ROLLBACK
+Restore the previous V0.4.15 index.html. The added V0.4.16 CSS/PNG/doc files can then be deleted without affecting Grid or any dataset.
