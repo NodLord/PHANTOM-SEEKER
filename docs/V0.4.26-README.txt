@@ -1,0 +1,67 @@
+PHANTOM SEEKER V0.4.26 // DEEP FIELD ARCHITECTURE
+========================================================
+
+BASE
+----
+Incremental patch built directly from deployed V0.4.25.
+Home deep-background layer only. No changes to Phantom Grid, Route Map,
+title/glitch system, expedition datasets or narrative content.
+
+FILES TO REPLACE
+----------------
+index.html
+
+FILES TO ADD
+------------
+css/home-space-v0426.css
+js/home-space-v0426.js
+docs/V0.4.26-README.txt
+
+WHAT CHANGED
+------------
+DEPTH ARCHITECTURE
+- The procedural sky now has three explicit physical depth bands:
+  FAR  : 0.018-0.070 parallax
+  MID  : 0.080-0.180 parallax
+  NEAR : 0.190-0.355 parallax
+- These are not fixed screen layers. Every object still lives in the same world-space
+  Y coordinate system and therefore responds to scroll/camera travel.
+- All procedural celestial objects now enter one unified entity registry and are
+  globally painter-sorted far-to-near every frame.
+
+FAR FIELD
+- Major increase in tiny, faint, ultra-distant stars.
+- Separate remote star concentrations / clusters.
+- Galaxies are pushed substantially farther away and parallax much more slowly.
+- Existing detailed V0.4.25 galaxy model is preserved.
+
+GALAXY ANIMATION
+- Every procedural galaxy receives a deterministic spin direction and speed.
+- Typical rotation speed is roughly 0.14-0.33 degrees/second.
+- Curated hero/footer galaxies receive the same visible slow rotation treatment.
+- Same seed still gives the same galaxy after refresh.
+
+MID FIELD
+- Nebula generator is intentionally NOT overhauled here; that is reserved for
+  V0.4.28. Its existing sprites are simply placed in a cleaner mid-distance band.
+- Solar systems and ordinary clusters also live mainly in this band.
+
+NEAR FIELD
+- Sparse brighter foreground stars provide stronger parallax and depth cues.
+- Existing V0.4.25 ship traffic is preserved unchanged. Ship trajectories / FSD
+  overhaul is intentionally reserved for V0.4.27.
+
+SOLAR SYSTEMS
+- Central-star bloom reduced slightly: outer halo radius 14px -> 11px.
+- Core brightness, visible planets and orbit animation are preserved.
+
+NOT YET CHANGED
+---------------
+- Ship easing / end-of-trajectory behaviour (V0.4.27).
+- New 2.5D volumetric nebula engine (V0.4.28).
+- Balanced procedural left/right composition director (V0.4.29).
+
+PERFORMANCE
+-----------
+Still one 2D deep-field canvas plus the existing film-grain canvas.
+No Three.js, images, external textures or network requests were added.
