@@ -1,0 +1,32 @@
+PHANTOM SEEKER V0.4.27.1 // FSD APPROACH HOTFIX
+=================================================
+
+BASE
+----
+Incremental hotfix built directly from V0.4.27.
+No CSS, Deep Field architecture, galaxies, nebulae, titles, Route Map, Phantom Grid or datasets are changed.
+
+FILES TO REPLACE
+----------------
+index.html
+
+FILES TO ADD
+------------
+js/home-space-v0427-1.js
+docs/V0.4.27.1-README.txt
+
+FIX
+---
+Jump-capable ships no longer run at full speed until the final frame and then stop abruptly.
+
+For FSD trajectories only:
+- Cruise speed remains identical to V0.4.27 for most of the route.
+- The final approach now uses an integrated smooth velocity falloff.
+- Braking begins roughly 20-27% of the remaining flight time before arrival.
+- Velocity reaches exactly zero at the FSD charge point.
+- The final Bezier control point is stabilised so the ship settles into a clean approach vector rather than making a last-second turn.
+- The old forward drift during FSD charge has been removed.
+- FSD charging starts only after the hull is fully stationary.
+- Engine glow fades with the braking velocity, then intensifies again during FSD charge.
+
+The existing FSD flash, 4-second wake, ship silhouettes, trail persistence and all non-jump trajectories are preserved.
