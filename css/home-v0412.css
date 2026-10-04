@@ -1,0 +1,196 @@
+/* =========================================================
+   PHANTOM SEEKER V0.4.12 // HOME VISUAL POLISH
+   ========================================================= */
+
+/* ---------- Top navigation identity ---------- */
+
+.site-header {
+  min-height: 88px;
+  padding: 12px 18px;
+}
+
+.header-left {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.mini-brand {
+  flex: 0 0 auto;
+  gap: 12px;
+  font-size: 25px !important;
+  line-height: 1;
+  letter-spacing: .105em;
+  white-space: nowrap;
+}
+
+.mini-brand img {
+  width: 64px !important;
+  height: 64px !important;
+  flex: 0 0 64px;
+  object-fit: contain;
+}
+
+.maker-credit {
+  color: #7d8e9c;
+  font-size: 11px;
+  line-height: 1.25;
+  font-weight: 800;
+  letter-spacing: .105em;
+  white-space: nowrap;
+}
+
+/* ---------- Hero logo ---------- */
+
+/* Remove the old decorative circles. The emblem stands alone. */
+.hero-logo-wrap::before,
+.hero-logo-wrap::after {
+  content: none !important;
+  display: none !important;
+}
+
+.hero {
+  grid-template-columns: minmax(390px,.84fr) 1.16fr;
+}
+
+.hero-logo-wrap {
+  align-self: center;
+  justify-self: center;
+}
+
+.hero-logo {
+  width: min(45vw, 660px) !important;
+  max-height: 70vh !important;
+  filter: drop-shadow(0 0 38px rgba(193,220,238,.07));
+}
+
+.hero-copy {
+  align-self: center;
+}
+
+.hero-copy .eyebrow {
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+/* ---------- Chapter II / Epilogue colour language ---------- */
+
+/* Route index: WP9 onward belongs to Chapter II colour language. */
+.route-strip a[href="#wp9"] b,
+.route-strip a[href="#wp10"] b,
+.route-strip a[href="#wp11"] b,
+.route-strip a[href="#wp12"] b,
+.route-strip a[href="#epilogue"] b {
+  color: var(--cyan) !important;
+}
+
+.chapter-two .chapter-marker span,
+.epilogue .chapter-marker span {
+  color: var(--cyan) !important;
+}
+
+/* Carry cyan into the Epilogue waypoint plaque too. */
+.epilogue .waypoint-id {
+  color: var(--cyan) !important;
+  border-color: rgba(103,220,255,.48) !important;
+}
+
+/* Route-map Epilogue uses the same Chapter II cyan. */
+.route-waypoint-label.epilogue .wp-code {
+  color: var(--cyan) !important;
+}
+
+.legend-line.epilogue {
+  background: var(--cyan) !important;
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  min-height: 46px;
+  padding: 0 24px;
+  font-size: 10px;
+  color: #62727f;
+}
+
+.site-footer span:last-child {
+  color: #758591;
+  text-align: right;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1280px) {
+  .maker-credit {
+    font-size: 9px;
+  }
+
+  .mini-brand {
+    font-size: 21px !important;
+  }
+
+  .mini-brand img {
+    width: 58px !important;
+    height: 58px !important;
+    flex-basis: 58px;
+  }
+}
+
+@media (max-width: 1050px) {
+  .site-header {
+    min-height: 78px;
+  }
+
+  .header-left {
+    gap: 14px;
+  }
+
+  .maker-credit {
+    white-space: normal;
+    max-width: 300px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .hero-logo {
+    width: min(520px,72vw) !important;
+  }
+
+  .hero-copy .eyebrow {
+    text-align: center;
+  }
+}
+
+@media (max-width: 760px) {
+  .site-header {
+    padding: 10px 12px;
+  }
+
+  .header-left {
+    width: 100%;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .mini-brand {
+    font-size: 18px !important;
+  }
+
+  .mini-brand img {
+    width: 50px !important;
+    height: 50px !important;
+    flex-basis: 50px;
+  }
+
+  .maker-credit {
+    width: 100%;
+    max-width: none;
+    font-size: 8px;
+    padding-left: 62px;
+  }
+}

@@ -28,14 +28,14 @@ const THREE_COLORS = {
   chapter1: 0xcdd8df,
   crossing: 0xf2a13d,
   chapter2: 0x6fd8fb,
-  epilogue: 0xf2f5f7,
+  epilogue: 0x6fd8fb,
 };
 
 const CSS_COLORS = {
   chapter1: "#cdd8df",
   crossing: "#f2a13d",
   chapter2: "#6fd8fb",
-  epilogue: "#f2f5f7",
+  epilogue: "#6fd8fb",
 };
 
 const renderer = new THREE.WebGLRenderer({

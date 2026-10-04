@@ -1,0 +1,345 @@
+/* =========================================================
+   PHANTOM SEEKER V0.4.12 // SHARED CORRUPTED TITLE SYSTEM
+   Applied identically to HOME + PHANTOM GRID.
+   Chapter I orange + Chapter II cyan.
+   ========================================================= */
+
+.glitch-title {
+  --glitch-orange: var(--amber, #f4a340);
+  --glitch-blue: var(--cyan, #66d9ff);
+  --glitch-white: var(--text, #e9eef2);
+
+  position: relative !important;
+  display: inline-block;
+  isolation: isolate;
+  overflow: hidden !important;
+  contain: paint;
+  color: transparent !important;
+}
+
+.glitch-title .glitch-core {
+  position: relative;
+  z-index: 2;
+  display: block;
+  color: var(--glitch-white);
+  font: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+
+  /* Permanent microscopic cuts in the REAL title glyphs. */
+  -webkit-mask-image: repeating-linear-gradient(
+    to bottom,
+    #000 0 11px,
+    rgba(0,0,0,.98) 11px 15px,
+    transparent 15px 16px,
+    #000 16px 31px
+  );
+  mask-image: repeating-linear-gradient(
+    to bottom,
+    #000 0 11px,
+    rgba(0,0,0,.98) 11px 15px,
+    transparent 15px 16px,
+    #000 16px 31px
+  );
+  -webkit-mask-size: 100% 32px;
+  mask-size: 100% 32px;
+
+  text-shadow:
+    -.45px 0 rgba(102,217,255,.18),
+     .45px 0 rgba(244,163,64,.15);
+
+  animation: phantom-core-corrupt 2.9s infinite steps(1,end);
+}
+
+/* Two duplicated sliced signal channels. */
+.glitch-title::before,
+.glitch-title::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: block;
+  width: 100%;
+  color: var(--glitch-white);
+  font: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  white-space: normal;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  will-change: transform, clip-path, opacity;
+}
+
+.glitch-title::before {
+  opacity: .46;
+  color: var(--glitch-blue);
+  text-shadow:
+    -1.8px 0 var(--glitch-blue),
+     .7px 0 rgba(244,163,64,.30);
+  animation: phantom-slices-blue 2.35s infinite steps(1,end);
+}
+
+.glitch-title::after {
+  opacity: .38;
+  color: var(--glitch-orange);
+  text-shadow:
+     1.8px 0 var(--glitch-orange),
+    -.7px 0 rgba(102,217,255,.33);
+  animation: phantom-slices-orange 2.65s infinite steps(1,end);
+}
+
+/* Grain is clipped INTO a duplicate of the letters, not across the whole box. */
+.glitch-noise {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: block;
+  color: transparent;
+  font: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  white-space: normal;
+  pointer-events: none;
+  opacity: .12;
+
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 90 90'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='4' seed='17'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.95'/%3E%3C/svg%3E");
+  background-size: 74px 74px;
+  -webkit-background-clip: text;
+  background-clip: text;
+  mix-blend-mode: screen;
+
+  animation: phantom-title-grain .73s infinite steps(2,end);
+}
+
+/* Tiny corruption lines. These deliberately remain subtle. */
+.glitch-bug {
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  pointer-events: none;
+  opacity: .35;
+  background: linear-gradient(
+    90deg,
+    transparent 0 8%,
+    var(--glitch-blue) 8% 26%,
+    transparent 26% 38%,
+    var(--glitch-orange) 38% 51%,
+    transparent 51% 100%
+  );
+  mix-blend-mode: screen;
+}
+
+.glitch-bug-a { animation: phantom-bug-a 2.15s infinite steps(1,end); }
+.glitch-bug-b { animation: phantom-bug-b 3.05s infinite steps(1,end); }
+.glitch-bug-c { animation: phantom-bug-c 1.75s infinite steps(1,end); }
+
+/* Actual title deformation. No huge jumps, just a damaged digital signal. */
+@keyframes phantom-core-corrupt {
+  0%   { transform:translate(0,0) skewX(0); -webkit-mask-position:0 0; mask-position:0 0; }
+  7%   { transform:translate(-.35px,0) skewX(-.08deg); }
+  13%  { transform:translate(.45px,0) skewX(.10deg); -webkit-mask-position:0 -1px; mask-position:0 -1px; }
+  21%  { transform:translate(0,0) skewX(-.18deg); }
+  28%  { transform:translate(.75px,0) skewX(.14deg); }
+  34%  { transform:translate(-.55px,0) skewX(-.12deg); -webkit-mask-position:0 1px; mask-position:0 1px; }
+  43%  { transform:translate(.20px,0) skewX(.05deg); }
+  51%  { transform:translate(-.85px,0) skewX(-.24deg); }
+  58%  { transform:translate(.55px,0) skewX(.17deg); -webkit-mask-position:0 -2px; mask-position:0 -2px; }
+  67%  { transform:translate(0,0) skewX(-.07deg); }
+  74%  { transform:translate(.90px,0) skewX(.22deg); }
+  81%  { transform:translate(-.42px,0) skewX(-.10deg); -webkit-mask-position:0 1px; mask-position:0 1px; }
+  90%  { transform:translate(.25px,0) skewX(.06deg); }
+  100% { transform:translate(0,0) skewX(0); -webkit-mask-position:0 0; mask-position:0 0; }
+}
+
+/* Multi-band slices. The zero-width vertical connectors make a stack of strips. */
+@keyframes phantom-slices-blue {
+  0% {
+    transform:translate(-1px,0);
+    clip-path:polygon(
+      0 4%,100% 4%,100% 9%,0 9%,
+      0 22%,100% 22%,100% 26%,0 26%,
+      0 45%,100% 45%,100% 50%,0 50%,
+      0 71%,100% 71%,100% 75%,0 75%,
+      0 91%,100% 91%,100% 94%,0 94%
+    );
+  }
+  12% {
+    transform:translate(-2px,.2px);
+    clip-path:polygon(
+      0 10%,100% 10%,100% 14%,0 14%,
+      0 31%,100% 31%,100% 36%,0 36%,
+      0 57%,100% 57%,100% 61%,0 61%,
+      0 80%,100% 80%,100% 84%,0 84%
+    );
+  }
+  26% {
+    transform:translate(.8px,0);
+    clip-path:polygon(
+      0 2%,100% 2%,100% 6%,0 6%,
+      0 39%,100% 39%,100% 43%,0 43%,
+      0 64%,100% 64%,100% 69%,0 69%,
+      0 88%,100% 88%,100% 92%,0 92%
+    );
+  }
+  41% {
+    transform:translate(-1.5px,0);
+    clip-path:polygon(
+      0 17%,100% 17%,100% 21%,0 21%,
+      0 47%,100% 47%,100% 53%,0 53%,
+      0 76%,100% 76%,100% 81%,0 81%
+    );
+  }
+  59% {
+    transform:translate(-2.2px,-.2px);
+    clip-path:polygon(
+      0 7%,100% 7%,100% 11%,0 11%,
+      0 29%,100% 29%,100% 33%,0 33%,
+      0 54%,100% 54%,100% 58%,0 58%,
+      0 69%,100% 69%,100% 73%,0 73%,
+      0 95%,100% 95%,100% 98%,0 98%
+    );
+  }
+  78% {
+    transform:translate(.9px,0);
+    clip-path:polygon(
+      0 13%,100% 13%,100% 18%,0 18%,
+      0 37%,100% 37%,100% 41%,0 41%,
+      0 62%,100% 62%,100% 67%,0 67%,
+      0 84%,100% 84%,100% 89%,0 89%
+    );
+  }
+  100% {
+    transform:translate(-1px,0);
+    clip-path:polygon(
+      0 4%,100% 4%,100% 9%,0 9%,
+      0 22%,100% 22%,100% 26%,0 26%,
+      0 45%,100% 45%,100% 50%,0 50%,
+      0 71%,100% 71%,100% 75%,0 75%,
+      0 91%,100% 91%,100% 94%,0 94%
+    );
+  }
+}
+
+@keyframes phantom-slices-orange {
+  0% {
+    transform:translate(1.2px,0);
+    clip-path:polygon(
+      0 14%,100% 14%,100% 18%,0 18%,
+      0 35%,100% 35%,100% 40%,0 40%,
+      0 59%,100% 59%,100% 63%,0 63%,
+      0 82%,100% 82%,100% 87%,0 87%
+    );
+  }
+  16% {
+    transform:translate(2px,0);
+    clip-path:polygon(
+      0 6%,100% 6%,100% 10%,0 10%,
+      0 27%,100% 27%,100% 31%,0 31%,
+      0 49%,100% 49%,100% 55%,0 55%,
+      0 73%,100% 73%,100% 77%,0 77%,
+      0 92%,100% 92%,100% 96%,0 96%
+    );
+  }
+  33% {
+    transform:translate(-.7px,.2px);
+    clip-path:polygon(
+      0 19%,100% 19%,100% 23%,0 23%,
+      0 42%,100% 42%,100% 47%,0 47%,
+      0 68%,100% 68%,100% 72%,0 72%,
+      0 87%,100% 87%,100% 91%,0 91%
+    );
+  }
+  52% {
+    transform:translate(1.7px,0);
+    clip-path:polygon(
+      0 3%,100% 3%,100% 7%,0 7%,
+      0 25%,100% 25%,100% 30%,0 30%,
+      0 56%,100% 56%,100% 60%,0 60%,
+      0 79%,100% 79%,100% 83%,0 83%
+    );
+  }
+  71% {
+    transform:translate(2.1px,-.2px);
+    clip-path:polygon(
+      0 11%,100% 11%,100% 16%,0 16%,
+      0 34%,100% 34%,100% 38%,0 38%,
+      0 52%,100% 52%,100% 57%,0 57%,
+      0 76%,100% 76%,100% 80%,0 80%,
+      0 96%,100% 96%,100% 99%,0 99%
+    );
+  }
+  88% {
+    transform:translate(-.8px,0);
+    clip-path:polygon(
+      0 8%,100% 8%,100% 12%,0 12%,
+      0 45%,100% 45%,100% 49%,0 49%,
+      0 66%,100% 66%,100% 70%,0 70%,
+      0 86%,100% 86%,100% 90%,0 90%
+    );
+  }
+  100% {
+    transform:translate(1.2px,0);
+    clip-path:polygon(
+      0 14%,100% 14%,100% 18%,0 18%,
+      0 35%,100% 35%,100% 40%,0 40%,
+      0 59%,100% 59%,100% 63%,0 63%,
+      0 82%,100% 82%,100% 87%,0 87%
+    );
+  }
+}
+
+@keyframes phantom-title-grain {
+  0%   { background-position:0 0; opacity:.08; transform:translate(0,0); }
+  20%  { background-position:17px -11px; opacity:.15; transform:translate(.25px,0); }
+  40%  { background-position:-23px 14px; opacity:.10; transform:translate(-.2px,0); }
+  60%  { background-position:31px 8px; opacity:.16; transform:translate(.2px,0); }
+  80%  { background-position:-12px -19px; opacity:.09; transform:translate(-.15px,0); }
+  100% { background-position:0 0; opacity:.12; transform:translate(0,0); }
+}
+
+@keyframes phantom-bug-a {
+  0%,9%   { top:18%; opacity:.12; transform:translateX(-4%); }
+  10%,22% { top:24%; opacity:.42; transform:translateX(3%); }
+  23%,39% { top:47%; opacity:.18; transform:translateX(-2%); }
+  40%,58% { top:68%; opacity:.36; transform:translateX(5%); }
+  59%,77% { top:34%; opacity:.14; transform:translateX(-5%); }
+  78%,100%{ top:82%; opacity:.31; transform:translateX(1%); }
+}
+
+@keyframes phantom-bug-b {
+  0%,14%  { top:74%; opacity:.18; transform:translateX(4%); }
+  15%,32% { top:12%; opacity:.33; transform:translateX(-3%); }
+  33%,48% { top:57%; opacity:.11; transform:translateX(6%); }
+  49%,70% { top:39%; opacity:.39; transform:translateX(-1%); }
+  71%,86% { top:91%; opacity:.14; transform:translateX(-4%); }
+  87%,100%{ top:28%; opacity:.28; transform:translateX(3%); }
+}
+
+@keyframes phantom-bug-c {
+  0%,18%  { top:52%; opacity:.10; transform:translateX(-6%); }
+  19%,37% { top:88%; opacity:.29; transform:translateX(1%); }
+  38%,55% { top:31%; opacity:.18; transform:translateX(5%); }
+  56%,73% { top:7%; opacity:.36; transform:translateX(-2%); }
+  74%,90% { top:63%; opacity:.13; transform:translateX(4%); }
+  91%,100%{ top:43%; opacity:.32; transform:translateX(-3%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glitch-title .glitch-core,
+  .glitch-title::before,
+  .glitch-title::after,
+  .glitch-noise,
+  .glitch-bug {
+    animation: none !important;
+  }
+  .glitch-title::before,
+  .glitch-title::after {
+    opacity: .10;
+  }
+}
