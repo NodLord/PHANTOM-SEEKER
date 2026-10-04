@@ -1,0 +1,63 @@
+/* =========================================================
+   PHANTOM SEEKER V0.4.18 // ORGANIC PAINT TITLE MATERIAL
+   Shared by HOME + PHANTOM GRID.
+
+   Incremental layer over V0.4.15 / HOME V0.4.17:
+   - Uses the same live HTML glyphs. No title raster replacement.
+   - Applies one 4K RGBA organic worn-paint texture to both titles.
+   - The PNG contains real transparent holes + semi-transparent abrasion.
+   - Layer stack is now:
+         z3  organic paint / live title
+         z2  orange + cyan digital fragments
+         z1  film-grain shadow text
+     Data-loss rectangles remain above all three layers.
+   - HOME keeps its validated +5px/+5px grain-shadow offset from V0.4.17.
+   - PHANTOM GRID otherwise keeps its existing V0.4.15 behavior.
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   ORGANIC PAINT MATERIAL // BOTH TITLES
+   Real alpha in the PNG means the site background and lower glitch
+   layers can genuinely show through missing paint.
+   --------------------------------------------------------- */
+.glitch-title .glitch-core {
+  z-index: 3 !important;
+
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+
+  background-image: url("../assets/title-paint-organic-v0418.png") !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+  background-size: 100% 100% !important;
+
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+
+  /* No white/cyan title bloom behind the holes. The material itself
+     now supplies the physical edge and tonal variation. */
+  text-shadow: none !important;
+  filter: none !important;
+}
+
+/* ---------------------------------------------------------
+   LAYER ORDER
+   Paint is physically above the signal corruption. Orange/cyan slices
+   therefore show through genuine missing-paint areas instead of sitting
+   like stickers on top of the lettering.
+   --------------------------------------------------------- */
+.glitch-title::before,
+.glitch-title::after {
+  z-index: 2 !important;
+}
+
+.glitch-title .glitch-noise {
+  z-index: 1 !important;
+  text-shadow: none !important;
+}
+
+/* The dark/cyan/orange data-loss blocks are intentionally left above
+   the paint. Their V0.4.15 timing, positions and dimensions are unchanged. */
+.glitch-title .glitch-bug {
+  z-index: 6 !important;
+}

@@ -1,0 +1,43 @@
+PHANTOM SEEKER // PATCH V0.4.18
+================================
+
+SCOPE
+-----
+Organic worn-paint title material + title layer-order update only.
+No JavaScript, route data, Phantom Grid datasets, Three.js logic or route-map logic changed.
+
+FILES TO REPLACE
+----------------
+- index.html
+- grid.html
+
+FILES TO ADD
+------------
+- css/glitch-v0418.css
+- assets/title-paint-organic-v0418.png
+- docs/V0.4.18-README.txt
+
+WHAT CHANGED
+------------
+1. HOME title EXPEDITION PHANTOM SEEKER now uses a 4K RGBA organic worn-paint material.
+2. PHANTOM GRID uses the exact same material.
+3. The texture contains real transparent holes and semi-transparent worn paint.
+4. The live HTML text remains the title geometry. Font, size, line wrapping and responsive behavior are unchanged.
+5. Orange/cyan glitch fragments were moved beneath the paint material and remain above the film-grain shadow:
+      PAINT TEXTURE
+      ORANGE/CYAN GLITCH
+      FILM-GRAIN SHADOW
+6. Random data-loss rectangles remain above the paint, unchanged.
+7. HOME keeps the V0.4.17 +5px/+5px film-grain shadow and strengthened grain.
+8. HOME white bloom remains disabled.
+9. Grid status label updated to PUBLIC GRID V0.4.18.
+
+ASSET
+-----
+assets/title-paint-organic-v0418.png
+4096 px wide RGBA PNG, with true alpha transparency.
+
+LEGACY
+------
+V0.4.17 remains loaded on HOME because it owns the validated HOME-only 5px/5px film-grain settings.
+Its old texture reference is superseded by css/glitch-v0418.css and is no longer visible.
