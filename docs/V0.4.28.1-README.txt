@@ -1,0 +1,45 @@
+PHANTOM SEEKER V0.4.28.1 // PHANTOM NEBULA VOLUME
+=====================================================
+
+BASE
+----
+Incremental patch built directly from the deployed V0.4.28 files.
+Everything outside the Home background engine is preserved.
+
+WHAT CHANGES
+------------
+- Removes isolated V0.4.28 nebula objects whenever WebGL2 is available.
+- Builds one continuous seeded purple / blue / near-black volumetric field.
+- The heavy generation happens once in WebGL2 and is cached into five 2.5D layers.
+- Runtime is still Canvas 2D drawImage compositing; no live raymarching is performed.
+- Five coherent depth slabs:
+  1. far diffuse gas
+  2. deep structured body
+  3. absorbing dark dust
+  4. ionised filaments / cavity rims
+  5. near-camera mist
+- Broad density variations create dense walls, sparse exterior views and large cavities.
+- Distant stars and galaxies can appear through cavities and are obscured by dark dust.
+- Sparse young stars are embedded inside the volume.
+- The Hero remains slightly calmer for readability.
+- Different slab parallax values make the volume open and close during scroll.
+- The current Performance Core, world-space traffic and V0.4.27.5 compact FSD remain intact.
+
+PERFORMANCE
+-----------
+Nebula textures are baked at 640 x 512 per slab and cached by vertical chunk.
+Only nearby chunks are retained. New chunks are prepared with requestIdleCallback
+when supported. The live render path performs cached image compositing only.
+
+FALLBACK
+--------
+If WebGL2 is unavailable, the V0.4.28 isolated 2.5D nebula engine is used instead.
+
+FILES
+-----
+Replace:
+- index.html
+
+Add:
+- js/home-space-v0428-1.js
+- docs/V0.4.28.1-README.txt
