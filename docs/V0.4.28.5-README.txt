@@ -1,0 +1,75 @@
+PHANTOM SEEKER V0.4.28.5 // NEBULA BREATHING PASS
+===================================================
+
+BASE
+----
+Incremental patch built directly from V0.4.28.4.
+
+PRIMARY FIXES
+-------------
+1. SCROLL BRIGHTNESS BUG
+   - Temporal accumulation is disabled.
+   - V0.4.28.4 used different accumulation behavior at rest vs active scroll,
+     which changed perceived alpha/brightness.
+   - V0.4.28.5 keeps one stable brightness path in all camera states.
+
+2. HERO APERTURE
+   - The forced Hero hole is removed completely.
+   - The forced Hero galaxy is also removed.
+   - Hero now uses the same continuous volumetric field as the rest of Home.
+
+3. SLOWER MOTION
+   - Scroll-to-camera multiplier: 0.47 -> 0.34.
+   - Autonomous vertical travel: 0.0067 -> 0.0035.
+   - Internal volumetric drift rates and amplitudes are reduced.
+
+4. MORE BREATHING ROOM
+   - Lower mean density.
+   - Stronger and broader chamber subtraction.
+   - Thinner diffuse fringe.
+   - Lower volumetric opacity and extinction.
+   - More regular windows onto the deep starfield.
+
+5. RICHER PALETTE
+   - Blue / midnight blue are now the dominant family.
+   - Violet remains prominent.
+   - Cold rose/magenta appears locally.
+   - Grey-blue regions are added.
+   - Near-black dust lanes are much rarer.
+
+6. STARFIELD
+   - More far, mid and near stars.
+   - Embedded nebular stars increased.
+   - Embedded nebular star clusters added.
+   - Procedural galaxy chance raised from ~6% to ~12% per segment.
+   - No curated Hero galaxy.
+
+7. IMAGE QUALITY
+   Adaptive raymarch class now targets approximately:
+   - moving / heavy load: 720 x 405 at 16:9
+   - medium:             810 x 456 at 16:9
+   - calm / full:        900 x 506 at 16:9
+   The existing adaptive Deep Field cadence is preserved.
+
+8. FILM GRAIN
+   - Grain canvas uses 1.55x internal resolution and is downscaled by CSS.
+   - Individual black/white grains therefore appear significantly smaller.
+
+PERFORMANCE CORE
+----------------
+Preserved:
+- separate Deep Field / Traffic canvases;
+- adaptive 20/24/30 FPS Deep Field cadence;
+- 60 FPS-class traffic rendering;
+- cached FSD sprites;
+- world-space ships, trails and wakes;
+- no expensive live Canvas blur reintroduced.
+
+FILES
+-----
+Replace:
+- index.html
+
+Add:
+- js/home-space-v0428-5.js
+- docs/V0.4.28.5-README.txt
