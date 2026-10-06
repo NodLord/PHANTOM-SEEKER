@@ -1,0 +1,54 @@
+PHANTOM SEEKER V0.4.28.3 // NEBULA DEPTH PASS
+================================================
+
+BASE
+----
+Incremental patch built directly from V0.4.28.2.
+No changes to Route Map, Phantom Grid, title/glitch system, datasets or the
+V0.4.27.5 / Performance Core traffic architecture.
+
+CHANGES
+-------
+1. SCROLL / CAMERA DIRECTION
+   - The volumetric camera travel is inverted.
+   - Scrolling DOWN now moves the observer DOWN through the nebula volume.
+   - CPU ship/wake occlusion uses the same corrected coordinate convention.
+   - The cached 2.5D WebGL fallback follows the same direction.
+
+2. STRONGER 3D DEPTH
+   - Larger carved chambers using two independent cavity fields.
+   - Stronger domain warping and ridge structure.
+   - Dense foreground walls become substantially darker.
+   - Self-shadowing is stronger, separating near walls from distant gas.
+   - True openings stay much clearer instead of becoming violet translucent fog.
+
+3. SHARPER CLOUD / CAVITY BORDERS
+   - Narrower density transitions on the main wall field.
+   - Fine low-density fringe remains around hard walls for natural gas edges.
+   - Ionised detail is concentrated on cavity lips instead of across the whole screen.
+
+4. HERO WINDOW
+   - A large irregular opening is carved near the Hero's upper-left deep field.
+   - One curated remote spiral galaxy sits behind that opening.
+   - The hole is strongest around the Hero and naturally disappears as cameraY moves away.
+
+5. FEWER GALAXIES
+   - Procedural galaxy chance reduced from ~16% to ~6% per vertical segment.
+   - Removed the second forced Hero galaxy and the forced final-manifesto galaxy.
+   - Galaxies should now read as rare deep-space discoveries through openings.
+
+PERFORMANCE
+-----------
+- Raymarch step count and base render resolution are unchanged from V0.4.28.2.
+- No new real-time Canvas blur.
+- Traffic remains on its independent high-FPS canvas.
+- FSD sprites remain cached.
+
+FILES
+-----
+Replace:
+- index.html
+
+Add:
+- js/home-space-v0428-3.js
+- docs/V0.4.28.3-README.txt
