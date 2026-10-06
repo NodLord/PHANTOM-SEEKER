@@ -1,0 +1,72 @@
+PHANTOM SEEKER V0.4.29 // VOLUMETRIC SCENE COMPOSER
+===================================================
+
+BASE
+----
+Built directly from V0.4.28.9.
+
+ARCHITECTURE CHANGE
+-------------------
+V0.4.28.x used one effectively infinite procedural density field. Even when
+that field contained cavities, long camera rays usually hit more gas farther
+away, causing screen-wide nebular coverage.
+
+V0.4.29 separates composition from material:
+
+SCENE COMPOSER (JavaScript)
+- seed: 428291
+- deterministic regions: 1900 px world-camera span
+- finite 3D WALL / SHEET / MIST / FILAMENT structures
+- no structures = exact zero-density starfield
+- constrained side composition and approximate coverage budget
+- Hero region is hand-directed but still rendered by the same volumetric code
+- later regions use seeded procedural layouts with side balancing
+
+SHADER (WebGL2)
+- noise no longer chooses WHERE the nebula exists
+- noise only deforms the finite volumes and supplies material detail
+- each structure owns a dominant palette
+- blue is deliberately dominant, followed by blue-grey, violet/indigo, rare
+  dark material and very rare cold rose
+- overlapping structures mix naturally only where they physically overlap
+
+FIRST-TEST HERO TOPOLOGY
+------------------------
+- clear central corridor / strong starfield visibility
+- finite deep-blue torn wall entering from the left
+- one distant violet filament on the right
+- target projected coverage <= ~34% for the Hero region
+
+REST OF HOME
+------------
+- target normal projected coverage <= ~48% per composed region
+- layouts: edge wall + opposite filament, far islands, torn side sheet + mist,
+  or split edges with an empty central corridor
+- side selection is deterministic but prevents long same-side runs
+- density increases slightly after the Hero, but remains deliberately airy
+
+PERFORMANCE
+-----------
+- max 8 active finite volumes (normally 4-7)
+- only current region +/- 1 is active
+- shader rejects samples outside each finite bounding volume before expensive
+  noise evaluation
+- true empty rays therefore cost less than the previous infinite field
+- existing adaptive 20/24/30 FPS Deep Field cadence preserved
+- Traffic/FSD canvas and cached FSD sprites unchanged
+- raymarch resolution/steps remain V0.4.28.9 settings
+
+WORLD-SPACE TRAFFIC
+-------------------
+CPU atmospheric transmission now samples the same active finite scene shapes.
+Ships, trails and wakes can therefore disappear behind finite walls and remain
+fully visible through real corridors.
+
+FILES
+-----
+Replace:
+- index.html
+
+Add:
+- js/home-space-v0429.js
+- docs/V0.4.29-README.txt
