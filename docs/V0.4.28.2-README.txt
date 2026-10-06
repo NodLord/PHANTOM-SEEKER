@@ -1,0 +1,47 @@
+PHANTOM SEEKER V0.4.28.2 // NEBULA RAYMARCH CORE
+====================================================
+
+BASE
+----
+Incremental patch built directly from V0.4.28.1.
+Only the Home deep-space renderer is changed. Route Map, Phantom Grid, title/glitch
+system, datasets, narrative copy and FSD Performance Core remain untouched.
+
+WHAT CHANGED
+------------
+- V0.4.28.1 cached five-plane nebula is no longer the primary renderer.
+- New live WebGL2 raymarch at restrained resolution / Deep Field cadence.
+- One continuous seeded 3D density volume surrounds the camera.
+- Large chambers/cavities are carved from the field instead of painted as alpha holes.
+- Palette is primarily midnight blue / cold violet / near-black with very restrained cyan.
+- Dense walls absorb distant stars and curated galaxies. Open cavities reveal them again.
+- Slow internal density drift keeps the volume alive when the user is not scrolling.
+- FSD flashes briefly illuminate nearby volumetric gas.
+
+WORLD-SPACE SHIP OCCLUSION
+--------------------------
+Ships now sample the same seeded 3D noise volume on the CPU at their real scene depth.
+Atmospheric transmission is integrated between camera and ship, so hulls, engine trails
+and wakes fade progressively when crossing dense gas or moving behind a cavity wall.
+Engine light penetrates slightly farther than the hull; FSD flash remains visible through
+more material and can light the raymarched gas.
+
+PERFORMANCE
+-----------
+- Raymarch is isolated from the 60 FPS traffic canvas.
+- It runs only at the existing adaptive Deep Field cadence (20-30 FPS).
+- Internal target is approximately 416 x 234 pixels and is bilinearly upscaled.
+- A 64^3 single-channel 3D noise texture is generated once and sampled by hardware.
+- Existing V0.4.27.3 double-canvas Performance Core remains intact.
+- Existing cached FSD sprites remain intact.
+- V0.4.28.1 cached 2.5D nebula remains available automatically if live raymarch WebGL2
+  fails or the WebGL context is lost.
+
+FILES
+-----
+Replace:
+- index.html
+
+Add:
+- js/home-space-v0428-2.js
+- docs/V0.4.28.2-README.txt
