@@ -1,0 +1,85 @@
+PHANTOM SEEKER V0.4.28.9 // VOLUMETRIC REFINEMENT
+==================================================
+
+BASE
+----
+Built directly from V0.4.28.8.
+
+WHY THIS PASS IS DIFFERENT
+--------------------------
+This is not another opacity/threshold tweak. The raymarched material model was
+restructured around a clearer performance/quality compromise.
+
+1. TRUE MACRO TOPOLOGY
+- A low-frequency 3D occupancy field decides where nebular matter exists.
+- A second 3D carve field removes large chambers.
+- Empty chambers reach EXACT zero density.
+- Expensive wall/mist/filament detail is skipped in empty volume.
+
+2. THREE MATERIAL CLASSES
+WALL
+- coherent dense material;
+- strongly opaque;
+- fine noise no longer dirties the complete wall.
+
+MIST
+- separate sparse semi-transparent material;
+- pale blue/grey/violet appearance;
+- can exist around walls without making the wall itself transparent.
+
+FILAMENT
+- thin ridge material;
+- catches more ionised edge light;
+- mainly appears around structural boundaries.
+
+3. CLEANER SAMPLING
+- old fully random animated per-frame hash removed;
+- replaced with a four-phase interleaved-gradient jitter;
+- jitter distance is much smaller;
+- material fine noise frequency is lower on broad walls;
+- result target: movement remains alive, but no "dirty TV grain" on the gas.
+
+4. COLOUR BIOMES
+- colour is assigned using very-low-frequency 3D regions;
+- blue, grey-blue, indigo, violet and occasional cold rose occupy broad areas;
+- material and lighting then modify that regional colour;
+- avoids averaging the entire volume toward one purple tint.
+
+5. 3D RELIEF
+- directional self-shadow lookup retained but rebalanced;
+- density difference against the light direction adds exposed-edge lighting;
+- wall / mist / filament use different extinction and scattering strength.
+
+6. QUALITY / PERFORMANCE
+- noise volume: 64^3 -> 80^3 (still under 0.5 MB as R8);
+- ray steps: 28 -> 30;
+- adaptive raymarch targets:
+  * moving/heavy: ~853 x 480 at 16:9
+  * medium:       ~960 x 540
+  * calm/full:    up to ~1080 x 608
+- large exact voids early-out before expensive detail sampling, offsetting part
+  of the quality increase.
+- no full-resolution raymarch;
+- no live Canvas blur;
+- no heavy temporal accumulation / ghosting system.
+
+7. WORLD-SPACE TRAFFIC
+- CPU occlusion approximation updated to the same macro topology/material model.
+- Ships/trails/FSD remain compatible with nebular walls and empty chambers.
+
+UNCHANGED
+---------
+- FSD rarity remains 7.5%.
+- V0.4.27.x Performance Core remains in place.
+- ship models, FSD flash/wake, galaxy rotation and starfield preserved.
+- Home film grain preserved.
+- sticky Prologue/Chapter/Epilogue bars preserved.
+
+FILES
+-----
+Replace:
+- index.html
+
+Add:
+- js/home-space-v0428-9.js
+- docs/V0.4.28.9-README.txt
