@@ -1,0 +1,12 @@
+/* =========================================================
+   PHANTOM SEEKER V0.4.28.6 // FILAMENT BREATHING PASS
+   Incremental Home override.
+   ========================================================= */
+
+/* Chapter markers already use sticky positioning in the validated Home.
+   Remove the historic header offset so the active marker sits flush against
+   the top edge once the site header has scrolled away. */
+.chapter-marker {
+  top: 0 !important;
+  z-index: 40 !important;
+}

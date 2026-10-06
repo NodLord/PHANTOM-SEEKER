@@ -1,0 +1,67 @@
+PHANTOM SEEKER V0.4.28.6 // FILAMENT BREATHING PASS
+===================================================
+
+BASE
+----
+Incremental patch built directly from V0.4.28.5.
+
+CHANGES
+-------
+NEBULA DITHER / "CLOUD GRAIN"
+- Restores true per-raymarch-frame animation.
+- Grain is generated from fragment coordinates plus uFrame.
+- It therefore animates at the Deep Field cadence (normally 20-30 FPS), not
+  at the much slower autonomous spatial drift rate.
+- Spatial grain remains finer than the older V0.4.28.4 pattern.
+
+HOME FILM GRAIN
+- Restored to the exact pre-V0.4.28.5 scale.
+- The Home film grain and nebula dithering are now treated as separate effects.
+
+NEBULA COMPOSITION
+- Significantly less broad cloud mass.
+- Larger / more frequent empty chambers.
+- Filament structures are allowed to survive after the cloud body opens.
+- Broad world-space side masks create regions where the nebula can be mostly
+  left-sided or right-sided instead of always filling the viewport.
+- Additional open pockets expose the starfield.
+- Overall volumetric opacity / extinction is reduced.
+
+IDLE / SCROLL MOTION
+- Scroll multiplier remains 0.34 (V0.4.28.5 behavior, user-approved).
+- Autonomous camera travel returns to V0.4.28.4 speed: 0.0067.
+- Internal volumetric drift returns to the V0.4.28.4 rates / amplitudes.
+
+STARS / CLUSTERS / GALAXIES
+- Far, mid, near and embedded star populations increased moderately.
+- Embedded nebular cluster chance increased.
+- Mid-field cluster chance increased.
+- Procedural galaxy chance increased from ~12% to ~16% per segment.
+
+FSD TRAFFIC
+- Jump intent reduced from 31% to 7.5%.
+- All braking, FSD flash, wake and Performance Core behavior remains unchanged.
+
+STICKY CHAPTER BARS
+- PROLOGUE / CHAPTER I / CHAPTER II / EPILOGUE markers now use top: 0.
+- Removes the empty strip above the active sticky chapter marker.
+
+PERFORMANCE
+-----------
+Preserved:
+- separate Deep Field / Traffic canvases;
+- adaptive 20 / 24 / 30 FPS Deep Field cadence;
+- world-space traffic and wakes;
+- cached FSD sprites;
+- current adaptive raymarch resolution;
+- no new live Canvas blur.
+
+FILES
+-----
+Replace:
+- index.html
+
+Add:
+- css/home-space-v0428-6.css
+- js/home-space-v0428-6.js
+- docs/V0.4.28.6-README.txt
