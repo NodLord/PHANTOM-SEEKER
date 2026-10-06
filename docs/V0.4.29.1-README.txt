@@ -1,0 +1,75 @@
+PHANTOM SEEKER V0.4.29.1 // ORGANIC VOLUME HOTFIX
+==================================================
+
+BASE
+----
+Built directly from V0.4.29 Scene Composer.
+
+WHY V0.4.29 SHOWED CIRCLES / OVALS
+----------------------------------
+The Scene Composer itself was correct, but the shader exposed its finite
+containers directly:
+- WALL and MIST were based on length(q), creating ellipsoids;
+- SHEET used length(q.xy), producing an elliptical envelope.
+Noise only textured the inside of those primitives, so their geometry was
+still clearly visible.
+
+V0.4.29.1 FIX
+-------------
+The finite volumes are now INVISIBLE CONTAINERS only. They decide where
+material is allowed to exist, but their primitive silhouette is never drawn.
+
+WALL
+- independent warped X/Y/Z support edges;
+- low-frequency topology decides the visible mass;
+- internal erosion creates true holes;
+- edge ridges become secondary filaments.
+
+SHEET
+- the old elliptical length(q.xy) envelope is deleted;
+- independent warped X/Y support edges;
+- a low-frequency tissue field decides where the membrane survives;
+- large tear fields remove sections of the sheet;
+- the remaining plane is itself heavily warped.
+
+MIST
+- no sphere/ellipse;
+- patchy finite support plus broad pockets and internal cutouts.
+
+FILAMENT
+- remains a thin tube-like structure, but now uses stronger domain warping,
+  length variation and a secondary strand.
+
+HERO COMPOSITION
+----------------
+Seed remains 428291, but the first region is retuned for immediate validation:
+- mid-depth deep-blue wall enters from lower-left;
+- small far blue-grey island high-left;
+- two distant thin structures on the right;
+- no near-volume in the centre;
+- Hero target coverage tightened from ~34% to ~30%.
+
+The goal is that no ellipse, circle or clean geometric boundary is perceptible.
+If a primitive shape is still recognizable after this patch, the hotfix has
+failed and the material support needs another pass.
+
+PERFORMANCE
+-----------
+Performance Core remains intact.
+The existing container bounding boxes still provide cheap early-outs before
+organic FBM material is evaluated.
+No new canvas, blur pass or full-resolution raymarch is introduced.
+
+WORLD-SPACE TRAFFIC
+-------------------
+CPU nebula sampling has been updated to the same organic container logic, so
+ship/trail/FSD occlusion remains aligned with the visible gas.
+
+FILES
+-----
+Replace:
+- index.html
+
+Add:
+- js/home-space-v0429-1.js
+- docs/V0.4.29.1-README.txt
