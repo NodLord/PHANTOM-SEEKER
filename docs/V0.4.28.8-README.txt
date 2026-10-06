@@ -1,0 +1,67 @@
+PHANTOM SEEKER V0.4.28.8 // OPAQUE CLOUD / NATURAL VOID PASS
+================================================================
+
+BASE
+----
+Built directly from V0.4.28.7.
+
+GOAL
+----
+Breathing room must come from WHERE the nebula exists, not from making the
+entire volume transparent.
+
+OPAQUE CLOUDS
+-------------
+Cloud material is substantially stronger than V0.4.28.5 / V0.4.28.7:
+- volumetric extinction: 1.64 -> 2.22
+- maximum raymarched alpha: 0.915 -> 0.972
+- final nebula canvas composite: 0.855 -> 0.985
+- stronger colour/scattering in dense walls
+- stronger tonemap colour retention
+
+NATURAL EMPTY SPACE
+-------------------
+- Side events now cut genuine empty regions instead of reducing the opacity
+  of the entire opposite side.
+- Three broad world-space chamber fields plus a fracture field carve
+  irregular asymmetric openings.
+- Residual weak fog is thresholded away.
+- Remaining cloud walls are remapped toward substantial density.
+- Result target: opaque cloud walls / filaments separated by actual starfield.
+
+COLOUR DISTRIBUTION
+-------------------
+Palette is now divided into broad spatial provinces:
+- deep / electric blue
+- violet / indigo
+- grey-blue
+- occasional cold rose / magenta
+- cyan only on finer ionised structures
+- true black limited to rare compact dust knots
+
+This avoids a screen-wide average purple tint.
+
+SHIP OCCLUSION
+--------------
+CPU-side nebula density is also hardened, and attenuation is increased so
+ships/trails disappearing behind an opaque wall remain consistent with the
+visual raymarched nebula.
+
+UNCHANGED
+---------
+- Nebula grain resolution / raymarch resolution from V0.4.28.7.
+- Galaxy rotation from V0.4.28.7.
+- FSD rarity: 7.5%.
+- Scroll and idle motion.
+- Performance Core.
+- Sticky chapter bars.
+- Home film grain.
+
+FILES
+-----
+Replace:
+- index.html
+
+Add:
+- js/home-space-v0428-8.js
+- docs/V0.4.28.8-README.txt
