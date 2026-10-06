@@ -1,0 +1,88 @@
+PHANTOM SEEKER V0.4.29.2 // CINEMATIC CLUSTER COMPOSER
+=======================================================
+
+BASE
+----
+Built directly from V0.4.29.1.
+
+GOAL
+----
+Make the finite-volume architecture feel rich, layered and cinematic again
+without returning to a screen-filling purple fog.
+
+SCENE COMPOSER
+--------------
+- Scene Composer remains deterministic with seed 428291.
+- Each region now creates multiple NEBULAR COMPLEXES instead of 2-3 isolated
+  primitives.
+- Typical logical structure count per region is roughly 18-30.
+- Hero logical structure count is ~17.
+- Structures are distributed across left/right, near/mid/far and several
+  vertical positions.
+- Blue and blue-grey dominate; violet is secondary; dark fragments are accents;
+  cold rose remains rare.
+
+PERFORMANCE / ACTIVE CULLING
+----------------------------
+- Shader active capacity: 8 -> 12 finite structures.
+- The JavaScript world may contain dozens of logical volumes.
+- A diversity-aware culler selects a balanced set of near/mid/far and
+  left/right structures for the current camera slice.
+- This avoids sending every logical volume to every raymarch sample.
+
+MATERIAL RICHNESS
+-----------------
+WALL
+- multiple correlated lobes;
+- internal erosion/cavities;
+- mist halo near wall edges;
+- several ridge/filament structures.
+
+MIST
+- multiple diffuse internal sheets;
+- holes remain between sheets;
+- faint secondary mist layer.
+
+FILAMENT
+- three warped strands per logical filament volume.
+
+SHEET
+- two torn membranes at different internal depths;
+- fractured tissue;
+- secondary sheet mist and boundary filaments.
+
+HERO COMPOSITION
+----------------
+The Hero remains readable but no longer feels empty:
+- layered blue wall complex on the left;
+- far blue-grey mist complex upper-left;
+- multiple distant violet/blue filaments on the right;
+- sparse dark fragments lower-right;
+- additional very far blue mist.
+The central/right starfield remains the dominant negative space.
+
+COLOUR / LIGHT
+--------------
+- Each structure keeps a dominant palette.
+- Wall, mist and filament material classes now diverge in tone:
+  deep/midnight blue, steel/blue-grey, cyan-blue edge light, violet accents.
+- Broad local variation adds black/grey structure without averaging the whole
+  scene into purple.
+
+UNCHANGED
+---------
+- V0.4.27.x Performance Core.
+- FSD rarity and FSD visuals.
+- ship models / world-space trails / wakes.
+- starfield, galaxies, galaxy rotation.
+- Home film grain.
+- sticky chapter bars.
+
+FILES
+-----
+Replace:
+- index.html
+
+Add:
+- js/home-space-v0429-2.js
+- docs/V0.4.29.2-README.txt
