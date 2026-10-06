@@ -1,0 +1,61 @@
+PHANTOM SEEKER V0.4.28.7 // CLOUD DISTRIBUTION PASS
+===================================================
+
+BASE
+----
+Incremental patch built directly from V0.4.28.6.
+
+NEBULA OPACITY
+--------------
+Restored to the V0.4.28.5 optical strength:
+- extinction multiplier: 1.46 -> 1.64
+- max volumetric alpha: 0.865 -> 0.915
+- final nebula composite alpha: 0.785 -> 0.855
+
+The nebula is therefore NOT made more transparent.
+Breathing room now comes from spatial voids / missing cloud mass instead.
+
+CLOUD DISTRIBUTION
+------------------
+- Stronger asymmetric left/right openings.
+- Three overlapping world-space void fields carve irregular chambers.
+- Remaining walls and filaments retain full V0.4.28.5 opacity.
+- Openings are broad and organic rather than circular or screen-space masks.
+
+NEBULA GRAIN / DETAIL
+---------------------
+Adaptive raymarch resolution moves one tier upward:
+- moving/heavy load: ~810 x 456 at 16:9
+- medium:           ~900 x 506
+- calm/full:       ~1024 x 576
+
+The Performance Core can still lower cadence under load.
+Ray-start jitter amplitude is reduced and fine material frequency is increased,
+so animated nebular grain appears smaller / finer.
+HOME film grain is untouched.
+
+GALAXY ROTATION
+---------------
+Procedural galaxy spin:
+- previous: roughly 0.14–0.33 deg/s
+- V0.4.28.7: roughly 0.36–0.70 deg/s
+
+Fallback/anchored galaxy spin is increased by a similar ratio.
+Rotation should now be clearly perceptible over several seconds without looking fast.
+
+UNCHANGED
+---------
+- FSD rarity remains 7.5%.
+- Scroll movement remains V0.4.28.6.
+- Nebula idle movement remains V0.4.28.6 / restored V0.4.28.4 speed.
+- Sticky chapter bars remain flush at top: 0.
+- Traffic/FSD Performance Core unchanged.
+
+FILES
+-----
+Replace:
+- index.html
+
+Add:
+- js/home-space-v0428-7.js
+- docs/V0.4.28.7-README.txt
