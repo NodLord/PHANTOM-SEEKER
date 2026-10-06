@@ -1,0 +1,45 @@
+PHANTOM SEEKER V0.4.28.4 // VOLUMETRIC QUALITY PASS
+======================================================
+
+BASE
+----
+Incremental patch built directly from V0.4.28.3.
+No changes to Route Map, Phantom Grid, titles, narrative content, ship models,
+FSD timing or the V0.4.27.x Performance Core separation.
+
+RAYMARCH QUALITY
+----------------
+- Adaptive internal resolution:
+  * active scroll / performance mode: ~640x360 at 16:9
+  * medium budget: ~720x405
+  * full budget / calm camera: up to 768x432
+- Ray steps reduced from 32 to 28 to recover much of the increased pixel cost.
+- High-quality browser interpolation retained for the final upscale.
+- Stochastic per-frame ray jitter plus low-cost temporal accumulation when the
+  camera is calm. Accumulation resets aggressively during scroll to avoid ghosting.
+
+NEBULA MATERIAL / PALETTE
+-------------------------
+- Broader chambers and more open space: the starfield is visible more often.
+- Larger cavity subtraction and stronger domain warp.
+- Dense gas now remains predominantly violet / blue instead of collapsing to black.
+- Added restrained cold rose / magenta regions.
+- Truly black dust is now rare and localised to dense dust lanes.
+- Firmer large-scale walls with fine fractal damage laid on top.
+
+HERO APERTURE
+-------------
+The galaxy opening is no longer circular. It is now a rotated, warped, noisy,
+asymmetric cavity whose edge comes from the same seeded 3D noise field. CPU ship
+occlusion uses the same aperture approximation so traffic stays consistent.
+
+NEAR-CAMERA STARS
+-----------------
+Added a sparse population of stars inside the near nebular volume. They use stronger
+parallax, small coloured halos, and atmospheric transmission so some become veiled by
+the cloud instead of sitting flat on top of it.
+
+PERFORMANCE
+-----------
+The adaptive Deep Field cadence (20/24/30 FPS), separate 60 FPS traffic canvas,
+cached FSD sprites, world-space trails/wakes and reduced-DPR deep canvas remain intact.
