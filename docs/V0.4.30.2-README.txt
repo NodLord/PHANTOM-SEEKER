@@ -1,0 +1,57 @@
+PHANTOM SEEKER V0.4.30.2 // ATLAS INIT HOTFIX
+==============================================
+
+BASE
+----
+Built directly from V0.4.30.1.
+
+BUG FIX
+-------
+V0.4.30.1 declared nB inside the occupied-voxel branch:
+
+    if (...) {
+      ...
+    } else {
+      const nB = ...
+    }
+
+but then reused nB afterwards to build the biome texture.
+
+That causes a runtime ReferenceError:
+    nB is not defined
+
+The WebGL nebula initializer catches that error and falls back to the older
+background renderer, which is why the intended Cavity Corridor topology was
+not visible.
+
+FIX
+---
+- A dedicated biomeNoise value is now computed before the occupancy branch.
+- The occupied branch reuses biomeNoise as nB.
+- The biome atlas also uses biomeNoise outside the branch.
+- No visual tuning values were changed.
+
+UNCHANGED
+---------
+Exactly preserved from V0.4.30.1:
+- Cavity Corridor topology
+- seed
+- left/right coverage
+- Hero coverage
+- depth bands
+- V0.4.28.9 wall / mist / filament material
+- blue-family palette
+- opacity
+- motion
+- raymarch resolution / performance
+- ships / FSD / galaxies / starfield
+- Home content / Route Map / Phantom Grid
+
+FILES
+-----
+Replace:
+- index.html
+
+Add:
+- js/home-space-v0430-2.js
+- docs/V0.4.30.2-README.txt
