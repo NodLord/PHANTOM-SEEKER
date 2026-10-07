@@ -1,0 +1,119 @@
+PHANTOM SEEKER V0.4.30.4 // NATURAL CAVITY VOLUME PASS
+=======================================================
+
+BASE
+----
+Built directly from V0.4.30.3.
+
+PRIMARY GOAL
+------------
+Move closer to the natural 3D feeling of the original V0.4.30 while keeping
+the visible corridor introduced by V0.4.30.2.
+
+1. SCROLL DEFORMATION FIX
+-------------------------
+V0.4.30.3 sampled nebula material at:
+    p.y + cameraY * 0.00074
+
+while occupancy remained in pure world-space.
+
+That caused the fine texture to slide against the atlas when scrolling,
+producing the impression that walls were deforming / boiling.
+
+V0.4.30.4:
+- material noise is sampled directly from p;
+- CPU occlusion uses the same fixed world coordinates;
+- camera motion changes viewpoint only.
+
+2. ARTIFICIAL WALL HOLE FIX
+---------------------------
+Two mechanisms could create an unnatural disappearing wall:
+- row-by-row coverage quotas / thresholds;
+- aggressive internalCarve multiplication.
+
+Changes:
+- row-wise quantile coverage masks removed completely;
+- side walls now come from continuous organic envelopes;
+- internalCarve is much rarer and only reduces wall density by 34%;
+- global holes are controlled by the atlas, not material-level cutouts.
+
+3. BACKGROUND CLOUDS TOUCH THE WALLS
+------------------------------------
+Central layers now use a broad bridge mask extending into the side walls.
+There should no longer be a visible empty seam between deep clouds and the
+corridor borders.
+
+4. MUCH MORE DEPTH
+------------------
+Added independent depth planes:
+
+VERY FAR
+- w ~ 0.835
+- w ~ 0.735
+- w ~ 0.635
+
+MID
+- w ~ 0.525
+- w ~ 0.435
+
+DEEP FILAMENTS
+- w ~ 0.790 / 0.665
+- w ~ 0.560 / 0.385
+
+NEAR
+- w ~ 0.295
+- w ~ 0.215
+
+VERY NEAR / FOREGROUND
+- w ~ 0.145
+- w ~ 0.095
+
+Near and foreground structures remain sparse, asymmetric and heavily
+suppressed around the Hero so they never become a permanent veil.
+
+5. MORE NATURAL SIDE WALLS
+--------------------------
+- no exact left/right coverage quota;
+- width is determined by a slowly moving corridor boundary;
+- left/right wall amplitudes are independent;
+- wall erosion is soft and cannot delete an entire side;
+- width changes continuously over the page.
+
+6. COLOUR DEPTH CUES
+--------------------
+Palette remains entirely in one cold family, but now separates depth more:
+- midnight / navy
+- deep blue
+- cobalt
+- cyan blue
+- blue-grey
+- steel blue
+- violet only as a ~3% shadow hint
+
+Far layers bias cooler / greyer.
+Near layers bias deeper / darker.
+Filaments bias slightly cyan.
+
+7. PERFORMANCE
+--------------
+No extra GPU raymarch steps were added.
+All additional depth complexity is baked once into the existing 3D occupancy
+and biome atlases at startup.
+
+UNCHANGED
+---------
+- V0.4.28.9 wall/mist/filament material foundation
+- adaptive raymarch quality
+- Performance Core
+- ship traffic / FSD / wakes
+- starfield / galaxies / systems
+- Home content / Route Map / Phantom Grid
+
+FILES
+-----
+Replace:
+- index.html
+
+Add:
+- js/home-space-v0430-4.js
+- docs/V0.4.30.4-README.txt
