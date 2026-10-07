@@ -1,0 +1,98 @@
+PHANTOM SEEKER V0.4.31.1 // VOLUMETRIC CLOUD POPULATION
+=========================================================
+
+BASE: V0.4.31
+REFERENCE SEED: 430030 (preserved)
+
+PURPOSE
+-------
+Keep the true 3D corridor intact and populate it with many more genuine
+volumetric cloud systems at physically separate depths.
+
+ADDED TRUE 3D POPULATIONS
+-------------------------
+- 4 far cloud fields
+- 3 mid-distance cloud fields
+- 2 cross-cavity bridge fields
+- detached cloud islands
+- 2 near-cloud populations
+- 2 very-near / foreground populations
+- 3 filament fields
+- 2 filament gate fields
+- 2 independent 3D void fields preserving large starfield windows
+
+DEPTH
+-----
+Volumetric populations now span many distinct visible ranges:
+- far: ~0.58-0.82
+- mid: ~0.36-0.56
+- near: ~0.25-0.34
+- foreground: ~0.15-0.22
+
+Depth centres themselves are warped by 3D fields, so these are not flat 2D
+planes.
+
+CROSS-CAVITY CLOUDS
+-------------------
+Broad bridge clouds overlap the corridor walls, allowing formations to connect
+left and right walls naturally.
+
+DETACHED CLOUDS
+---------------
+Some cloud islands live entirely inside the cavity and do not touch either
+wall.
+
+FOREGROUND
+----------
+Rare nearby wisps can pass close to the camera for strong parallax. Hero
+suppression keeps the title/logo readable.
+
+FILAMENTS
+---------
+Three independent 3D ridge networks create far, mid and near filaments.
+Sparse thicker filament sheets can also bridge the cavity.
+
+VOID WINDOWS
+------------
+Large clean starfield openings remain because independent 3D void fields
+suppress interior populations without cutting holes through the side walls.
+
+ATLAS QUALITY
+-------------
+Depth resolution increased:
+- 56 -> 72 voxels
+
+Runtime raymarch step count is unchanged.
+
+MATERIAL / LIGHT
+----------------
+V0.4.28.9-style wall/mist/filament material remains.
+Low-density populations enter the mist channel more easily, making far clouds
+visible while remaining diffuse.
+
+COLOUR
+------
+Predominantly:
+- midnight
+- navy
+- deep blue
+- cobalt
+- cyan
+- blue-grey
+
+Selected coherent cloud provinces can receive a cold blue-violet tint.
+
+PERFORMANCE
+-----------
+All extra complexity is baked once into the occupancy/biome atlases.
+No cloud-object loops were added to the GPU raymarch.
+Empty regions still early-out.
+
+FILES
+-----
+Replace:
+- index.html
+
+Add:
+- js/home-space-v0431-1.js
+- docs/V0.4.31.1-README.txt
