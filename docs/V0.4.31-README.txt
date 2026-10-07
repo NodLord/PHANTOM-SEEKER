@@ -1,0 +1,176 @@
+PHANTOM SEEKER V0.4.31 // TRUE 3D CAVITY FIELD
+=================================================
+
+BASE
+----
+Built directly from deployed V0.4.30.4.
+Visual/material foundation remains the successful V0.4.28.9 raymarched nebula.
+
+SEED
+----
+VOLUME_ATLAS_SEED = 430030
+
+This seed is intentionally preserved as the reference seed for the current
+Phantom Seeker Home nebula.
+
+WHY THIS VERSION EXISTS
+-----------------------
+V0.4.30.x produced a convincing corridor, but its large-scale topology was
+still assembled mostly as 2D Y slices and then distributed through depth.
+During scrolling, interpolation between different slices could make a wall
+look as though its texture was morphing or being deformed.
+
+V0.4.31 removes that architecture.
+
+TRUE 3D TOPOLOGY
+----------------
+The occupancy atlas is now generated directly as a continuous X/Y/Z field.
+
+- No per-row coverage quotas.
+- No stack of independently-shaped Y slices.
+- No analytical boxes, circles or ellipsoids.
+- Corridor centre changes continuously with Y and Z.
+- Corridor width changes continuously with Y and Z.
+- Wall macro-shape, wall erosion and wall detail are all sampled from true 3D
+  seeded fields.
+- Left/right wall strength also varies in 3D.
+
+The result is a winding volumetric cavity rather than a succession of masks.
+
+CAVITY BREATHING
+----------------
+The corridor now naturally alternates between:
+- narrower passages with thicker, closer walls;
+- wider chambers with more distant side walls;
+- intermediate sections.
+
+Hero readability is preserved, but the Hero is no longer artificially empty.
+
+DEPTH LAYERS
+------------
+The central cavity contains independent TRUE 3D material populations:
+
+FAR
+- broad diffuse clouds
+- blue-grey / cyan bias
+- large-scale structures connecting into the side walls
+
+MID
+- denser cloud complexes
+- stronger overlap with both walls
+- cobalt / deep-blue bias
+
+CROSS-CAVITY
+- wisps and cloud structures that can visually connect both walls
+
+NEAR
+- smaller closer structures
+- stronger parallax
+
+VERY NEAR / FOREGROUND
+- rare wisps close to the camera
+- capable of crossing the observer's view
+- heavily suppressed around the Hero title/logo
+
+FILAMENTS
+- 3D ridge networks generated from continuous scalar fields
+- exist at several physical depths
+- can bridge walls or appear far behind them
+
+All layers overlap the corridor walls rather than floating inside a separate
+central mask.
+
+VISIBLE DEPTH RANGE
+-------------------
+The atlas depth centres have been aligned to the actual z-range traversed by
+the current raymarch camera.
+
+This is important: several older near/far bands lived partly outside the range
+most rays actually sampled.
+
+SCROLL STABILITY
+----------------
+Two sources of apparent morphing were removed/reduced:
+
+1. Topology is now continuous in X/Y/Z rather than interpolated between
+   different 2D corridor slices.
+
+2. Raymarch resolution no longer drops automatically merely because the user
+   is scrolling. Resolution changes only when the measured renderer budget
+   requires it.
+
+The tiny global idle advection remains, but its amplitude has been reduced
+substantially.
+
+ATLAS QUALITY
+-------------
+Occupancy / biome atlas:
+- 64 x 128 x 56
+- trilinear GPU sampling
+- periodic low-frequency 3D fields
+- roughly 459k voxels per atlas
+
+Material remains the V0.4.28.9-style wall / mist / filament model.
+
+COLOUR
+------
+The nebula remains a coherent cold family with stronger variation:
+- midnight
+- navy
+- deep blue
+- cobalt
+- cyan-blue
+- blue-grey / steel
+- cold blue-violet pockets
+
+Violet remains secondary and spatially coherent rather than appearing as a
+hard colour band.
+
+STARFIELD / LIFE
+----------------
+Star population has been increased substantially.
+
+- More far stars.
+- More mid-distance stars.
+- More near stars.
+- More stars embedded inside the nebula.
+- More remote clusters.
+- More mid-distance clusters.
+- More embedded clusters.
+- Rare large, conspicuous clusters.
+- Cluster colours now vary between white, cool white and blue.
+
+Embedded stars/clusters still use nebular transmission so dense gas can
+partially hide them.
+
+PERFORMANCE
+-----------
+- Raymarch step count is unchanged.
+- Material early-out remains active in true empty space.
+- Extra volumetric complexity is baked once into the 3D atlas at startup.
+- Runtime shader cost does not scale with the number of logical cloud fields
+  used to generate the atlas.
+- Adaptive quality still reacts to measured render cost, but not directly to
+  scroll input.
+
+UNCHANGED
+---------
+- Home content and layout
+- Route Map
+- Phantom Grid
+- title/glitch system
+- ships
+- world-space trails
+- FSD flash/wake
+- galaxy system
+- sticky chapter bars
+- film grain
+
+FILES
+-----
+Replace:
+- index.html
+
+Add:
+- js/home-space-v0431.js
+- docs/V0.4.31-README.txt
