@@ -1,0 +1,109 @@
+PHANTOM SEEKER V0.4.30 // PROCEDURAL VOLUME ATLAS
+=================================================
+
+BASE
+----
+This branch deliberately returns to V0.4.28.9 as the visual/material source
+of truth. V0.4.29 / Scene Composer geometry is NOT carried forward.
+
+GOAL
+----
+Keep the successful V0.4.28.9 nebula texture, lighting, wall/mist/filament
+model and raymarch quality, while solving its screen-filling topology.
+
+ARCHITECTURE
+------------
+V0.4.30 separates two responsibilities:
+
+1. VOLUME ATLAS
+   Decides WHERE nebular material may exist.
+   - 64 x 96 x 48 R8 3D occupancy texture
+   - deterministic seed: 430030
+   - generated once at startup
+   - organic low-frequency field, not runtime boxes/ellipsoids
+   - large areas are EXACT zero occupancy
+   - projected coverage is explicitly controlled per vertical slice
+
+2. V0.4.28.9 MATERIAL SHADER
+   Decides WHAT occupied gas looks like.
+   - wall
+   - mist
+   - filaments
+   - domain warping
+   - internal cavities
+   - directional self-shadow / edge lighting
+   - FSD volumetric illumination
+
+No finite Scene Composer primitives are visible or tested in the shader.
+
+TOPOLOGY
+--------
+The atlas front-field targets:
+- Hero: about 26-34% broad cloud coverage
+- normal Home regions: usually 34-47%
+- large true starfield openings
+- slowly changing left/right dominance
+- sparse low-valued filament permissions across open regions
+- multiple depth layers behind the same projected cloud island
+
+The Hero is curated INSIDE the procedural atlas:
+- richer organic mass on the left
+- broad center/right opening
+- no circular hole
+- no geometric volume boundary
+
+COLOUR
+------
+A second 64 x 96 x 48 R8 3D biome atlas is generated once at startup.
+Colour distribution is intentionally biased toward:
+- deep/cobalt blue (dominant)
+- blue-grey / steel
+- indigo
+- violet (secondary)
+- dark/black regions (limited)
+- cold rose (rare)
+
+Colour topology is independent from density topology, so neighbouring cloud
+layers can mix naturally without averaging the entire screen into purple.
+
+PERFORMANCE
+-----------
+The atlas costs roughly:
+- occupancy: ~288 KiB
+- biome:     ~288 KiB
+
+Runtime raymarch still uses the V0.4.28.9 adaptive quality system:
+- ~853 x 480 moving/heavy
+- ~960 x 540 medium
+- up to ~1080 x 608 calm/full
+- 30 ray steps
+
+Empty atlas voxels early-out after ONE cheap 3D texture lookup, before the
+expensive FBM/material work. This is intended to offset the two atlas textures
+and can be cheaper than the old infinite volume in open areas.
+
+WORLD-SPACE TRAFFIC
+-------------------
+CPU ship/trail/FSD attenuation samples the same occupancy atlas, then applies
+the same V0.4.28.9-style material approximation. Ships can therefore pass
+through true empty corridors and disappear behind occupied cloud masses.
+
+UNCHANGED
+---------
+- V0.4.27.x Performance Core
+- FSD rarity / flash / wake
+- ship models and world-space traffic
+- galaxies and galaxy rotation
+- starfield / clusters / systems
+- Home film grain
+- sticky chapter bars
+- all Home content / route / Phantom Grid
+
+FILES
+-----
+Replace:
+- index.html
+
+Add:
+- js/home-space-v0430.js
+- docs/V0.4.30-README.txt
