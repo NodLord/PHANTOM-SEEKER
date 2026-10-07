@@ -1,0 +1,75 @@
+PHANTOM SEEKER V0.4.30.3 // CAVITY DEPTH PASS
+================================================
+
+BASE
+----
+Built directly from V0.4.30.2.
+
+GOAL
+----
+Keep the successful bilateral Cavity Corridor, but make it read as a real
+three-dimensional nebular cavity rather than two walls around empty space.
+
+SCROLL STABILITY
+----------------
+- The atlas/topology remains fully world-space.
+- Fine material Y motion is compensated by ~63%, so detail evolves only about
+  37% as quickly during scroll.
+- Position-dependent idle deformation was replaced by a small GLOBAL advection.
+- Result target: walls travel past the camera without their texture visibly
+  boiling or stretching.
+
+DEPTH LAYERS
+------------
+The central cavity can now contain sparse independent layers:
+- FAR CLOUD A: broad, faint islands at large depth
+- FAR CLOUD B: secondary overlapping distant layer
+- MID CLOUD: smaller intermediate fragments
+- DEEP FILAMENTS: thin structures at two far depth bands
+- NEAR WISPS: rare foreground clouds that can pass in front of the camera
+
+These layers use MAX composition rather than additive density, so overlapping
+structures add visual depth without automatically becoming opaque soup.
+Large areas remain true starfield.
+
+SIDE WALLS
+----------
+- Left/right coverage now varies independently from roughly 13% to 24.5% each.
+- Independent low-frequency strength fields vary apparent wall opacity/weight.
+- Boundaries are slightly softer and more eroded.
+- Hero remains framed on both sides, but no longer uses fixed-width walls.
+
+COLOUR
+------
+Still one homogeneous cold family, but with stronger visible differences:
+- midnight / navy
+- deep blue
+- cobalt
+- cyan-blue
+- blue-grey
+- steel-blue
+- violet only as a very weak shadow tint
+
+Material classes separate further:
+- wall: deeper / denser blue
+- mist: more blue-grey
+- filament: more cyan-blue
+- far layers trend cooler / greyer
+- near wisps trend darker
+
+UNCHANGED
+---------
+- V0.4.28.9 wall/mist/filament material core
+- Volume Atlas architecture
+- Performance Core / adaptive raymarch
+- ship/FSD/galaxy/starfield systems
+- Home content / Route Map / Phantom Grid
+
+FILES
+-----
+Replace:
+- index.html
+
+Add:
+- js/home-space-v0430-3.js
+- docs/V0.4.30.3-README.txt
