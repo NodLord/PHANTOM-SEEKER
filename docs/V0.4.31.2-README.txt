@@ -1,0 +1,107 @@
+PHANTOM SEEKER V0.4.31.2 // MATERIAL DENSITY ATLAS
+=====================================================
+
+BASE
+----
+Built strictly from V0.4.31.1.
+Reference seed 430030 is preserved.
+The true 3D cavity/corridor geometry is preserved.
+
+THE V0.4.31.1 PROBLEM
+---------------------
+V0.4.31.1 generated many FAR/MID/BRIDGE/DETACHED/NEAR/FOREGROUND cloud
+populations, but reduced all of them to ONE scalar occupancy permission mask.
+
+The V0.4.28.9 material shader then asked a second independent FBM field whether
+mist should actually exist there. Most of the new cloud population therefore
+never became visible. On screen, V0.4.31.1 looked almost identical to V0.4.31.
+
+V0.4.31.2 ARCHITECTURE
+----------------------
+The occupancy texture is now an RGBA8 MATERIAL DENSITY ATLAS:
+
+R = real structural wall density
+G = real volumetric cloud / mist density
+B = real filament density
+A = combined total occupancy
+
+The shader no longer treats the atlas as permission. It treats the channels as
+actual material already present in 3D space.
+
+The V0.4.28.9 FBM/domain-warp material still provides:
+- organic internal billows
+- erosion
+- edge detail
+- self-shadow
+- lighting
+- dust structure
+
+but it no longer gets a second veto over whether a cloud exists.
+
+LAYER ACCUMULATION
+------------------
+FAR / MID / CROSS-BRIDGE / DETACHED / NEAR / FOREGROUND cloud systems now
+combine using probabilistic union:
+
+    density = 1 - (1-a)(1-b)(1-c)...
+
+Multiple weak layers therefore become visually richer when they overlap,
+without unbounded additive saturation.
+
+Bridge haze is also baked around cross-cavity formations so distant/mid clouds
+can visually weld into the side walls instead of floating in an empty centre.
+
+VISIBILITY
+----------
+Cloud densities are intentionally boosted before material packing:
+- FAR remains diffuse
+- MID is stronger
+- cross-cavity bridges are clearly readable
+- detached cloud islands are visible
+- NEAR creates stronger parallax
+- FOREGROUND remains rarer and lighter
+
+FILAMENTS
+---------
+Filament density is now stored in its own atlas channel.
+The shader uses that real density directly and adds only fine ridge texture.
+
+COLOUR
+------
+Biome atlas remains separate.
+Blue family remains dominant with coherent cold blue-violet pockets.
+Depth-based colour shifts now use the actual material strengths.
+
+CPU OCCLUSION
+-------------
+Ship / trail / FSD transmission samples the alpha channel of the same RGBA
+material atlas, so traffic remains coherent with visible gas.
+
+PERFORMANCE
+-----------
+Atlas dimensions remain 64 x 128 x 72.
+RGBA material atlas memory is about 2.25 MiB.
+Biome atlas remains R8.
+Raymarch step count is unchanged.
+True-empty alpha regions still early-out before expensive FBM work.
+
+UNCHANGED
+---------
+- seed 430030
+- true 3D corridor geometry
+- scroll-stable world-space topology
+- V0.4.28.9 material foundation
+- adaptive quality / performance logic
+- stars / clusters
+- galaxies / systems
+- ships / trails / FSD
+- Home content / Route Map / Phantom Grid
+
+FILES
+-----
+Replace:
+- index.html
+
+Add:
+- js/home-space-v0431-2.js
+- docs/V0.4.31.2-README.txt
