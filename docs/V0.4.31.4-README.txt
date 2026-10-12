@@ -1,0 +1,75 @@
+PHANTOM SEEKER V0.4.31.4 // PERFORMANCE CORE II + RENDER MATRIX
+================================================================
+
+BASE
+----
+Strictly based on V0.4.31.3. Seed 430030 and the approved nebula topology,
+cloud population, colours and composition are preserved.
+
+PERFORMANCE CHANGES
+-------------------
+1. EMPTY-SPACE RAY SKIPPING
+   Atlas-empty raymarch regions advance with a larger step before any FBM work.
+
+2. FAST VOLUME SHADOW PROXY (default)
+   The second full materialField evaluation used only for shadowing is replaced
+   by a cheap occupancy/noise proxy. The Render Matrix exposes HQ VOLUME LIGHT
+   to restore the original expensive shadow evaluation instantly.
+
+3. CPU OCCLUSION PROXY
+   Ships, embedded stars, clusters and wakes now sample the occupancy atlas
+   directly (5 samples) instead of running the full CPU FBM material model
+   repeatedly.
+
+4. STATIC BACKDROP + VIGNETTE CACHE
+   Radial-gradient background/vignette layers are generated on resize only.
+
+5. PREGENERATED FILM GRAIN
+   Ten deterministic grain tiles are generated once. Runtime only cycles cached
+   patterns instead of creating ImageData and random pixels every 66 ms.
+
+6. SMALL-STAR FAST PATH
+   Tiny stars use fillRect rather than beginPath/arc/fill.
+
+7. EMBEDDED STAR GLOW CACHE
+   Nebula stars reuse cached glow sprites instead of allocating radial gradients
+   for every star every Deep Field frame.
+
+8. IDLE TRAFFIC CANVAS
+   The traffic canvas stops clearing/redrawing while no ships/wakes exist.
+
+9. ADAPTIVE QUALITY HYSTERESIS
+   Quality changes only after sustained load/headroom. Renderer cost is measured
+   only on actual Deep Field frames, not diluted by cheap traffic-only RAFs.
+
+RENDER MATRIX
+-------------
+A discreet transparent panel is added to the top-left of the Hero.
+Persistent checkboxes (localStorage) control:
+- Nebula
+- Ships / FSD
+- Starfield
+- Nebula stars
+- Star clusters
+- Galaxies
+- Star systems
+- Film grain
+- HQ Volume Light
+
+The panel also displays the current quality tier, browser RAF FPS and Deep Field
+FPS target. RESET AUTO restores the recommended defaults.
+
+DEFAULT
+-------
+All visual subsystems ON.
+HQ VOLUME LIGHT OFF because the fast proxy is the recommended performance mode.
+
+FILES
+-----
+Replace:
+- index.html
+
+Add:
+- css/performance-panel-v04314.css
+- js/home-space-v0431-4.js
+- docs/V0.4.31.4-README.txt

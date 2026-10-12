@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="css/home-space-v0426.css">
   <link rel="stylesheet" href="css/home-space-v0427-3.css">
   <link rel="stylesheet" href="css/home-space-v0428-6.css">
+  <link rel="stylesheet" href="css/performance-panel-v04314.css">
   <script>document.documentElement.classList.add("phantom-boot-v0420");</script>
   <script type="importmap">
   {
@@ -50,6 +51,24 @@
 
   <main>
     <section class="hero">
+      <aside class="render-control-panel" id="render-control-panel" aria-label="Survey render controls">
+        <div class="render-control-head">
+          <span>RENDER MATRIX</span>
+          <output id="render-perf-readout">AUTO // -- FPS</output>
+        </div>
+        <div class="render-control-grid">
+          <label><input type="checkbox" data-render-toggle="nebula" checked><span>NEBULA</span></label>
+          <label><input type="checkbox" data-render-toggle="ships" checked><span>SHIPS / FSD</span></label>
+          <label><input type="checkbox" data-render-toggle="stars" checked><span>STARFIELD</span></label>
+          <label><input type="checkbox" data-render-toggle="embeddedStars" checked><span>NEBULA STARS</span></label>
+          <label><input type="checkbox" data-render-toggle="clusters" checked><span>STAR CLUSTERS</span></label>
+          <label><input type="checkbox" data-render-toggle="galaxies" checked><span>GALAXIES</span></label>
+          <label><input type="checkbox" data-render-toggle="systems" checked><span>STAR SYSTEMS</span></label>
+          <label><input type="checkbox" data-render-toggle="grain" checked><span>FILM GRAIN</span></label>
+          <label class="render-control-hq"><input type="checkbox" data-render-toggle="hqShadows"><span>HQ VOLUME LIGHT</span></label>
+        </div>
+        <button type="button" class="render-control-reset" id="render-control-reset">RESET AUTO</button>
+      </aside>
       <div class="hero-grid" aria-hidden="true"></div>
       <div class="hero-logo-wrap">
         <img class="hero-logo" src="assets/phantom-seeker-logo.png" alt="Phantom Seeker expedition emblem">
@@ -372,7 +391,7 @@
     <span>&quot; NOT ALL THOSE WHO WANDER ARE LOST &quot; - J.R.R TOLKIEN</span>
   </footer>
 
-  <script src="js/home-space-v0431-3.js"></script>
+  <script src="js/home-space-v0431-4.js"></script>
   <script src="js/home.js"></script>
   <script src="js/glitch-v0422.js"></script>
   <script type="module" src="js/route-map.js"></script>
