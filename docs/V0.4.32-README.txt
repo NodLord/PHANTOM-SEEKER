@@ -1,0 +1,97 @@
+PHANTOM SEEKER V0.4.32 // REGISTRATION TERMINAL
+==================================================
+
+BASE
+----
+Built directly on V0.4.31.4.1.
+The stabilized nebula/performance renderer is not modified.
+
+HOME TEXT
+---------
+Header credit changed to:
+EXPEDITION CREATED & WEBSITE BUILT BY CMDR FRANK LEAAN // VVV SQUAD
+
+EPILOGUE
+--------
+The return sentence now credits both official carriers:
+USS Frank's Pharmacy and VVV Marigold's Reach.
+
+REGISTRATION TERMINAL
+---------------------
+The existing pre-departure status block is now live-ready.
+
+JOIN EXPEDITION opens a real form with:
+- CMDR Name
+- EDSM Commander Name (optional)
+- Primary Ship
+- Preferred Role
+
+Registration is direct:
+- no pending state
+- no manual approval queue
+- commander is inserted immediately if the CMDR name is not already registered
+
+EDSM CHECK
+----------
+EDSM lookup is performed by the backend Worker.
+A missing/private/unavailable EDSM profile never blocks registration.
+
+REGISTERED CMDRS
+----------------
+A new button sits beside JOIN EXPEDITION:
+REGISTERED CMDRS // XX
+
+It opens a live expedition manifest showing:
+- commander name
+- primary ship
+- preferred role
+- EDSM linkage status
+
+The registered-commanders status card and manifest button share the live backend count.
+
+BACKEND
+-------
+Included `registration-worker/` contains:
+- worker.js
+- schema.sql
+- wrangler.toml.example
+- README.md
+
+Architecture:
+GitHub Pages frontend -> Cloudflare Worker -> Cloudflare D1
+                                  |
+                                  +-> EDSM public Commander API
+
+SECURITY / DATA
+---------------
+- D1 prepared statements
+- case-insensitive normalized CMDR uniqueness
+- strict role allow-list
+- input length/character validation
+- CORS allow-list
+- honeypot bot field
+- no email/password/API key collection
+- no EDSM API key required
+
+IMPORTANT DEPLOYMENT STEP
+-------------------------
+The frontend ships with an empty API base so it fails safely until the Worker exists.
+After deploying the Worker, put its HTTPS URL in:
+
+js/registration-config-v0432.js
+
+FILES TO REPLACE
+----------------
+- index.html
+- js/home.js
+
+FILES TO ADD
+------------
+- css/registration-v0432.css
+- js/registration-config-v0432.js
+- js/registration-v0432.js
+- registration-worker/worker.js
+- registration-worker/schema.sql
+- registration-worker/wrangler.toml.example
+- registration-worker/README.md
+- docs/V0.4.32-README.txt

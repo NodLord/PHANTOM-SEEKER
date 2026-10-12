@@ -1,11 +1,19 @@
 (() => {
-  // V0.4.4 styles. Using a new filename also avoids stale GitHub/browser CSS caches.
+  // V0.4.32 // REGISTRATION TERMINAL. Existing V0.4.4 layout CSS remains the base.
   if (!document.querySelector('link[data-phantom-v044="home"]')) {
     const link = document.createElement("link");
     link.rel = "stylesheet";
     link.href = "css/v044.css";
     link.dataset.phantomV044 = "home";
     document.head.appendChild(link);
+  }
+
+  if (!document.querySelector('link[data-phantom-v0432="registration"]')) {
+    const registrationLink = document.createElement("link");
+    registrationLink.rel = "stylesheet";
+    registrationLink.href = "css/registration-v0432.css";
+    registrationLink.dataset.phantomV0432 = "registration";
+    document.head.appendChild(registrationLink);
   }
 
   // -------------------------------------------------------------------
@@ -64,8 +72,8 @@
 
         <article class="status-card">
           <span class="status-label">REGISTERED COMMANDERS</span>
-          <strong id="registered-commanders-count">00</strong>
-          <small>REGISTRATION OPENING SOON</small>
+          <strong id="registered-commanders-count">--</strong>
+          <small id="registered-commanders-state">SYNCING LIVE MANIFEST</small>
         </article>
 
         <article class="status-card">
@@ -77,7 +85,8 @@
 
       <div class="status-actions">
         <button class="button primary join-expedition-trigger" type="button">JOIN EXPEDITION</button>
-        <span>Registration will open here before departure.</span>
+        <button class="button manifest-trigger" id="manifest-trigger" type="button">REGISTERED CMDRS // <span id="manifest-button-count">--</span></button>
+        <span id="registration-connection-status">CONNECTING REGISTRATION TERMINAL…</span>
       </div>
     `;
 
@@ -147,44 +156,63 @@
   }
 
   // -------------------------------------------------------------------
-  // JOIN EXPEDITION PREVIEW
+  // REGISTRATION TERMINAL // LIVE FRONTEND SHELL
+  // Network behaviour is isolated in registration-v0432.js.
   // -------------------------------------------------------------------
   if (!document.getElementById("join-expedition-dialog")) {
     const dialog = document.createElement("dialog");
     dialog.id = "join-expedition-dialog";
-    dialog.className = "join-expedition-dialog";
+    dialog.className = "join-expedition-dialog registration-dialog";
     dialog.innerHTML = `
-      <form method="dialog">
-        <button class="dialog-close" value="cancel" aria-label="Close">×</button>
-        <div class="section-index">REGISTRATION TERMINAL // PREVIEW</div>
+      <form id="join-expedition-form" autocomplete="off">
+        <button class="dialog-close" type="button" data-dialog-close="join-expedition-dialog" aria-label="Close registration terminal">×</button>
+        <div class="section-index">REGISTRATION TERMINAL // ONLINE</div>
         <h2>JOIN PHANTOM SEEKER</h2>
         <p>
-          Registration is not online yet. When it opens, submitting the form will add a commander
-          directly to the expedition manifest. <strong>No approval queue.</strong>
+          Registration is direct. Submitting this terminal adds your commander to the expedition manifest immediately.
+          <strong>No pending status. No approval queue.</strong>
         </p>
 
-        <div class="join-preview-fields" aria-label="Planned registration fields">
-          <label>CMDR NAME <input disabled placeholder="CMDR Example"></label>
-          <label>EDSM COMMANDER NAME <input disabled placeholder="EDSM name"></label>
-          <label>PRIMARY SHIP <input disabled placeholder="Krait Phantom"></label>
+        <div class="join-preview-fields join-live-fields">
+          <label>CMDR NAME
+            <input id="registration-cmdr-name" name="cmdrName" required maxlength="64" autocomplete="off" placeholder="Frank Leaan">
+          </label>
+
+          <label>EDSM COMMANDER NAME <span class="field-optional">OPTIONAL</span>
+            <input id="registration-edsm-name" name="edsmName" maxlength="64" autocomplete="off" placeholder="Leave blank if you do not use EDSM">
+            <span class="edsm-check-state" id="edsm-check-state">EDSM CHECK // STANDBY</span>
+          </label>
+
+          <label>PRIMARY SHIP
+            <input id="registration-primary-ship" name="primaryShip" required maxlength="80" autocomplete="off" placeholder="Krait Phantom">
+          </label>
+
           <label>PREFERRED ROLE
-            <select disabled>
-              <option>Deep Scout</option>
-              <option>Archaeological Surveyor</option>
-              <option>Biological Surveyor</option>
-              <option>Cartographer</option>
-              <option>Carrier Support</option>
+            <select id="registration-preferred-role" name="preferredRole" required>
+              <option value="Deep Scout">Deep Scout</option>
+              <option value="Archaeological Surveyor">Archaeological Surveyor</option>
+              <option value="Biological Surveyor">Biological Surveyor</option>
+              <option value="Cartographer">Cartographer</option>
+              <option value="Carrier Support">Carrier Support</option>
             </select>
           </label>
         </div>
 
+        <label class="registration-honeypot" aria-hidden="true">Leave empty
+          <input name="contact" tabindex="-1" autocomplete="off">
+        </label>
+
         <div class="join-notice">
-          Personal Fleet Carriers are not part of the registration form.
-          Expedition carrier operations are handled exclusively by
+          EDSM is checked only to see whether the supplied commander name is known to EDSM. A missing, private or unavailable EDSM record
+          <strong>does not block registration.</strong> Your CMDR name, ship, role and EDSM-link status are public in the expedition manifest.
+          Personal Fleet Carriers are not part of registration; expedition carrier operations remain with
           <strong>USS Frank's Pharmacy</strong> and <strong>VVV Marigold's Reach</strong>.
         </div>
 
-        <button class="button primary join-disabled" type="button" disabled>REGISTRATION OPENING SOON</button>
+        <div class="registration-submit-row">
+          <button class="button primary" id="registration-submit" type="submit">REGISTER COMMANDER</button>
+          <span class="registration-submit-state" id="registration-submit-state" aria-live="polite">TERMINAL READY</span>
+        </div>
       </form>
     `;
     document.body.appendChild(dialog);
@@ -197,9 +225,51 @@
     });
 
     dialog.addEventListener("click", event => {
-      if (event.target === dialog) dialog.close();
+      if (event.target === dialog) dialog.close?.();
     });
   }
+
+  if (!document.getElementById("expedition-manifest-dialog")) {
+    const manifestDialog = document.createElement("dialog");
+    manifestDialog.id = "expedition-manifest-dialog";
+    manifestDialog.className = "join-expedition-dialog manifest-dialog";
+    manifestDialog.innerHTML = `
+      <div class="manifest-dialog-inner">
+        <button class="dialog-close" type="button" data-dialog-close="expedition-manifest-dialog" aria-label="Close expedition manifest">×</button>
+        <div class="section-index">EXPEDITION MANIFEST // LIVE</div>
+        <div class="manifest-heading-row">
+          <div>
+            <h2>REGISTERED COMMANDERS</h2>
+            <p>Commanders currently registered for Expedition Phantom Seeker.</p>
+          </div>
+          <strong class="manifest-total" id="manifest-total">--</strong>
+        </div>
+        <div class="manifest-status" id="manifest-status" aria-live="polite">AWAITING DATA LINK…</div>
+        <div class="manifest-list" id="manifest-list"></div>
+      </div>
+    `;
+    document.body.appendChild(manifestDialog);
+
+    document.querySelectorAll(".manifest-trigger").forEach(button => {
+      button.addEventListener("click", () => {
+        if (typeof manifestDialog.showModal === "function") manifestDialog.showModal();
+        else manifestDialog.setAttribute("open", "");
+        document.dispatchEvent(new CustomEvent("phantom:manifest-open"));
+      });
+    });
+
+    manifestDialog.addEventListener("click", event => {
+      if (event.target === manifestDialog) manifestDialog.close?.();
+    });
+  }
+
+  document.querySelectorAll("[data-dialog-close]").forEach(button => {
+    button.addEventListener("click", () => {
+      const target = document.getElementById(button.dataset.dialogClose);
+      if (target?.close) target.close();
+      else target?.removeAttribute("open");
+    });
+  });
 
   // -------------------------------------------------------------------
   // Scroll reveal
