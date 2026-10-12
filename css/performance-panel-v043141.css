@@ -1,0 +1,27 @@
+/* PHANTOM SEEKER V0.4.31.4 // RENDER MATRIX */
+.hero{position:relative}
+.render-control-panel{
+  position:absolute;left:18px;top:18px;z-index:12;width:174px;
+  padding:9px 10px 8px;border:1px solid rgba(114,151,173,.22);
+  background:rgba(2,8,13,.42);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);
+  color:rgba(199,215,225,.72);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:8px;line-height:1.25;letter-spacing:.095em;text-transform:uppercase;
+  opacity:.62;transition:opacity .18s ease,border-color .18s ease;
+  user-select:none
+}
+.render-control-panel:hover,.render-control-panel:focus-within{opacity:.96;border-color:rgba(126,175,202,.42)}
+.render-control-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-bottom:7px;margin-bottom:6px;border-bottom:1px solid rgba(116,151,171,.14)}
+.render-control-head>span{color:rgba(219,231,238,.86);font-weight:800}
+.render-control-head output{color:rgba(118,183,213,.78);font-size:7px;white-space:nowrap}
+.render-control-grid{display:grid;grid-template-columns:1fr;gap:2px}
+.render-control-grid label{display:flex;align-items:center;gap:7px;min-height:17px;cursor:pointer;color:rgba(182,200,211,.66)}
+.render-control-grid label:hover{color:rgba(226,236,241,.92)}
+.render-control-grid input{appearance:none;width:9px;height:9px;margin:0;border:1px solid rgba(120,155,176,.55);background:rgba(0,0,0,.35);display:grid;place-items:center;flex:0 0 auto}
+.render-control-grid input:checked{border-color:rgba(129,198,226,.75);background:rgba(91,166,198,.24)}
+.render-control-grid input:checked::after{content:"";width:3px;height:3px;background:rgba(206,235,246,.92)}
+.render-control-grid input:focus-visible,.render-control-reset:focus-visible{outline:1px solid rgba(130,202,230,.9);outline-offset:2px}
+.render-control-hq{margin-top:3px;padding-top:4px;border-top:1px solid rgba(116,151,171,.10)}
+.render-control-reset{margin-top:7px;width:100%;padding:4px 5px;border:1px solid rgba(116,151,171,.18);background:rgba(0,0,0,.18);color:rgba(160,180,193,.57);font:inherit;font-size:7px;letter-spacing:.12em;cursor:pointer}
+.render-control-reset:hover{color:rgba(225,235,240,.88);border-color:rgba(116,151,171,.34)}
+@media(max-width:900px){.render-control-panel{left:8px;top:8px;width:155px;opacity:.48;transform:scale(.88);transform-origin:top left}}
+@media(max-width:620px){.render-control-panel{display:none}}

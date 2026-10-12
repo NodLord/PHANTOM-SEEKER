@@ -1,0 +1,66 @@
+PHANTOM SEEKER V0.4.31.4.1 // RAYMARCH STABILITY HOTFIX
+=========================================================
+
+BASE
+----
+Built directly from V0.4.31.4.
+
+PURPOSE
+-------
+Remove the glass-like / fractured geometric artifacts introduced by the
+aggressive empty-space raymarch skipping optimization.
+
+DIAGNOSIS
+---------
+V0.4.31.4 added this shortcut in atlas voids:
+
+  if (occProbe < 0.014) {
+      t += 0.292 + t * 0.008;
+      continue;
+  }
+
+A single occupancy probe cannot guarantee that the entire skipped interval is
+empty. Neighboring pixels can therefore sample different subsets of thin gas
+and cloud edges, creating angular discontinuities that look like transparent
+shards or broken glass over the nebula.
+
+HOTFIX
+------
+- Empty-space skipping removed completely.
+- Uniform V0.4.31.3 marching cadence restored:
+
+      t += 0.170 + t * 0.006;
+
+- Raymarch step count unchanged.
+- Nebula material / density / seed / topology unchanged.
+
+RETAINED FROM V0.4.31.4
+-----------------------
+- Render Matrix UI.
+- NEBULA / SHIPS / STARFIELD / NEBULA STARS / STAR CLUSTERS / GALAXIES /
+  STAR SYSTEMS / FILM GRAIN toggles.
+- HQ VOLUME LIGHT toggle.
+- cached backdrop and vignette.
+- pre-generated animated film grain frames.
+- optimized star rendering / star halo cache.
+- simplified CPU nebula occlusion paths.
+- traffic-canvas sleeping when no ship/wake is active.
+- adaptive-quality hysteresis.
+- performance status readout.
+
+IMPORTANT
+---------
+The shadow proxy is deliberately retained because toggling HQ VOLUME LIGHT did
+not change the artifact in testing, which rules it out as the primary cause.
+
+This patch changes no artistic nebula settings.
+
+FILES
+-----
+Replace:
+- index.html
+
+Add:
+- js/home-space-v0431-4-1.js
+- css/performance-panel-v043141.css
+- docs/V0.4.31.4.1-README.txt
