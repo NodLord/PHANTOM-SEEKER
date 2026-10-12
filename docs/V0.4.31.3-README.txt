@@ -1,0 +1,92 @@
+PHANTOM SEEKER V0.4.31.3 // MID-CLOUD OPACITY HOTFIX
+=====================================================
+
+BASE
+----
+Built STRICTLY from V0.4.31.1.
+
+V0.4.31.2 is intentionally NOT used as a base.
+
+WHY
+---
+V0.4.31.2 changed the atlas/material architecture and produced a broad,
+uniform diffuse blue field. It also increased runtime cost and made the
+existing 3D texture much harder to read.
+
+The user requested the exact opposite:
+- restore the V0.4.31.1 visual texture / real 3D look;
+- keep its corridor and shader;
+- simply make the central clouds more visible.
+
+WHAT CHANGED
+------------
+ONLY effective occupancy/opacity of existing V0.4.31.1 cloud populations.
+
+FAR
+- x1.30 visibility gain
+- far veil x1.22
+- capped to remain genuinely distant/diffuse
+
+MID
+- x1.68 visibility gain
+- this is the strongest correction because the middle of the cavity was empty
+- capped at 0.58
+
+CROSS-CAVITY BRIDGES
+- x1.78
+- intended to make cloud formations visibly connect the two walls
+- capped at 0.52
+
+DETACHED CLOUD ISLANDS
+- x1.62
+- capped at 0.48
+
+NEAR
+- only x1.16
+- kept restrained to preserve rarity and parallax
+
+FILAMENTS
+- x1.34
+- capped at 0.30
+
+FOREGROUND
+- unchanged
+
+UNCHANGED
+---------
+Everything else is byte-for-byte inherited from V0.4.31.1 logic:
+- seed 430030
+- true X/Y/Z corridor
+- R8 occupancy atlas
+- R8 biome atlas
+- V0.4.28.9-style wall/mist/filament shader
+- texture/detail character
+- self-shadow / edge lighting
+- raymarch step count
+- adaptive performance system
+- atlas size 64 x 128 x 72
+- starfield / clusters
+- ships / trails / FSD
+- galaxies / systems
+- Home / Route Map / Phantom Grid
+- title / glitch / film grain / sticky bars
+
+IMPORTANT
+---------
+No global alpha increase was applied.
+No shader blur was added.
+No RGBA density atlas was added.
+No extra raymarch steps were added.
+
+The goal is to preserve the sharp, textured, volumetric V0.4.31.1 appearance
+while allowing the already-existing center volumes to survive the material
+gate and become visible.
+
+FILES
+-----
+Replace:
+- index.html
+
+Add:
+- js/home-space-v0431-3.js
+- docs/V0.4.31.3-README.txt
