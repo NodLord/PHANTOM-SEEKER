@@ -1,5 +1,5 @@
 (() => {
-  // V0.4.32 // REGISTRATION TERMINAL. Existing V0.4.4 layout CSS remains the base.
+  // V0.4.32.1 // REGISTRATION MANAGEMENT + ROLE EXPANSION. Existing V0.4.4 layout CSS remains the base.
   if (!document.querySelector('link[data-phantom-v044="home"]')) {
     const link = document.createElement("link");
     link.rel = "stylesheet";
@@ -8,11 +8,11 @@
     document.head.appendChild(link);
   }
 
-  if (!document.querySelector('link[data-phantom-v0432="registration"]')) {
+  if (!document.querySelector('link[data-phantom-v04321="registration"]')) {
     const registrationLink = document.createElement("link");
     registrationLink.rel = "stylesheet";
-    registrationLink.href = "css/registration-v0432.css";
-    registrationLink.dataset.phantomV0432 = "registration";
+    registrationLink.href = "css/registration-v04321.css";
+    registrationLink.dataset.phantomV04321 = "registration";
     document.head.appendChild(registrationLink);
   }
 
@@ -86,6 +86,7 @@
       <div class="status-actions">
         <button class="button primary join-expedition-trigger" type="button">JOIN EXPEDITION</button>
         <button class="button manifest-trigger" id="manifest-trigger" type="button">REGISTERED CMDRS // <span id="manifest-button-count">--</span></button>
+        <button class="button manage-registration-trigger" type="button">MANAGE REGISTRATION</button>
         <span id="registration-connection-status">CONNECTING REGISTRATION TERMINAL…</span>
       </div>
     `;
@@ -157,8 +158,33 @@
 
   // -------------------------------------------------------------------
   // REGISTRATION TERMINAL // LIVE FRONTEND SHELL
-  // Network behaviour is isolated in registration-v0432.js.
+  // Network behaviour is isolated in registration-v04321.js.
   // -------------------------------------------------------------------
+  const roleOptions = [
+    "Deep Scout",
+    "Archaeological Surveyor",
+    "Biological Surveyor",
+    "Cartographer",
+    "Carrier Support",
+    "Rescue & Recovery",
+    "BenRick Incident Coordinator"
+  ];
+
+  const roleMarkup = (name, prefix) => `
+    <fieldset class="registration-role-fieldset" data-role-group="${prefix}">
+      <legend>EXPEDITION ROLES <span class="field-optional">SELECT 1–3</span></legend>
+      <div class="registration-role-grid">
+        ${roleOptions.map((role, index) => `
+          <label class="registration-role-choice">
+            <input type="checkbox" name="${name}" value="${role}">
+            <span>${role}</span>
+          </label>
+        `).join("")}
+      </div>
+      <span class="role-selection-count" id="${prefix}-role-count">SELECTED // 0 OF 3</span>
+    </fieldset>
+  `;
+
   if (!document.getElementById("join-expedition-dialog")) {
     const dialog = document.createElement("dialog");
     dialog.id = "join-expedition-dialog";
@@ -169,7 +195,7 @@
         <div class="section-index">REGISTRATION TERMINAL // ONLINE</div>
         <h2>JOIN PHANTOM SEEKER</h2>
         <p>
-          Registration is direct. Submitting this terminal adds your commander to the expedition manifest immediately.
+          Registration is direct. Choose up to three operational roles and your commander is added to the live manifest immediately.
           <strong>No pending status. No approval queue.</strong>
         </p>
 
@@ -187,15 +213,7 @@
             <input id="registration-primary-ship" name="primaryShip" required maxlength="80" autocomplete="off" placeholder="Krait Phantom">
           </label>
 
-          <label>PREFERRED ROLE
-            <select id="registration-preferred-role" name="preferredRole" required>
-              <option value="Deep Scout">Deep Scout</option>
-              <option value="Archaeological Surveyor">Archaeological Surveyor</option>
-              <option value="Biological Surveyor">Biological Surveyor</option>
-              <option value="Cartographer">Cartographer</option>
-              <option value="Carrier Support">Carrier Support</option>
-            </select>
-          </label>
+          ${roleMarkup("roles", "join")}
         </div>
 
         <label class="registration-honeypot" aria-hidden="true">Leave empty
@@ -204,9 +222,14 @@
 
         <div class="join-notice">
           EDSM is checked only to see whether the supplied commander name is known to EDSM. A missing, private or unavailable EDSM record
-          <strong>does not block registration.</strong> Your CMDR name, ship, role and EDSM-link status are public in the expedition manifest.
-          Personal Fleet Carriers are not part of registration; expedition carrier operations remain with
-          <strong>USS Frank's Pharmacy</strong> and <strong>VVV Marigold's Reach</strong>.
+          <strong>does not block registration.</strong> Your CMDR name, ship, selected roles and EDSM-link status are public in the expedition manifest.
+          A private management key is generated at registration and is used only to edit or cancel your entry.
+        </div>
+
+        <div class="registration-key-panel" id="registration-key-panel" hidden>
+          <span>PRIVATE REGISTRATION KEY // SAVE THIS</span>
+          <code id="registration-key-value"></code>
+          <p>This key is saved on this browser for convenience. Keep it private. It can edit or cancel only your Phantom Seeker registration.</p>
         </div>
 
         <div class="registration-submit-row">
@@ -260,6 +283,71 @@
 
     manifestDialog.addEventListener("click", event => {
       if (event.target === manifestDialog) manifestDialog.close?.();
+    });
+  }
+
+  if (!document.getElementById("manage-registration-dialog")) {
+    const manageDialog = document.createElement("dialog");
+    manageDialog.id = "manage-registration-dialog";
+    manageDialog.className = "join-expedition-dialog registration-dialog management-dialog";
+    manageDialog.innerHTML = `
+      <div class="management-dialog-inner">
+        <button class="dialog-close" type="button" data-dialog-close="manage-registration-dialog" aria-label="Close registration management">×</button>
+        <div class="section-index">REGISTRATION MANAGEMENT // SECURE LINK</div>
+        <h2>MANAGE REGISTRATION</h2>
+        <p>Edit your EDSM name, primary ship or roles, or cancel your registration entirely.</p>
+
+        <form id="manage-registration-access-form" autocomplete="off">
+          <div class="join-preview-fields join-live-fields">
+            <label>CMDR NAME
+              <input id="manage-cmdr-name" name="cmdrName" required maxlength="64" autocomplete="off" placeholder="Commander name">
+            </label>
+            <label>PRIVATE REGISTRATION KEY
+              <input id="manage-registration-key" name="managementKey" type="password" required maxlength="64" autocomplete="off" placeholder="PSK-XXXX-XXXX-XXXX-XXXX-XXXX">
+              <span class="edsm-check-state" id="manage-local-key-hint">If this browser saved your key, enter your CMDR name and it will be restored automatically.</span>
+            </label>
+          </div>
+          <div class="registration-submit-row">
+            <button class="button primary" id="manage-load" type="submit">LOAD REGISTRATION</button>
+            <span class="registration-submit-state" id="manage-access-state" aria-live="polite">SECURE LINK READY</span>
+          </div>
+        </form>
+
+        <form id="manage-registration-edit-form" autocomplete="off" hidden>
+          <div class="management-current-cmdr">CMDR <strong id="manage-current-cmdr">UNKNOWN</strong></div>
+          <div class="join-preview-fields join-live-fields">
+            <label>EDSM COMMANDER NAME <span class="field-optional">OPTIONAL</span>
+              <input id="manage-edsm-name" name="edsmName" maxlength="64" autocomplete="off">
+              <span class="edsm-check-state" id="manage-edsm-state">EDSM CHECK // STANDBY</span>
+            </label>
+            <label>PRIMARY SHIP
+              <input id="manage-primary-ship" name="primaryShip" required maxlength="80" autocomplete="off">
+            </label>
+            ${roleMarkup("manageRoles", "manage")}
+          </div>
+          <div class="join-notice">
+            Your CMDR name is the identity anchor and cannot be changed here. To use another CMDR name, cancel this registration and register again.
+          </div>
+          <div class="registration-submit-row management-actions">
+            <button class="button primary" id="manage-save" type="submit">SAVE CHANGES</button>
+            <button class="button danger" id="manage-cancel" type="button">CANCEL REGISTRATION</button>
+            <span class="registration-submit-state" id="manage-edit-state" aria-live="polite">REGISTRATION LOADED</span>
+          </div>
+        </form>
+      </div>
+    `;
+    document.body.appendChild(manageDialog);
+
+    document.querySelectorAll(".manage-registration-trigger").forEach(button => {
+      button.addEventListener("click", () => {
+        if (typeof manageDialog.showModal === "function") manageDialog.showModal();
+        else manageDialog.setAttribute("open", "");
+        document.dispatchEvent(new CustomEvent("phantom:management-open"));
+      });
+    });
+
+    manageDialog.addEventListener("click", event => {
+      if (event.target === manageDialog) manageDialog.close?.();
     });
   }
 

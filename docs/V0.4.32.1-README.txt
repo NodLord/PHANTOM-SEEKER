@@ -1,0 +1,53 @@
+PHANTOM SEEKER V0.4.32.1 // REGISTRATION MANAGEMENT & ROLE EXPANSION
+====================================================================
+
+VISUAL / EXPEDITION CHANGES
+---------------------------
+- Maximum 3 expedition roles per commander.
+- Added role: RESCUE & RECOVERY.
+- Added role: BENRICK INCIDENT COORDINATOR.
+- Manifest displays all selected roles.
+- Added MANAGE REGISTRATION beside the existing registration controls.
+
+REGISTRATION MANAGEMENT
+-----------------------
+New registrations receive a private PSK management key.
+The key is shown after registration and cached on that browser.
+Only the SHA-256 hash is stored in D1.
+
+With CMDR name + private key, a commander can:
+- edit EDSM Commander Name;
+- edit Primary Ship;
+- change their 1-3 roles;
+- cancel registration.
+
+After cancellation, the CMDR can register again normally.
+
+EXISTING REGISTRATIONS
+----------------------
+The migration preserves all existing commanders and their current role.
+Existing pre-0.4.32.1 commanders have no management key yet.
+Use registration-worker/issue-legacy-key.mjs to issue one securely.
+
+SECURITY HARDENING
+------------------
+- Cloudflare Worker Rate Limiting bindings.
+- Strict allowed-Origin enforcement for public write endpoints.
+- Maximum JSON request size: 8 KiB.
+- Management key is never returned by the public manifest.
+- Public manifest no longer returns registration timestamps.
+- SQL parameters remain bound/prepared.
+- Existing honeypot retained.
+
+DEPLOYMENT ORDER
+----------------
+1. Run migration-v04321.sql against the existing remote D1 database.
+2. Add Rate Limiting bindings to the existing wrangler.toml.
+3. Deploy worker.js.
+4. Confirm /health reports 0.4.32.1.
+5. Upload frontend patch to GitHub Pages.
+6. KEEP the existing js/registration-config-v0432.js containing the live Worker URL.
+7. Ctrl+F5.
+
+DO NOT overwrite your real wrangler.toml with wrangler.toml.example. The example
+contains a placeholder database_id.

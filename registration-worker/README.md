@@ -1,81 +1,125 @@
-# PHANTOM SEEKER // Registration Worker
+PHANTOM SEEKER // REGISTRATION WORKER V0.4.32.1
+================================================
 
-This Worker is the tiny public backend for the Expedition Phantom Seeker registration terminal.
-It stores only public expedition-manifest data: CMDR name, optional EDSM name/status, primary ship,
-preferred role, and registration time.
+This Worker is the live backend for the Phantom Seeker Registration Terminal.
+It keeps the existing D1 database and adds:
+- up to 3 roles per commander;
+- Rescue & Recovery;
+- BenRick Incident Coordinator;
+- private registration management keys;
+- edit / cancel / re-register support;
+- Cloudflare Workers Rate Limiting bindings;
+- stricter write-origin and request-size checks;
+- no public registration timestamp in /api/manifest.
 
-## 1. Create the D1 database
+IMPORTANT FOR THE EXISTING LIVE DATABASE
+----------------------------------------
+DO NOT run a destructive reset and DO NOT delete the existing commanders table.
+Use migration-v04321.sql. It preserves every existing commander and copies each
+old preferred_role into the new commander_roles table.
 
-From this `registration-worker` directory:
+1) Put these updated backend files in your existing registration-worker folder:
+   worker.js
+   migration-v04321.sql
+   issue-legacy-key.mjs
 
-```bash
-npx wrangler login
-npx wrangler d1 create phantom-seeker-registration --location=weur
-```
+2) Run the migration:
 
-Cloudflare prints a `database_id`. Copy `wrangler.toml.example` to `wrangler.toml`, then replace
-`REPLACE_WITH_D1_DATABASE_ID` with that ID.
+   npx.cmd wrangler@latest d1 execute phantom-seeker-registration --remote --file=./migration-v04321.sql
 
-Cloudflare D1 binds the database to the Worker as `env.DB` through the `[[d1_databases]]` block.
+3) Update YOUR EXISTING wrangler.toml.
+   Keep your real database_id. Do not replace it with the placeholder from the
+   example file.
 
-## 2. Create the schema
+   For production, ALLOWED_ORIGINS should preferably be:
 
-```bash
-npx wrangler d1 execute phantom-seeker-registration --remote --file=./schema.sql
-```
+   ALLOWED_ORIGINS = "https://nodlord.github.io"
 
-## 3. Deploy the Worker
+   Add these blocks to the bottom of wrangler.toml:
 
-```bash
-npx wrangler deploy --config wrangler.toml
-```
+   [[ratelimits]]
+   name = "WRITE_RATE_LIMITER"
+   namespace_id = "43211"
+     [ratelimits.simple]
+     limit = 12
+     period = 60
 
-Wrangler returns a URL similar to:
+   [[ratelimits]]
+   name = "EDSM_RATE_LIMITER"
+   namespace_id = "43212"
+     [ratelimits.simple]
+     limit = 60
+     period = 60
 
-`https://phantom-seeker-registration.<your-workers-subdomain>.workers.dev`
+   Wrangler 4.36+ is required for Rate Limiting bindings. Frank currently uses
+   a much newer Wrangler version, so no Wrangler upgrade should be necessary.
 
-## 4. Connect the GitHub Pages frontend
+4) Deploy the Worker BEFORE uploading the new website frontend:
 
-Open:
+   npx.cmd wrangler@latest deploy --config wrangler.toml
 
-`js/registration-config-v0432.js`
+5) Check:
 
-and set:
+   https://phantom-seeker-registration.phantom-seeker.workers.dev/health
 
-```js
-apiBase: "https://phantom-seeker-registration.<your-workers-subdomain>.workers.dev"
-```
+   It should return version 0.4.32.1.
 
-Commit/push the frontend files to GitHub Pages.
+   Then check:
 
-## 5. Test
+   https://phantom-seeker-registration.phantom-seeker.workers.dev/api/manifest
 
-Open:
+EXISTING COMMANDERS / LEGACY KEYS
+---------------------------------
+Registrations made before V0.4.32.1 do not have a private management key,
+because no such key existed when they registered.
 
-`https://<your-worker-url>/health`
+Their registrations are preserved and their existing role is preserved.
+To let an existing commander use MANAGE REGISTRATION, Frank must issue a key
+once and send it to that commander privately.
 
-Expected response:
+Example:
 
-```json
-{"ok":true,"service":"phantom-seeker-registration","version":"0.4.32"}
-```
+   node issue-legacy-key.mjs "DScorpio93"
 
-Then load the Home page. The status card should switch to `LIVE MANIFEST // ONLINE` and show the
-real registration count.
+The script prints:
+- a PRIVATE KEY to send privately to that commander;
+- a ready-to-run Wrangler D1 command that stores only the SHA-256 hash.
 
-## EDSM behaviour
+Run the printed D1 command, then send only the PSK-... key to the commander.
+Never post management keys in Discord public channels or GitHub.
 
-The Worker checks EDSM `GET /api-commander-v1/get-ranks?commanderName=...`.
+NEW COMMANDERS
+--------------
+New registrations automatically receive a private PSK management key.
+The browser stores it in localStorage for convenience and the terminal displays
+it after registration. D1 stores only its SHA-256 hash.
 
-- `100`: EDSM record found / public ranks available.
-- `207`: commander exists, but no ranks are stored or the profile is private.
-- `203`: no matching EDSM commander record.
-- network/other failure: EDSM unavailable.
+MANAGEMENT
+----------
+MANAGE REGISTRATION lets a commander authenticated with CMDR name + private key:
+- change EDSM Commander Name;
+- change Primary Ship;
+- select 1 to 3 roles;
+- cancel the registration.
 
-None of these states blocks expedition registration.
+Cancellation deletes the commander's manifest entry and management secret.
+The CMDR name is immediately free for a new registration.
 
-## CORS
+SECURITY NOTES
+--------------
+- SQL still uses prepared statements / bound parameters.
+- Public write endpoints now require an allowed Origin.
+- JSON request bodies are capped at 8 KiB.
+- Cloudflare Rate Limiting bindings throttle EDSM checks and management/write requests.
+- Registration management keys are high-entropy random keys and only hashes are stored in D1.
+- /api/manifest no longer exposes registered_at.
+- The honeypot remains in place.
+- Rate Limiting counters are handled by Cloudflare; this patch does not create an IP log table in D1.
 
-The default allowed production origin is `https://nodlord.github.io` plus localhost test origins.
-If Phantom Seeker later moves to a custom domain, add that origin to `ALLOWED_ORIGINS` in
-`wrangler.toml` and redeploy.
+FRONTEND DEPLOYMENT
+-------------------
+After the Worker is updated, upload the V0.4.32.1 frontend files to GitHub.
+KEEP your existing js/registration-config-v0432.js exactly as it is, because it
+already contains the live Worker URL.
+
+Then hard-refresh the website with Ctrl+F5.

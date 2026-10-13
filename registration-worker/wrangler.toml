@@ -10,3 +10,17 @@ ALLOWED_ORIGINS = "https://nodlord.github.io,http://localhost:8000,http://127.0.
 binding = "DB"
 database_name = "phantom-seeker-registration"
 database_id = "587ba948-9ed8-489d-9ff9-47e42d52cc30"
+
+[[ratelimits]]
+name = "WRITE_RATE_LIMITER"
+namespace_id = "43211"
+  [ratelimits.simple]
+  limit = 12
+  period = 60
+
+[[ratelimits]]
+name = "EDSM_RATE_LIMITER"
+namespace_id = "43212"
+  [ratelimits.simple]
+  limit = 60
+  period = 60
