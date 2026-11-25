@@ -51,7 +51,7 @@
           <h2>FINAL PREPARATIONS</h2>
           <p>
             Phantom Seeker is in its final preparation phase. The exact departure date is not locked yet,
-            but the fleet is expected to leave in approximately one month.
+            but the fleet is expected to leave in approximately one week.
           </p>
         </div>
         <div class="status-signal"><span></span> PRE-DEPARTURE</div>
@@ -60,7 +60,7 @@
       <div class="status-grid">
         <article class="status-card">
           <span class="status-label">TARGET DEPARTURE</span>
-          <strong>~ 1 MONTH</strong>
+          <strong>~ 1 WEEK</strong>
           <small>FINAL DATE // TBA</small>
         </article>
 

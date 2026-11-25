@@ -1,0 +1,27 @@
+PHANTOM SEEKER V0.4.32.2.1 // DEPARTURE STATUS HOTFIX
+======================================================
+
+BASE
+----
+V0.4.32.2 // STARFIELD CACHE CORE
+
+CHANGE
+------
+Section: 00.5 // EXPEDITION STATUS
+
+TARGET DEPARTURE:
+  ~ 1 MONTH
+becomes:
+  ~ 1 WEEK
+
+The supporting status sentence is also aligned from
+"approximately one month" to "approximately one week".
+
+UNCHANGED
+---------
+- Starfield Cache Core optimization from V0.4.32.2
+- Nebula rendering / seed 430030
+- Registration Terminal v0.4.32.1
+- Registration management and security
+- Ships / FSD / galaxies / star systems / film grain
+- All other Home content and styling
